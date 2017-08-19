@@ -1,4 +1,4 @@
-import search_ep
+from core import search_ep
 import time
 
 employ_info = {

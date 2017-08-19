@@ -1,7 +1,8 @@
 import json
 import getpass
 import os
-fileDst = "F:\CTO_week_mission\python\\No4WeekMission_One\\userInfo\db\\accounts"
+
+fileDst = os.path.dirname(os.path.dirname(os.path.abspath("__file__")))+"\db\\accounts"
 
 
 def auth_process():
