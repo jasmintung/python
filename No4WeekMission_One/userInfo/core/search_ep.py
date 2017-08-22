@@ -3,8 +3,8 @@ import os
 import sys
 import json
 from conf import settings
-
-
+from core import employ
+file_path = "%s/%s" %(settings.DATABASE["path"], settings.DATABASE["name"])
 # from functools import wraps
 # def process(arg): # arg目前作为用户选择功能区分
 #     if arg != 0:
@@ -31,8 +31,9 @@ from conf import settings
 #             return func
 #     return deco
 
+
 def process(index=3, *args, **kwargs):
-    if os.path.getsize(settings.BASE_DB) <= 0:
+    if os.path.getsize(file_path) <= 0:
         if index == 1:  # 增加员工
             print("indid add is ok don't need check")
             return True
@@ -44,10 +45,25 @@ def process(index=3, *args, **kwargs):
 
 def search_process(index, args): #不能再写*args否则形参会成为元组的元组((....))
     result = False
-    with open(settings.BASE_DB, "r" ,encoding="utf-8") as fp:
+    if index == 3:
+
+        instructions = """
+            1:you can select the employ info by employ id which > your input value
+            2:you can select the employ info by employ id which < your input value
+            3:you can select the employ info by employ age which > your input value
+            4:you can select the employ info by employ age which < your input value
+            5:you can select the employ info by company dept which your input value is equal in the dept
+            6:you can select the employ info by employ name which your input value is exist in the name
+            7:you can select the employ info by employ date which your input value is exist in the date
+        """
+        print(instructions)
+        choice = input("input your select type: ")
+        if choice.isdigit() and int(choice) < 8:
+            employ.db_to_usr(choice)
+    with open(file_path, "r", encoding="utf-8") as fp:
         if index == 1: # 增加
             employ_info = {}
-            tmpstr = args[0].__str__()
+            tmpstr = args[0].__str__() # 因为元组的格式是({"key1": "1312"},)
             employ_info = eval(tmpstr)
             result = True
             for epinfo in fp:
@@ -59,5 +75,5 @@ def search_process(index, args): #不能再写*args否则形参会成为元组�
                     print("已存在,不能增加!!")
                     result = False
         elif index == 2: # 删除
-
+            pass
     return result
