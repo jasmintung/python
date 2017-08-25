@@ -4,7 +4,7 @@ import sys
 import json
 from conf import settings
 from core import employ
-file_path = "%s/%s" %(settings.DATABASE["path"], settings.DATABASE["name"])
+file_path = "%s/%s" % (settings.DATABASE["path"], settings.DATABASE["name"])
 # from functools import wraps
 # def process(arg): # arg目前作为用户选择功能区分
 #     if arg != 0:
@@ -43,7 +43,7 @@ def process(index=3, *args, **kwargs):
     return search_process(index, args)
 
 
-def search_process(index, args): #不能再写*args否则形参会成为元组的元组((....))
+def search_process(index, args):  # 不能再写*args否则形参会成为元组的元组((....))
     result = False
     if index == 3:
 
@@ -60,20 +60,46 @@ def search_process(index, args): #不能再写*args否则形参会成为元组�
         choice = input("input your select type: ")
         if choice.isdigit() and int(choice) < 8:
             employ.db_to_usr(choice)
-    with open(file_path, "r", encoding="utf-8") as fp:
-        if index == 1: # 增加
-            employ_info = {}
-            tmpstr = args[0].__str__() # 因为元组的格式是({"key1": "1312"},)
-            employ_info = eval(tmpstr)
-            result = True
-            for epinfo in fp:
-                print(epinfo.strip('\n')) #打印并过滤每一行末尾的\n
-                tmp_dict = eval(epinfo)
-                print(type(tmp_dict))
-                if tmp_dict.get("starffId") == employ_info.get("starffId") \
-                    or tmp_dict.get("name") == employ_info.get("name"):
-                    print("已存在,不能增加!!")
-                    result = False
-        elif index == 2: # 删除
-            pass
+        else:
+            print("无效操作")
+            return result
+    else:
+        with open(file_path, "r", encoding="utf-8") as fp:
+            if index == 1:  # 增加
+                employ_info = {}
+                tmpstr = args[0].__str__()  # 因为元组的格式是({"key1": "1312"},)
+                employ_info = eval(tmpstr)
+                result = True
+                for epinfo in fp:
+                    # print(epinfo.strip('\n'))  # 打印并过滤每一行末尾的\n
+                    tmp_dict = eval(epinfo)
+                    # print(type(tmp_dict))
+                    if tmp_dict.get("starffId") == employ_info.get("starffId") \
+                        or tmp_dict.get("name") == employ_info.get("name"):
+                        print("已存在,不能增加!!")
+                        result = False
+            elif index == 2:  # 删除
+                attr = args[0]
+                val = args[1]
+                for epinfo in fp:
+                    tmp_dict = eval(epinfo)
+                    if attr == "starffId":
+                        if tmp_dict.get("starffId") == int(val):
+                            return True
+                    elif attr == "name":
+                        if tmp_dict.get("name") == val:
+                            return True
+                    elif attr == "age":
+                        if tmp_dict.get("age") == int(val):
+                            return True
+                    elif attr == "phone":
+                        if tmp_dict.get("phone") == int(val):
+                            return True
+                    elif attr == "dept":
+                        if tmp_dict.get("dept") == val:
+                            return True
+                    else:
+                        print("!!!not support")
+            elif index == 4:  # 修改
+                pass
     return result

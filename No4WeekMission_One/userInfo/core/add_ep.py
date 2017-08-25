@@ -1,4 +1,6 @@
 from core import search_ep
+from core import db_handler
+
 import time
 
 employ_info = {
@@ -25,11 +27,14 @@ def process():
     employ_info["dept"] = dept
     employ_info["enroll date"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 将本地时间戳 struct_time格式转成指定的字符串格式
     if search_ep.process(1, employ_info) is True:
-        add_process()
+        add_process(employ_info)
 
 
-def add_process():
-    print("gogo add!")
+def add_process(args):
+    """INSERT INTO Persons VALUES ('Gates', 'Bill', 'Xuanwumen 10', 'Beijing')"""
+    db_api = db_handler.db_handler()
+    db_api("insert into staff_table values = %s" % args)
+
 
 
 

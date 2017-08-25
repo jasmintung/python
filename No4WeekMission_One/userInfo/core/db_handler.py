@@ -29,6 +29,7 @@ def file_excute(sql, **kwargs):
         select name,age from staff_table where age > 22
 　　     select  * from staff_table where dept = "IT"
         select  * from staff_table where enroll_date like "2013"
+        delete *from staff_table where 列名称 = 值
     :param sql: 解析sql语句 "select * from XXX where starffId=%s" % starffId
     :param kwargs:
     :return:
@@ -37,23 +38,98 @@ def file_excute(sql, **kwargs):
     db_path = "%s/%s" % (conn_params["path"], conn_params["name"]) # 数据库绝对路径
 
     print(sql, db_path)
-    sql_list = sql.split("where") # 将sql语句以where关键字进行拆分为两个元素
-    print(sql_list)
-    if sql_list[0].startswith("select") and len(sql_list) > 1:
-        if sql_list[1].strip().find(">") != -1:
-            column1, val1 = sql_list[1].strip().split(">")  # 分解
-            search_core(1, column1, val1)
-        elif sql_list[1].strip().find("<") != -1:
-            column2, val2 = sql_list[1].strip().split("<")  # 分解
-            search_core(2, column2, val2)
-        elif sql_list[1].strip().find("=") != -1:
-            column3, val3 = sql_list[1].strip().split("=")  # 分解
-            search_core(3, column3, val3)
-        elif sql_list[1].strip().find("like") != -1:
-            column4, val4 = sql_list[1].strip().split("like")  # 分解
-            search_core(4, column4, val4)
-        else:
-            print("not support this operation")
+    if sql.find("where") >= 0:
+        sql_list = sql.split("where") # 将sql语句以where关键字进行拆分为两个元素
+        print(sql_list)
+        if sql_list[0].startswith("select") and len(sql_list) > 1:
+            if sql_list[1].strip().find(">") != -1:
+                column1, val1 = sql_list[1].strip().split(">")  # 分解
+                search_core(1, column1, val1)
+            elif sql_list[1].strip().find("<") != -1:
+                column2, val2 = sql_list[1].strip().split("<")  # 分解
+                search_core(2, column2, val2)
+            elif sql_list[1].strip().find("=") != -1:
+                column3, val3 = sql_list[1].strip().split("=")  # 分解
+                search_core(3, column3, val3)
+            elif sql_list[1].strip().find("like") != -1:
+                column4, val4 = sql_list[1].strip().split("like")  # 分解
+                search_core(4, column4, val4)
+            else:
+                print("not support this operation")
+        elif sql_list[0].startswith("update") and len(sql_list) > 1:
+            # update staff_table SET dept="Market" where dept = "IT"
+            column0 = sql_list[0].split("=")
+            dst_value = column0[1]
+            column1, source_val = sql_list[1].strip().split("=")
+            update_core(column1.strip(), source_val.strip(), dst_value.strip())  # 更新的字段类型, 更新前数据, 更新后数据
+        elif sql_list[0].startswith("delete") and len(sql_list) > 1:
+            # delet * from staff_table where 列表名 = 值
+            column0, val = sql_list[1].strip().split("=") # 分解
+            delete_core(column0, val)
+
+    else:
+        if sql.startswith("insert") and len(sql) > 1:
+            sql_list = sql.split("=")
+
+
+def delete_core(*args):
+    print(args)
+    conn_params = settings.DATABASE
+    db_path = "%s/%s" % (conn_params["path"], conn_params["name"]) # 数据库绝对路径
+    db_path_bak = db_path + ".tmp"
+    if os.path.isfile(db_path):
+        with open(db_path, "r") as rf, \
+             open(db_path_bak, "w") as wf:
+            for epinfo in rf:
+                tmp_dict = eval(epinfo)
+                if tmp_dict.get(args[0]) == args[1]:
+                    print("delete the employ info")
+                else:
+                    wf.writelines(str(tmp_dict)+'\n')
+        os.remove(db_path)
+        os.rename(db_path_bak, db_path)
+
+
+def add_core(args):
+    """
+    添加处理核心逻辑
+    :param args:
+    :return:处理结果
+    """
+    print(args)
+    conn_params = settings.DATABASE
+    db_path = "%s/%s" % (conn_params["path"], conn_params["name"])  # 数据库绝对路径
+    if os.path.isfile(db_path):
+        with open(db_path, "a") as af:
+            af.writelines(str(args)+'\n')
+    else:
+        print("is not file")
+
+
+def update_core(*args):
+    """
+    更新处理核心逻辑
+    :param args:
+    :return:处理结果
+    """
+    print(args)
+    conn_params = settings.DATABASE
+    db_path = "%s/%s" % (conn_params["path"], conn_params["name"])  # 数据库绝对路径
+    db_path_bak = db_path + ".tmp"
+    if os.path.isfile(db_path):
+        with open(db_path, "r") as rf, \
+             open(db_path_bak, "w") as wf:
+                for epinfo in rf:
+                    tmp_dict = eval(epinfo)  # 将字符串转换成字典
+                    if tmp_dict.get(args[0]) == args[1]:
+                        tmp_dict[args[0]] = args[2]
+                    wf.writelines(str(tmp_dict)+'\n')
+        os.remove(db_path)
+        os.rename(db_path_bak, db_path)
+    else:
+        print("is not file")
+
+# 后面搜索算法可进行优化
 
 
 def search_core(do_type, *args):
@@ -69,7 +145,7 @@ def search_core(do_type, *args):
             with open(db_path, "r") as rf:
                 for epinfo in rf:
                     # print(epinfo.strip('\n'))  # 打印并过滤每一行末尾的\n
-                    tmp_dict = eval(epinfo)  # 讲字符串转字典
+                    tmp_dict = eval(epinfo)  # 将字符串转字典
                     # print(type(tmp_dict))
                     if colum == "starffId":  # 根据员工ID来删选
                         if tmp_dict.get("starffId") > int(val):
