@@ -10,8 +10,8 @@ DATABASE = {
 }
 # 下面定义的是支持的交易类型(取现, 转账, 还款, 消费)
 TRANSACTION_TYPE = {
-    "cash_out": {"action": "minus"},
-    "transfer": {"action": "minus"},
-    "repay": {"action": "plus"},
-    "consume": {"action": "minus"}
+    "cash_out": {"action": "minus", "interest": 0.05},
+    "transfer": {"action": "minus", "interest": 0.05},
+    "repay": {"action": "plus", "interest": 0},
+    "consume": {"action": "minus", "interest": 0}
 }

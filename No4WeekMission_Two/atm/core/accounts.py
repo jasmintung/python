@@ -1,7 +1,7 @@
 import json
 import time
 from core import db_handler
-from core import settings
+from conf import settings
 
 
 def load_current_balance(account_id):
@@ -22,6 +22,17 @@ def dump_account(account_data):
     :return:
     """
     db_api = db_handler.db_handler()
-    data = db_api("update accounts where account=%s" % account_data['id'], account_data=account_data)
+    return db_api("update accounts where account=%s" % account_data['id'], account_data=account_data)
 
-    return True
+
+def add_account(account_id, account_data):
+    """
+    add new account info
+    :return:
+    """
+    db_api = db_handler.db_handler()
+    data = db_api("insert into %s values" % account_id, account_data=account_data)
+    if data:
+        return True
+    else:
+        return False

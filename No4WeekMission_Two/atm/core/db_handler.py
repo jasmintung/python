@@ -30,7 +30,9 @@ def file_execute(sql, **kwargs):
     print(sql, db_path)
     sql_list = sql.split("where")
     print(sql_list)
-    if sql_list[0].startswith("select") and len(sql_list) > 1:
+
+    if sql_list[0].startswith("select") and len(sql_list[0]) > 1:
+        print("select db!!!")
         column, val = sql_list[1].strip().split("=")
         if column == "account":
             account_file = "%s/%s.json" % (db_path, val)  # 得到当前用户的账户信息json文件名
@@ -40,4 +42,34 @@ def file_execute(sql, **kwargs):
                     account_data = json.load(rf)
                     return account_data
             else:
-                exit("\033[31;1mAccount [%s] does not exist!\033[0m" % val)
+                print("\033[31;1mAccount [%s] does not exist!\033[0m" % val)
+    elif sql_list[0].startswith("update") and len(sql_list[0]) > 1:
+        print("update db!!!")
+        column, val = sql_list[1].strip().split("=")
+        if column == "account":
+            account_file = "%s/%s.json" % (db_path, val)
+            if os.path.isfile(account_file):
+                account_data = kwargs.get("account_data")
+                with open(account_file, "w") as wf:
+                    json.dump(account_data, wf)
+                return True
+            else:
+                return False
+    elif sql_list[0].startswith("insert") and len(sql_list[0]) > 1:
+        print("db insert!!!!!")
+        start_index = int(sql_list[0].find("insert")) + 12
+        end_index = int(sql_list[0].find("values")) - 1
+        name = sql_list[0][start_index:end_index]
+        print(name)
+        account_file = "%s/%s.json" % (db_path, name)
+        if os.path.exists(account_file):  # 已经存在,就不添加了
+            return False
+        else:
+            account_data = kwargs.get("account_data")
+            print(account_data)
+            with open(account_file, "w") as wf:
+                json.dump(account_data, wf)
+            return True
+
+    else:
+        print("not support!!")
