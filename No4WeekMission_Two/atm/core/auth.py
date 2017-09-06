@@ -83,5 +83,6 @@ def login(user_data, log_obj):
 
     else:
         # 日志记录,并锁定账户
+        log_obj.error("account [%s] too many login attempts.SO LOCK!" % account)
         print("lock this account!")
         exit()

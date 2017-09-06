@@ -4,9 +4,11 @@ from core.auth import login_required
 from core import accounts
 from core import transaction
 from core import operation
-
+from core import logger
 import time, datetime
 
+trans_logger = ""
+access_logger = ""
 # temp account data, only save the data in memory
 user_data = {
     'account_id': None,
@@ -24,6 +26,23 @@ account_dict = {
   "pay_day": 0,
   "password": None
 }
+
+
+def init_logger():
+    # transaction logger
+    global trans_logger
+    global access_logger
+    if trans_logger:
+        pass
+    else:
+        print("初始化交易日志")
+        trans_logger = logger.logger("transaction")
+    # access logger
+    if access_logger:
+        pass
+    else:
+        print("初始化操作日志")
+        access_logger = logger.logger("access")
 
 
 def add_user():
@@ -127,7 +146,7 @@ def cash_out(acc_data):
     while not r_flag:
         cash_need = input("\033[33;1mInput need cash mounts: \033[0m").strip()
         if len(cash_need) > 0:
-            new_balance = transaction.make_transaction(0, account_data, "cash_out", cash_need)
+            new_balance = transaction.make_transaction(trans_logger, account_data, "cash_out", cash_need)
             if new_balance:  # 提现成功
                 print("提现成功!")
                 print("""\033[41;1m New Balance%s\033[0m""" % new_balance["balance"])
@@ -156,7 +175,7 @@ def transfer(acc_data):
         to_account = input("\033[33;1m转入账户ID: \033[0m").strip()  # 接收账户----account_id
         tmp_to_account_balance = 0
         if len(transfer_amount) > 0:
-            new_balance = transaction.make_transaction(0, account_data, "transfer", transfer_amount)  # 转账账户先扣款
+            new_balance = transaction.make_transaction(trans_logger, account_data, "transfer", transfer_amount)  # 转账账户先扣款
             if new_balance:  # 扣款成功后,收款账户进账
                 print("""\033[41;1mNew Balance:%s\033[0m""" % new_balance["balance"])
                 tmp_to_account_balance = new_balance["balance"]
@@ -169,7 +188,7 @@ def transfer(acc_data):
                     print(to_account_balance)
 
                     # 调用还款接口进行转账业务给指定账户
-                    to_new_balance = transaction.make_transaction(0, to_account_data, "repay", transfer_amount)
+                    to_new_balance = transaction.make_transaction(trans_logger, to_account_data, "repay", transfer_amount)
                     if to_new_balance:
                         print("""\033[41;1mTo New Balance:%s\033[0m""" % to_new_balance["balance"])
                         r_flag = True
@@ -199,7 +218,7 @@ def repay(acc_data):
         payments = input("\033[33;1mInput payments: \033[0m").strip()  # 还款金额
         # 后期可考虑加一层关联还款方式
         if len(payments) > 0:
-            new_balance = transaction.make_transaction(0, account_data, "repay", payments)
+            new_balance = transaction.make_transaction(trans_logger, account_data, "repay", payments)
             if new_balance:
                 print("""\033[41;1m New Balance:%s\033[0m""" % new_balance["balance"])
                 r_flag = True
@@ -255,6 +274,29 @@ def admin_control():
             print("\033[31;1mOption does not exist!\033[0m")
 
 
+def consume(acc_data, args):
+    """
+    信用卡支付接口
+    :param acc_data: 信用卡账户
+    :param args: 购物车模块消费金额
+    :return:
+    """
+    print("支付的金额是:%s" % args)
+    account_data = accounts.load_current_balance(acc_data['account_id'])
+    current_balance = """ --------BALANCE INFO -----------
+                Credit :    %s
+                Balance  :  %s
+                """ % (account_data['credit'], account_data['balance'])  # 额度 和 可用额度
+    print(current_balance)
+    new_balance = transaction.make_transaction(trans_logger, account_data, "consume", args)
+    if new_balance:
+        print("\033[41;1m 支付成功!\033[0m")
+        return True
+    else:
+        print("\033[31;1m 支付失败!\033[0m")
+        return False
+
+
 def interactive(acc_data):
     """
     interact with user
@@ -290,33 +332,43 @@ def interactive(acc_data):
             print("\033[31;1mOption does not exist!\033[0m")
 
 
-def run():
-    args = ""  # 日志对象
+def run(*is_out_call):
+    init_logger()
     welcome_info = """
     -------------------ST HAPPY Bank-----------------
     Welcome!
     """
+    print(len(is_out_call))
     print(welcome_info)
-    charactor = int(input("0:管理员 还是 1:普通用户? 请选择: "))
-    if charactor == 0:
-        """
-        用户名,密码固定,admin, 988123
-        """
-        r_flag = False
-        while not r_flag:
-            print("\033[5;33;1m--->输入字符'b'退出!\033[0m")
-            user_name = input("输入用户名:").strip(">>")
-            user_pwd = input("输入密码:").strip(">>")
-            if user_pwd == 'b' or user_name == 'b':
-                exit("退出了!")
-            else:
-                if user_name.strip() == "admin" and user_pwd == "988123":
-                    admin_control()
-
-    elif charactor == 1:
-        acc_data = auth.login(user_data, args)
+    if len(is_out_call) > 0:
+        acc_data = auth.login(user_data, access_logger)
         if user_data['is_authenticated']:
             user_data['account_data'] = acc_data
-            interactive(user_data)
+            return consume(user_data, str(is_out_call[0]))  # 针对购物车模块调用进行信用卡结算
+        else:
+            return False
+    else:
+        charactor = int(input("0:管理员 还是 1:普通用户? 请选择: "))
+        if charactor == 0:
+            """
+            用户名,密码固定,admin, 988123
+            """
+            r_flag = False
+            while not r_flag:
+                print("\033[5;33;1m--->输入字符'b'退出!\033[0m")
+                user_name = input("输入用户名:").strip(">>")
+                user_pwd = input("输入密码:").strip(">>")
+                if user_pwd == 'b' or user_name == 'b':
+                    exit("退出了!")
+                else:
+                    if user_name.strip() == "admin" and user_pwd == "988123":
+                        admin_control()
 
+        elif charactor == 1:
+            acc_data = auth.login(user_data, access_logger)
+            if user_data['is_authenticated']:
+                user_data['account_data'] = acc_data
+                interactive(user_data)
+            else:
+                return False
 

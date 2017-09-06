@@ -31,7 +31,8 @@ def make_transaction(log_obj, account_data, tran_type, amount, **other):
         account_data["balance"] = new_balance
         accounts.dump_account(account_data)  # save the new balance back to file
         # 记录日志
-
+        log_obj.info("account:%s   action:%s   amount:%s   interest:%s" %
+                     (account_data["id"], tran_type, amount, interest))
         return account_data
     else:
         print("\033[31;1m Transaction type [%s] is not exist!\033[0m" % tran_type)

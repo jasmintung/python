@@ -1,8 +1,12 @@
 import os
-
+import logging
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+LOG_LEVEL = logging.INFO
+LOG_TYPES = {
+    "transaction": "transactions.log",
+    "access": "access.log"
+}
 DATABASE = {
     'engine': 'file_storage',
     'name': 'accounts',
