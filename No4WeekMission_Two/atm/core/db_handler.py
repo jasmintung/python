@@ -42,7 +42,7 @@ def file_execute(sql, **kwargs):
                     account_data = json.load(rf)
                     return account_data
             else:
-                print("\033[31;1mAccount [%s] does not exist!\033[0m" % val)
+                print("\033[31;1m账户 [%s] 未注册!\033[0m" % val)
     elif sql_list[0].startswith("update") and len(sql_list[0]) > 1:
         print("update db!!!")
         column, val = sql_list[1].strip().split("=")
@@ -72,4 +72,4 @@ def file_execute(sql, **kwargs):
             return True
 
     else:
-        print("not support!!")
+        print("不支持这个操作!")

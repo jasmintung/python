@@ -348,10 +348,10 @@ def run(*is_out_call):
         else:
             return False
     else:
-        charactor = int(input("0:管理员 还是 1:普通用户? 请选择: "))
-        if charactor == 0:
+        charactor = input("a:管理员 还是 u:普通用户, b: 提出 请选择: ")
+        if charactor == 'a':
             """
-            用户名,密码固定,admin, 988123
+            管理员用户名,密码固定: admin, 988123
             """
             r_flag = False
             while not r_flag:
@@ -363,12 +363,12 @@ def run(*is_out_call):
                 else:
                     if user_name.strip() == "admin" and user_pwd == "988123":
                         admin_control()
-
-        elif charactor == 1:
+        elif charactor == 'u':
             acc_data = auth.login(user_data, access_logger)
             if user_data['is_authenticated']:
                 user_data['account_data'] = acc_data
                 interactive(user_data)
             else:
                 return False
-
+        elif charactor == 'b':
+            exit("退出")

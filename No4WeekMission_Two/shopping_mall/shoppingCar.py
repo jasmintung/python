@@ -94,7 +94,7 @@ def account_check():
     return balance
 
 
-def account_settle(args):
+def account_settle(args, *total):
     """本次购买支付结算处理"""
     # 更新个人资产
     if args == "C":
@@ -105,8 +105,10 @@ def account_settle(args):
             acuf.write(json.dumps(account_info, ensure_ascii=False))
     elif args == "CDC":
         # 这里调用ATM模块的接口进行信用卡消费
-        if main.run(100) is not True:
-            print("支付失败!")
+        print(type(total[0]))
+        print(total)
+        if main.run(total[0]) is not True:
+            print("\033[31;1m支付失败!\033[0m")
             return
 
     record_dict = {}
@@ -162,6 +164,7 @@ def account_settle(args):
 
 
 def shopping_receipt_show():
+    total = 0
     print("------------------------------")
     print("购物总计:")
     print("\t名称:\t\t单价*数量\t\t\t小计")
@@ -173,10 +176,12 @@ def shopping_receipt_show():
             print("*", end='')
             print(purcharsedgoods[n + 1], end='')
             print("\t\t\t", purcharsedgoods[n] * purcharsedgoods[n + 1])
+            total += purcharsedgoods[n] * purcharsedgoods[n + 1]
     print("------------------------------")
     print("您的现金余额是: %d RMB" % customer_cash)
+    print("\033[31;1m 总计: %s RMB\033[0m" % total)
     print("请输入: 继续选购(B), 现金结算(C),信用卡支付(CDC),放弃退出(Q)")
-
+    return total
 while True:
     print("**********欢迎**********")
     loginRole = input("普通用户请输入: 1\n管理员请输入: 2\n退出请输入: 0\n--->")
@@ -315,12 +320,12 @@ while True:
                                 print("您的购物车是空的!")
                                 purcharsedgoods.clear()
                             else:
-                                shopping_receipt_show()
+                                total = shopping_receipt_show()
                                 continueChoice = input()
                                 if continueChoice == "B":
                                     pass
                                 elif continueChoice == "C" or continueChoice == "CDC":
-                                    account_settle(continueChoice)
+                                    account_settle(continueChoice, total)
                                     break
                                 elif continueChoice == "Q":
                                     print("欢迎再次光临!")
