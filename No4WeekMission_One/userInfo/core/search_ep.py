@@ -48,13 +48,13 @@ def search_process(index, args):  # 不能再写*args否则形参会成为元组
     if index == 3:
 
         instructions = """
-            1:you can select the employ info by employ id which > your input value
-            2:you can select the employ info by employ id which < your input value
-            3:you can select the employ info by employ age which > your input value
-            4:you can select the employ info by employ age which < your input value
-            5:you can select the employ info by company dept which your input value is equal in the dept
-            6:you can select the employ info by employ name which your input value is exist in the name
-            7:you can select the employ info by employ date which your input value is exist in the date
+            1: 搜索大于输入的id的员工信息
+            2: 搜索小于输入的id的员工信息
+            3: 搜索大于输入的年龄的员工信息
+            4: 搜索小于输入的年龄的员工信息
+            5: 搜索输入的部门的员工信息
+            6: 搜索输入的姓名对应的员工信息
+            7: 搜索符合日期的员工信息
         """
         print(instructions)
         choice = input("input your select type: ")
@@ -76,7 +76,6 @@ def search_process(index, args):  # 不能再写*args否则形参会成为元组
                     # print(type(tmp_dict))
                     if tmp_dict.get("starffId") == employ_info.get("starffId") \
                         or tmp_dict.get("name") == employ_info.get("name"):
-                        print("已存在,不能增加!!")
                         result = False
             elif index == 2:  # 删除
                 attr = args[0]

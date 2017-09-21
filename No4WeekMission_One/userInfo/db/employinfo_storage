@@ -1,9 +1,8 @@
-{'starffId': 1, 'name': 'zhangtong', 'age': 23, 'phone': 15999600000, 'dept': 'software', 'enroll date': '2017-08-16'}
-{'starffId': 2, 'name': 'lisi', 'age': 34, 'phone': 13456781234, 'dept': 'arm', 'enroll date': '2017-08-17'}
-{'starffId': 3, 'name': 'wangmazi', 'age': 48, 'phone': 110, 'dept': 'dsp', 'enroll date': '2017-08-15'}
 {'starffId': 4, 'name': 'shelaoda', 'age': 12, 'phone': 18622229311, 'dept': 'software', 'enroll date': '2017-08-14'}
 {'starffId': 5, 'name': 'dadafeng', 'age': 26, 'phone': 13456781234, 'dept': 'houqin', 'enroll date': '2017-08-21'}
 {'starffId': 6, 'name': 'yilinjun', 'age': 35, 'phone': 110, 'dept': 'design', 'enroll date': '2017-08-22'}
-{'starffId': 7, 'name': 'yueyang', 'age': 66, 'phone': 18622229311, 'dept': 'software', 'enroll date': '2017-08-23'}
 {'starffId': 10, 'name': 'wangyuanxiang', 'age': 24, 'phone': '12345678123', 'dept': 'fire', 'enroll date': '2017-08-25 15:20:36'}
 {'starffId': 9, 'name': 'taorui', 'age': 30, 'phone': '16781234123', 'dept': 'fire', 'enroll date': '2017-08-25 15:30:00'}
+{'starffId': 666, 'name': 'wangdashan', 'age': 56, 'phone': '132313223', 'dept': 'desai', 'enroll date': '2017-09-21 20:05:41'}
+{'starffId': 345, 'name': 'niusir', 'age': 45, 'phone': '110', 'dept': 'fie', 'enroll date': '2017-09-21 20:10:43'}
+{'starffId': 123, 'name': 'ueuqo', 'age': 12, 'phone': '313123', 'dept': 'sefa', 'enroll date': '2017-09-21 20:22:54'}

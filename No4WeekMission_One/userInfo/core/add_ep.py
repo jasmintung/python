@@ -28,10 +28,11 @@ def process():
     employ_info["enroll date"] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 将本地时间戳 struct_time格式转成指定的字符串格式
     if search_ep.process(1, employ_info) is True:
         add_process(employ_info)
+    else:
+        print("已经有这个人了!")
 
 
 def add_process(args):
-    """INSERT INTO Persons VALUES ('Gates', 'Bill', 'Xuanwumen 10', 'Beijing')"""
     db_api = db_handler.db_handler()
     db_api("insert into staff_table values = %s" % args)
 

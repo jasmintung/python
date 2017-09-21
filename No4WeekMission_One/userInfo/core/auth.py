@@ -9,12 +9,12 @@ def auth_process():
     while True:
         # print(os.path.abspath(__file__))
         # print(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        str1 = "select  * from staff_table where dept = \"IT\""
-        str2 = str1.split("where")
-        print(str2)
-        if str2[0].startswith("select") and len(str2) > 1:  # has where clause
-            column, val = str2[1].strip().split("=") # 去掉字符串头尾的空字符,以=号进行分割
-            print(column, val) # 得到键值,这个用法很神奇
+        # str1 = "select  * from staff_table where dept = \"IT\""
+        # str2 = str1.split("where")
+        # print(str2)
+        # if str2[0].startswith("select") and len(str2) > 1:  # has where clause
+        #     column, val = str2[1].strip().split("=") # 去掉字符串头尾的空字符,以=号进行分割
+        #     print(column, val) # 得到键值,这个用法很神奇
         print("*******登陆*********")
         userName = input("用户名: ")
         print("是否显示密码? y / n")
