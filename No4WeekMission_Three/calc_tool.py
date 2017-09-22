@@ -1,20 +1,8 @@
-# import re
-#
-# str = "1 - 2 * ( (60-30 +(-40/5) * (9-2*5/3 + (23-3*13) - 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )"
-#
-# data = re.search('\([^()]+\)', str).group()
-# print(data)
-# str1 = r"(abd1(23)"
-#
-# a = 'Beautiful, is; better*than\nugly'
-# x = re.split('\(|\)', str)
-# y = re.split(',|; |\*|\n', a)
-# print(x)
-# print(y)
+# __author__:"Tony Cheung"
 
 import re
 
-bracket = re.compile(r'\([^()]+\)')  # 寻找最内存括号规则
+bracket = re.compile(r'\([^()]+\)')  # 寻找最内层括号规则
 mul = re.compile(r'(\d+\.?\d*\*-\d+\.?\d*)|(\d+\.?\d*\*\d+\.?\d*)')  # 寻找乘法运算规则
 div = re.compile(r'(\d+\.?\d*/-\d+\.?\d*)|(\d+\.?\d*/\d+\.?\d*)')  # 寻找除法运算规则
 add = re.compile(r'(-?\d+\.?\d*\+-\d+\.?\d*)|(-?\d+\.?\d*\+\d+\.?\d*)')  # 寻找加法运算规则
@@ -56,11 +44,11 @@ def Sub(s):
 def calc():
     """程序入口"""
     while True:
-        note = input("Please input the expression(q for quit):")
+        note = input("请输入算式 (q: 退出):")
         check_left_kuohao = re.findall(r"\)*\)", note)
-        str_l_kuohao = ''.join(check_left_kuohao)
+        str_l_kuohao = ''.join(check_left_kuohao)  # 列表转字符串计算括号数量
         check_right_kuohao = re.findall(r"\(*\(", note)
-        str_r_kuohao = ''.join(check_right_kuohao)
+        str_r_kuohao = ''.join(check_right_kuohao)  # 列表转字符串计算括号数量
         if len(str_l_kuohao) != len(str_r_kuohao):
             print("括号没配对!!!")
             continue
@@ -83,7 +71,7 @@ def calc():
                     note = note.replace(note_search, Add(note_search))
                 elif c_f.search(note_search):  # 检查括号内运算是否完毕
                     note = note.replace(note_search, strip.search(note_search).group())  # 将括号去掉
-            print("The calc result is: %.2f" % (float(note)))
+            print("计算结果: %.2f" % (float(note)))
 
 if __name__ == '__main__':
     calc()
