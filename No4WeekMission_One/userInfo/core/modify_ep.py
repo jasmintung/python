@@ -3,7 +3,14 @@ from core import db_handler
 
 def process():
     print("modify func")
-    db_api = db_handler.db_handler()
-    sourc_dept = input("输入您想修改的部门名称")
-    dst_dept = input("输入您想设置的部门名称")
-    db_api("update staff_table SET dept=%s where dept =%s" % (dst_dept, sourc_dept))  # 如果需要增加其它类型的修改支持,在这个函数里面添加代码即可
+    notice = "UPDATE Person SET dept= \"Market\" WHERE dept = \"IT\""
+    print("请输入SQL 更新 语句比如 %s:" % notice)
+    sql_update = input()
+    if sql_update.startswith("UPDATE") and sql_update.find("WHERE"):
+        value_level_1 = sql_update.split("WHERE")
+        dst_dept = value_level_1[0].split("=")[1].lstrip(" ")
+        source_dept = value_level_1[1].split("=")[1].strip(" ")
+        db_api = db_handler.db_handler()
+        db_api("UPDATE Person SET dept=%s WHERE dept =%s" % (dst_dept, source_dept))  # 如果需要增加其它类型的修改支持,在这个函数里面添加代码即可
+    else:
+        print("输入错误")

@@ -44,10 +44,10 @@ def file_excute(sql, **kwargs):
     """
 
     print(sql, db_path)
-    if sql.find("where") >= 0:
-        sql_list = sql.split("where") # 将sql语句以where关键字进行拆分为两个元素
+    if sql.find("WHERE") >= 0:
+        sql_list = sql.split("WHERE") # 将sql语句以where关键字进行拆分为两个元素
         print(sql_list)
-        if sql_list[0].startswith("select") and len(sql_list) > 1:
+        if sql_list[0].startswith("SELECT") and len(sql_list) > 1:
             if sql_list[1].strip().find(">") != -1:
                 column1, val1 = sql_list[1].strip().split(">")  # 分解
                 search_core(1, column1, val1)
@@ -62,17 +62,19 @@ def file_excute(sql, **kwargs):
                 search_core(4, column4, val4)
             else:
                 print("not support this operation")
-        elif sql_list[0].startswith("update") and len(sql_list) > 1:
+        elif sql_list[0].startswith("UPDATE") and len(sql_list) > 1:
             column0 = sql_list[0].split("=")
-            dst_value = column0[1]
+            dst_value = column0[1].strip(" ")
+            dst_value = dst_value.strip("\"")
             column1, source_val = sql_list[1].strip().split("=")
+            source_val = source_val.strip("\"")
             update_core(column1.strip(), source_val.strip(), dst_value.strip())  # 更新的字段类型, 更新前数据, 更新后数据
-        elif sql_list[0].startswith("delete") and len(sql_list) > 1:
+        elif sql_list[0].startswith("DELETE") and len(sql_list) > 1:
             column0, val = sql_list[1].strip().split("=") # 分解
             delete_core(column0.strip(), val.lstrip())
 
     else:
-        if sql.startswith("insert") and len(sql) > 1:
+        if sql.startswith("INSERT") and len(sql) > 1:
             sql_list = sql.split("=")
             add_core(sql_list[1].lstrip())
 
@@ -84,7 +86,6 @@ def delete_core(*args):
     :return:
     """
     print(args)
-
     if os.path.isfile(db_path):
         with open(db_path, "r") as rf, \
              open(db_path_bak, "w") as wf:
@@ -127,6 +128,8 @@ def update_core(*args):
     :return:处理结果
     """
     print(args)
+    print(args[0])
+    print(args[1])
     modify = False
     if os.path.isfile(db_path):
         with open(db_path, "r") as rf, \
@@ -158,7 +161,7 @@ def search_core(do_type, *args):
     do_type = int(do_type)
 
     colum = args[0].strip()  # 搜索属性
-    val = args[1].strip()  # 搜索条件
+    val = args[1].strip().strip("\"").strip("'")  # 搜索条件
     print(colum, val)
 
     if do_type == 1:  # 支持年龄,ID的搜索

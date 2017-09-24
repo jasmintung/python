@@ -49,5 +49,5 @@ select_func = {"1": idA, "2": idB, "3": ageA, "4": ageB, "5": dept_str, "6": nam
 
 def db_to_usr(args):
     db_api = db_handler.db_handler()
-    select_func[args](db_api)
+    db_api(args)
 

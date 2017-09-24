@@ -45,23 +45,22 @@ def process(index=3, *args, **kwargs):
 
 def search_process(index, args):  # 不能再写*args否则形参会成为元组的元组((....))
     result = False
-    if index == 3:
-
-        instructions = """
-            1: 搜索大于输入的id的员工信息
-            2: 搜索小于输入的id的员工信息
-            3: 搜索大于输入的年龄的员工信息
-            4: 搜索小于输入的年龄的员工信息
-            5: 搜索输入的部门的员工信息
-            6: 搜索输入的姓名对应的员工信息
-            7: 搜索符合日期的员工信息
+    if index == 3:  # 查找
+        notice = """
+            SELECT * FROM Persons WHERE starffId > 1,
+            SELECT * FROM Persons WHERE starffId < 3,
+            SELECT * FROM Persons WHERE age > 18,
+            SELECT * FROM Persons WHERE age < 30,
+            SELECT * FROM Persons WHERE dept = "soft",
+            SELECT * FROM Persons WHERE name like "zhang"
+            SELECT * FROM Persons WHERE enroll date like "2017-"
         """
-        print(instructions)
-        choice = input("input your select type: ")
-        if choice.isdigit() and int(choice) < 8:
-            employ.db_to_usr(choice)
+        print("请输入SQL 查询 语句比如: %s\n>>" % notice)
+        sql_select = input()
+        if sql_select.startswith("SELECT") and sql_select.find("WHERE"):
+            employ.db_to_usr(sql_select)
         else:
-            print("无效操作")
+            print("输入错误")
             return result
     else:
         with open(file_path, "r", encoding="utf-8") as fp:
@@ -92,7 +91,7 @@ def search_process(index, args):  # 不能再写*args否则形参会成为元组
                         if tmp_dict.get("age") == int(val):
                             return True
                     elif attr == "phone":
-                        if tmp_dict.get("phone") == int(val):
+                        if tmp_dict.get("phone") == val:
                             return True
                     elif attr == "dept":
                         if tmp_dict.get("dept") == val:

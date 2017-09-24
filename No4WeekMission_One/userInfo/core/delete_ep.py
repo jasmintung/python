@@ -8,42 +8,29 @@ def process():
     :return:
     """
     print("delete func")
-    notic = """
-    输入数字 1 根据 ID 删除
-    输入数字 2 根据 姓名 删除
-    输入数字 3 根据 年龄 删除
-    输入数字 4 根据 电话 删除
-    输入数字 5 根据 部门 删除
+    notice = """
+    DELETE FROM Person WHERE starffId = 1,
+    DELETE FROM Person WHERE name = 'lisi',
+    DELETE FROM Person WHERE age = 18,
+    DELETE FROM Person WHERE phone = '0755110',
+    DELETE FROM Person WHERE dept = 'soft',
     """
-    print(notic)
-    your_choice = int(input("your choic is no."))
-    attr = ""
-    val = ""
+    print("请输入SQL 删除 语句比如 %s:" % notice)
 
-    if your_choice == 1:
-        attr = "starffId"
-        val = int(input("输入Id: "))
-    elif your_choice == 2:
-        attr = "name"
-        val = input("输入姓名: ")
-    elif your_choice == 3:
-        attr = "age"
-        val = int(input("输入年龄: "))
-    elif your_choice == 4:
-        attr = "phone"
-        val = int(input("输入电话号码: "))
-    elif your_choice == 5:
-        attr = "dept"
-        val = input("输入部门: ")
+    sql_delete = input()
+    if sql_delete.startswith("DELETE") and sql_delete.find("WHERE"):
+        key = sql_delete.split("WHERE")[0].rstrip(" ")
+        value = sql_delete.split("WHERE")[1].strip(" ")
+        attr_val = value.split("=")
+        attr = attr_val[0].rstrip(" ")
+        val = attr_val[1].lstrip(" ").strip("'")
+        if search_ep.process(2, attr, val) is True:
+            return delete_process(key, attr, val)
+        else:
+            print("没有这个人!")
     else:
-        print("not support")
-        return False
-    if search_ep.process(2, attr, val) is True:
-        return delete_process(attr, val)
-    else:
-        print("没有这个人!")
+        print("输入错误")
 
-
-def delete_process(*args):
+def delete_process(key, *args):
     db_api = db_handler.db_handler()
-    db_api("delete * from staff_table where %s = %s" % (args[0], args[1]))
+    db_api("%s WHERE %s = %s" % (key, args[0], args[1]))
