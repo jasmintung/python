@@ -5,6 +5,7 @@ from core import accounts
 from core import transaction
 from core import operation
 from core import logger
+from core import purchase_history
 import time, datetime
 
 trans_logger = ""
@@ -230,12 +231,36 @@ def repay(acc_data):
             r_flag = True
 
 
+def search_account(*args):
+    """
+    查询账户信息
+    :param args:
+    :return:
+    """
+    print("查询账户信息")
+    account_id = input("请输入账户名")
+    account_data = accounts.load_current_balance(account_id)
+    if account_data:
+        info = """ --------%s 账户信息 -----------
+            额度 :    %s
+            可用额度  :  %s
+            登记日期:   %s
+            失效日期:   %s
+            密码:     %s
+            状态:     %s
+            """ % (account_data['id'], account_data['credit'], account_data['balance'], account_data['enroll_date'], account_data['expire_date'], account_data['password'], account_data['status'])
+        print(info)
+    else:
+        print("\033[31;1m没有这个用户!\033[0m")
+
+
 def search_consumption_record(*acc_data):
     """
     查询消费记录接口
     :return:
     """
     print("查询消费记录")
+    purchase_history.read_purchase_record(user_data['account_id'])
 
 
 def end(*acc_data):
@@ -244,7 +269,7 @@ def end(*acc_data):
 
 def admin_control():
     """
-    admin functions
+    管理员功能
     :return:
     """
     menu = u'''
@@ -261,7 +286,7 @@ def admin_control():
         "1": add_user,
         "2": adjust_user_balance,
         "3": cool_user_account,
-        "4": search_consumption_record,
+        "4": search_account,
         "5": end
     }
     exit_flag = False
@@ -291,6 +316,12 @@ def consume(acc_data, args):
     new_balance = transaction.make_transaction(trans_logger, account_data, "consume", args)
     if new_balance:
         print("\033[41;1m 支付成功!\033[0m")
+        # 写入消费记录
+        record_info = {}
+        record_info["id"] = account_data['id']
+        record_info["monetary"] = args
+        record_info["dissipate"] = str(datetime.datetime.now())
+        purchase_history.write_purchase_record(record_info)
         return True
     else:
         print("\033[31;1m 支付失败!\033[0m")
@@ -299,7 +330,7 @@ def consume(acc_data, args):
 
 def interactive(acc_data):
     """
-    interact with user
+    用户功能
     :param acc_data:
     :return:
     """
@@ -329,7 +360,7 @@ def interactive(acc_data):
         if user_option in menu_dic:
             menu_dic[user_option](acc_data)
         else:
-            print("\033[31;1mOption does not exist!\033[0m")
+            print("\033[31;1m选项不存在!\033[0m")
 
 
 def run(*is_out_call):
@@ -341,6 +372,9 @@ def run(*is_out_call):
     print(len(is_out_call))
     print(welcome_info)
     if len(is_out_call) > 0:
+        user_data['account_id'] = None
+        user_data['is_authenticated'] = False
+        user_data['account_data'] = None
         acc_data = auth.login(user_data, access_logger)
         if user_data['is_authenticated']:
             user_data['account_data'] = acc_data
