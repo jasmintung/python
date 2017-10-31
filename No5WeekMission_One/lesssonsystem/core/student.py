@@ -5,14 +5,24 @@ Contact: puzexiong@163.com
 '''
 # 学员类
 # 学员类数据结构
-dict1 = {"大连": {"0001": ["Jack", "一班"], "0002": ["李老大", "二班"]},
+# 账号数据库(唯一编号,姓名, 注册标识)
+dict1 = {"0001": ["杰森斯坦森", 0], "0002": ["汤姆克鲁斯", 0], "0003": ["大卫罗宾逊", 0]}
+# 选课数据库
+dict2 = {"大连": {"0001": ["Jack", "一班"], "0002": ["李老大", "二班"]},
          "广州": {"0001": ["习大大", "一班"], "0002": ["王大雷", "二班"]}}
+from core.auth import AuthModule
+from core.auth import login_deco
 
 
 class StudentModule(object):
-    def __init__(self, school_name, class_name):
-        self.school_name = school_name
-        self.class_name = class_name
+    def __init__(self):
+        pass
+
+    @login_deco(1)
+    def auth(self):
+        # 登陆
+        instance_am = AuthModule()
+        instance_am.login()
 
     def register(self):
         # 注册
@@ -23,7 +33,7 @@ class StudentModule(object):
         pass
 
     def chose_class(self):
-        # 选择班级
+        # 选择学校,班级 判断是否有注册
         pass
 
     def check_exists(self, student_name):

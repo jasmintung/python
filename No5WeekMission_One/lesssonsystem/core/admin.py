@@ -10,11 +10,21 @@ from core.course import CourseModule
 from core.classes import ClassModule
 from core.student import StudentModule
 from core.teacher import TeacherModule
+from core.auth import login_deco
+from core.auth import AuthModule
+# 管理员数据结构
+dict1 = {"0001": "admin1", "0002": "admin2", "0003": "admin3"}
 
 
 class AdminModule(object):
     def __int__(self):
         self.school_name = None
+
+    @login_deco(8)
+    def auth(self):
+        # 登陆
+        instance_am = AuthModule()
+        instance_am.login()
 
     def create_school(self):  # OK
         # 创建学校

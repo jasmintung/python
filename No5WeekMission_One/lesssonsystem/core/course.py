@@ -8,8 +8,6 @@ Contact: puzexiong@163.com
 # 课程类数据结构
 dict1 = {"北京": {"0001": ["C++", "1年", "6000"], "0002": ["python", "2年", "8000"]},
          "杭州": {"0001": ["C#", "1年", "3000"], "0002": ["JAVA", "3年", "10000"]}}
-for key in dict1:
-    print(key)
 
 
 class CourseModule(object):

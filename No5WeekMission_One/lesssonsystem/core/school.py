@@ -6,8 +6,6 @@ Contact: puzexiong@163.com
 # 学校类
 # 学校类数据结构
 dict1 = {"北京", "广州", "深圳", "上海", "大连", "杭州", "成都", "武汉", "沈阳"}
-for key in dict1:
-    print(key)
 
 
 class SchoolModule(object):
