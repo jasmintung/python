@@ -5,7 +5,14 @@ Contact: puzexiong@163.com
 '''
 # 学校类
 # 学校类数据结构
-dict1 = {"北京", "广州", "深圳", "上海", "大连", "杭州", "成都", "武汉", "沈阳"}
+dict1 = {1: "北京", 2: "广州", 3: "深圳", 4: "上海", 5: "大连", 6: "杭州", 7: "成都", 8: "武汉", 9: "沈阳"}
+
+list1 = ["1312", "1312", "fasfasd"]
+# usr_input = input()
+# if usr_input in list1:
+#     print("yes")
+# else:
+#     print("no")
 
 
 class SchoolModule(object):
@@ -25,3 +32,8 @@ class SchoolModule(object):
 
     def get_school_name(self):
         return self.name
+
+    def get_school_list(self):
+        school_list = []
+        return school_list
+

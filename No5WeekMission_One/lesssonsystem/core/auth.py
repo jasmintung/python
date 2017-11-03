@@ -41,7 +41,7 @@ class AuthModule(object):
             is_login_success = self.acc_auth(account, password)
             if is_login_success:
                 print("Welcome!")
-                return is_login_success
+                return account
             else:
                 print("\033[36;1m用户名或者密码错误!\033[0m")
             retry_count += 1
