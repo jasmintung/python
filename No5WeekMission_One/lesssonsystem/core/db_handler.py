@@ -106,8 +106,8 @@ class TeacherDataControl(DataControl):
     def read(self, *args):
         """
 
-        :param args: 目前 : 0: 学校, 1: 返回控制(0表示返回讲师列表,1 表示返回整个文件内容)
-        :return: 讲师列表
+        :param args: 目前 : args0: 学校, args1: 0 or 1
+        :return: 0: 返回讲师列表, 1 返回整个文件内容)
         """
 
         if os.path.exists(TeacherDataControl.ccsys_teacher_dst) is True:
@@ -125,11 +125,32 @@ class SchoolDataControl(DataControl):
     def __init__(self):
         super(SchoolDataControl, self).__init__()
 
+    ccsys_school_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["school_file_name"])
+
     def create(self, *args):
-        pass
+        """
+
+        :param args: args0: key,  args1: value
+        :return: 创建结果
+        """
+        school_data = self.read()
+        print(school_data)
+        with open(SchoolDataControl.ccsys_school_dst, "w", encoding="uft-8") as wf:
+            school_data[args[0]] = args[1]
+            pickle.dump(school_data, wf)
 
     def read(self, *args):
-        pass
+        """
+
+        :param args:
+        :return: 学校列表
+        """
+
+        if os.path.exists(SchoolDataControl.ccsys_school_dst) is True:
+            with open(SchoolDataControl.ccsys_school_dst, "r", encoding="utf-8") as rf:
+                school_data = pickle.load(rf)
+                print(school_data)
+                return school_data
 
 
 class ClassDataControl(DataControl):
@@ -137,11 +158,30 @@ class ClassDataControl(DataControl):
     def __init__(self):
         super(ClassDataControl, self).__init__()
 
+    ccsys_class_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["class_file_name"])
+
     def create(self, *args):
-        pass
+        """
+
+        :param args: 选课数据库班级表
+        :return:
+        """
+        with open(ClassDataControl.ccsys_class_dst, "w", encoding="utf-8") as wf:
+            pickle.dump(args, wf)
 
     def read(self, *args):
-        pass
+        """
+        获取班级列表
+        :param args: args0: 学校, args1: 0 or 1
+        :return: 0: 班级列表, 1 整个文件内容
+        """
+        with open(ClassDataControl.ccsys_class_dst, "r", encoding="utf-8") as rf:
+            class_data = pickle.load(rf)
+            print(class_data)
+            if args[0] == 0:
+                return class_data[args[0]]
+            elif args[0] == 1:
+                return class_data
 
 
 class CourseDataControl(DataControl):
