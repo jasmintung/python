@@ -23,8 +23,8 @@ class AdminModule(object):
     @login_deco(8)
     def auth(self):
         # 登陆
-        instance_am = AuthModule()
-        instance_am.login()
+        instance_am = AuthModule(0)
+        return instance_am.login()
 
     def create_school(self):  # OK
         # 创建学校

@@ -15,69 +15,125 @@ from core.auth import AuthModule
 from core.auth import login_deco
 from core.school import SchoolModule
 from core.classes import ClassModule
+from core.db_handler import UserDataControl
+from core.db_handler import StudentDataControl
+from conf import settings
+file_dst = settings.FILE_BASE
 
 
 class StudentModule(object):
     def __init__(self):
         self.name = None
+        self.school_name = None
+        self.class_name = None
+
+    def func_control(self, args):
+        func_dict = {1: self.register_course_system, 2: self.check_personal_socre}
+        if args in func_dict:
+            instance_sm = SchoolModule()
+            school_dict = instance_sm.get_school_list()
+            print("请选择学校(根据编号)")
+            for school in school_dict:
+                print("编号: %d 学校: %s" % (school, school_dict[school]))
+            usr_chose_school_id = int(input())
+            if usr_chose_school_id in school_dict:
+                self.school_name = school_dict[usr_chose_school_id]
+                return func_dict[args]()
+            else:
+                print("编号输入错误")
 
     @login_deco(1)
     def auth(self):
         # 登陆
-        instance_am = AuthModule()
-        self.name = instance_am.login()
-        if self.name:
-            self.chose_class()
+        instance_am = AuthModule(1)
+        return instance_am.login()
+
+    def register(self):  # 账户注册
+        is_sure_to_register = input("是否进行注册? Y/N").strip()
+        if is_sure_to_register == "Y":
+            account = input("请输入用户名:")
+            password = input("请输入密码:")
+            student_dict = {}
+            student_dict["id"] = "st00408"  # 后面加入ID唯一性处理
+            student_dict["name"] = account
+            student_dict["password"] = password
+            student_dict["Register"] = 0
+            write_database_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], account)
+            instance_uc = UserDataControl(write_database_dst)
+            instance_uc.merge_dicts(student_dict, None)
+            instance_uc.create()
+        elif is_sure_to_register == "N":
+            pass
         else:
             pass
 
-    def register(self, *args):  # 择校择班后进行注册
+    def control_operation(self, name):
+        self.name = name
+        operation_info = """
+                        请选择:
+                        1. 开始选课
+                        2. 查询成绩
+                        """
+        print(operation_info)
+        input_operation = int(input().strip(">>"))
+        if self.func_control(input_operation):
+            pass
+        else:
+            print("选择不正确")
+
+    def register_course_system(self):  # 择校择班后进行 注册
         """
         *args: 里面有两个元素: 学校 班级
         :return: 注册结果
         """
-        # 选课数据库里面去检查是否已经选过课了,然后告知是否缴学费
-
-        has_pay = False
-        if has_pay is True:
-            self.payment()
-
-    def payment(self):
-        # 注册后交学费,交学费后才把 账户数据库 中的注册标识置1
-        """
-        更新 账户数据库 选课数据库学员表 和 选课数据库班级表
-        :return:
-        """
-
-    def chose_class(self):
-        # 选择学校,班级
-        instance_sm = SchoolModule()
-        print("请选择学校(根据编号)")
-        school_dict = instance_sm.get_school_list()
-        for school in school_dict:
-            print("编号: %d 学校: %s" % (school, school_dict[school]))
-        usr_chose_school_id = input()
-
-        if usr_chose_school_id in school_dict:
-            class_list = ClassModule.get_class_list(school_dict[usr_chose_school_id])
+        # 先判断是否已经注册成功,注册成功的前提是选校,选班,缴费后
+        student_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], self.name)
+        instance_st = UserDataControl(student_dst)
+        student_dict = instance_st.read()
+        if student_dict["Register"] == 1:
+            print("您已选过课程了")
+        else:
+            # 选择学校,班级
+            class_list = ClassModule.get_class_list(self.school_name)
             print(class_list[:])
             print("请选择班级(根据班级全名)")
             usr_chose_class = input()
             if usr_chose_class in class_list:
-                print("选择正确,是否注册?")
+                print("选择正确,是否注册当前班级?")
                 is_register = input("Y/N")
                 if is_register == 'Y':
-                    self.register(school_dict[usr_chose_school_id], usr_chose_class)
+                    self.class_name = usr_chose_class
+                    self.payment()
                 else:
-                    print("先不注册")
+                    print("\033[36;1m您放弃注册,数据将丢失!\033[0m")
 
-    def check_exists(self, student_name):
+    def payment(self):
+        # 注册后交学费,交学费后才把 账户数据库 中的注册标识置1
+        """
+
+        :return:
+        """
+        sure_to_pay = input("是否缴费? Y/N")
+        if sure_to_pay == "Y":
+            student_list = []
+            student_list[0] = self.name
+            student_list[1] = self.class_name
+            write_course_file_student = {}
+            write_course_file_student[self.school_name]["0013"] = student_list
+            instance_st_data = StudentDataControl()
+            instance_st_data.read()
+            instance_st_data.merge_dicts(write_course_file_student)
+            instance_st_data.create()
+        elif sure_to_pay == "N":
+            print("\033[36;1m您未完成缴费,数据将丢失!\033[0m")
+
+    def check_exists(self):
         # 检查要创建的学员是否已经存在dict1
         is_exists = False
         # 数据库查询
         return is_exists
 
-    def add_student(self, *args):
+    def add_student(self):
         # 创建学员
         pass
 

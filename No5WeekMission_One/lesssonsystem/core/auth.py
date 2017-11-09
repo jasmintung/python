@@ -1,9 +1,15 @@
 import random
-
+from core.db_handler import AdminDataControl
+from core.db_handler import UserDataControl
+from core.db_handler import TeacherDataControl
+from core.db_handler import SchoolDataControl
+from core.db_handler import ClassDataControl
+from core.db_handler import CourseDataControl
+from core.db_handler import StudentDataControl
 
 class AuthModule(object):
-    def __init__(self):
-        pass
+    def __init__(self, role):  # 当前是哪个角色在进行登录验证0: 管理员, 1: 学生, 2: 讲师
+        self.role = role
 
     def auth_code(self):
         """
@@ -22,10 +28,16 @@ class AuthModule(object):
 
     def acc_auth(self, account, password):
         # 读取账户数据库判断是否有
-        return False
+        if self.role == 0:
+            instance_admin = AdminDataControl()
+            return instance_admin.account_auth(account, password)
+        else:
+            instance_user = UserDataControl()
+            return instance_user.account_auth(self.role, account, password)
 
     def login(self):
         retry_count = 0
+        is_login_statue = -1
         while retry_count < 5:
             account = input("\033[32;1m用户名:\033[0m").strip(">>")
             password = input("\033[32;1m密码:\033[0m").strip(">>")
@@ -38,16 +50,21 @@ class AuthModule(object):
                     print("输入错误!")
                     retry_count += 1
                     continue
-            is_login_success = self.acc_auth(account, password)
-            if is_login_success:
-                print("Welcome!")
-                return account
-            else:
+            is_login_statue = self.acc_auth(account, password)
+            if is_login_statue == 0:
+                print("欢迎光临本选课系统!")
+                return account  # 必须返回用户名
+            elif is_login_statue == 1:
                 print("\033[36;1m用户名或者密码错误!\033[0m")
-            retry_count += 1
+                retry_count += 1
+            elif is_login_statue == 2:
+                print("\033[36;1m账户不存在,请先注册!\033[0m")
+                break
         else:
             # 日志记录,并强制退出
             exit()
+        return is_login_statue
+
 
 def login_deco(args):
     # 登陆验证装饰器
