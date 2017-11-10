@@ -18,6 +18,8 @@ from core.student import StudentModule
 from core.db_handler import UserDataControl
 from core.db_handler import TeacherDataControl
 from core.db_handler import ClassDataControl
+from core.db_handler import SchoolDataControl
+from core.db_handler import StudentDataControl
 from conf import settings
 file_dst = settings.FILE_BASE
 
@@ -92,35 +94,45 @@ class TeacherModule(object):
     def go_to_class(self, *args):  # 选择上课班级
         instance_tc_data_c = TeacherDataControl()
         instance_tc_data_c.read()
+        for school in instance_tc_data_c.teacher_data:
+            print(school)
         usr_chose_school_name = input("请选择校区:")
-        if usr_chose_school_name in instance_tc_data_c.teacher_data:
-            instance_cs_data_c = ClassDataControl()
-            instance_cs_data_c.read()
-            print("请选择班级(根据班级全名)")
-            usr_chose_class_name = input()
-            if usr_chose_class_name in instance_cs_data_c.class_data[usr_chose_school_name]:
-                print("选择完成")
-                # 更新 选课数据库班级表, 更新 选课数据库讲师表
-                instance_cs_data_c.merge_dicts(usr_chose_school_name, usr_chose_class_name, "讲师", self.name)
+        if usr_chose_school_name in instance_tc_data_c.teacher_data:  # 判断讲师是否已经在被管理员创建关联的学校里面
+            if self.name in instance_tc_data_c[usr_chose_school_name]:
+                instance_cs_data_c = ClassDataControl()
+                instance_cs_data_c.read()
+                for class_name in instance_cs_data_c.class_data[usr_chose_school_name]:
+                    print(class_name)
+                print("请选择班级(根据班级全名)")
+                usr_chose_class_name = input()
+                if usr_chose_class_name in instance_cs_data_c.class_data[usr_chose_school_name]:
+                    print("选择完成")
+                    # 更新 选课数据库班级表, 更新 选课数据库讲师表
+                    instance_cs_data_c.merge_dicts(usr_chose_school_name, usr_chose_class_name, "讲师", self.name)
+                else:
+                    print("\033[36;1m班级输入不正确\033[0m")
             else:
-                print("班级输入不正确")
+                print("\033[36;1m无法选择该校区班级,请重新选择!\033[0m")
         else:
             print("\033[36;1m校区选择不正确!\033[0m")
 
-    def view_students_info(self, *args):  # 浏览学员信息(根据学校总览, 根据班级浏览)
-        print("1: 校浏览, 2: 班级浏览")
-        usr_chose = input("请选择").strip(">>")
-        if usr_chose == 1:
-            instance_st = StudentModule()
-            student_info_dict = instance_st.get_student_list(args)
-            print(student_info_dict)
-        elif usr_chose == 2:
-            instance_cs = ClassModule()
-            class_list = instance_cs.get_class_list()
-            print("请选择班级(根据班级全名)")
-            usr_chose_class_name = input()
-            if usr_chose_class_name in class_list:
-                print(class_list[usr_chose_class_name]["学员"])
+    def view_students_info(self, *args):  # 浏览学员信息(根据学校总览, 根据班级浏览暂时未开发完成)
+        instance_sc_data_c = SchoolDataControl()
+        school_info_dict = instance_sc_data_c.school_data
+        for school_id in school_info_dict:
+            print(school_info_dict[school_id])
+        usr_chose_school = int(input("请输入要查看的学校(根据编号):"))
+        if usr_chose_school in school_info_dict:
+            print("1: 校浏览, 2: 班级浏览")
+            usr_chose = input("请选择").strip(">>")
+            if usr_chose == 1:
+                instance_st_data_c = StudentDataControl()
+                student_info_dict = instance_st_data_c.student_data
+                print(student_info_dict)
+            elif usr_chose == 2:
+                pass
+        else:
+            print("\033[34;1m选择的学校不存在!\033[0m")
 
-    def give_student_score(self, *args):  # 给学员打分
+    def give_student_score(self, *args):  # 给学员打分, 暂时未开发完成
         pass

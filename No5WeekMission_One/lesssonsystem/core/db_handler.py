@@ -185,7 +185,7 @@ class ClassDataControl(DataControl):
     def merge_dicts(self, *args):
         """
 
-        :param x: 要合并的字典
+        :param args: 要合并信息
         :return:
         """
         self.class_data[args[0]][args[1]][args[2]].append(args[3])
@@ -193,6 +193,7 @@ class ClassDataControl(DataControl):
 
 
 class CourseDataControl(DataControl):
+    course_id = 0
 
     def __init__(self, args):
         super(CourseDataControl, self).__init__(args)

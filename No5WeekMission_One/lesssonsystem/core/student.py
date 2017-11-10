@@ -106,6 +106,8 @@ class StudentModule(object):
                     self.payment()
                 else:
                     print("\033[36;1m您放弃注册,数据将丢失!\033[0m")
+            else:
+                print("\033[33;1m选班输入错误\033[0m")
 
     def payment(self):
         # 注册后交学费,交学费后才把 账户数据库 中的注册标识置1
