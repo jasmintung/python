@@ -38,6 +38,7 @@ class AuthModule(object):
     def login(self):
         retry_count = 0
         is_login_statue = -1
+        account = None
         while retry_count < 5:
             account = input("\033[32;1m用户名:\033[0m").strip(">>")
             password = input("\033[32;1m密码:\033[0m").strip(">>")
@@ -53,7 +54,6 @@ class AuthModule(object):
             is_login_statue = self.acc_auth(account, password)
             if is_login_statue == 0:
                 print("欢迎光临本选课系统!")
-                return account  # 必须返回用户名
             elif is_login_statue == 1:
                 print("\033[36;1m用户名或者密码错误!\033[0m")
                 retry_count += 1
@@ -63,7 +63,7 @@ class AuthModule(object):
         else:
             # 日志记录,并强制退出
             exit()
-        return is_login_statue
+        return is_login_statue, account
 
 
 def login_deco(args):

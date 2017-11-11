@@ -54,14 +54,13 @@ class StudentModule(object):
             account = input("请输入用户名:")
             password = input("请输入密码:")
             student_dict = {}
-            student_dict["id"] = "st00408"  # 后面加入ID唯一性处理
+            student_dict["id"] = "st00408"  # 这里根据/db/user_db/stid_db文件里面已存在学员ID进行ID分配
             student_dict["name"] = account
             student_dict["password"] = password
             student_dict["Register"] = 0
             write_database_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], account)
             instance_uc = UserDataControl(write_database_dst)
-            instance_uc.merge_dicts(student_dict, None)
-            instance_uc.create()
+            instance_uc.create(student_dict)
         elif is_sure_to_register == "N":
             pass
         else:

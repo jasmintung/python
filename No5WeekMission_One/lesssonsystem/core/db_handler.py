@@ -63,6 +63,7 @@ class UserDataControl(DataControl):
 
     def __init__(self, dst):
         self.dst = dst
+        self.user_data = None
         super(UserDataControl, self).__init__(dst)
 
     def account_auth(self, *args):
@@ -90,13 +91,21 @@ class UserDataControl(DataControl):
             login_statue = 2  # 账户不存在
         return login_statue
 
-    def create(self):
-        pass
+    def create(self, *args):
+        """
+
+        :param args: args表示传入的要创建的人员信息
+        :return:
+        """
+        with open(self.dst, "w", encoding="utf-8") as wf:
+            if self.user_data is None:
+                pickle.dump(args, wf)
+            else:
+                pickle.dump(self.user_data, wf)
 
     def read(self):
         with open(self.dst, "r", encoding="utf-8") as rf:
-            user_dict = pickle.load(rf)
-            return user_dict
+            self.user_data = pickle.load(rf)
 
 # 以下针对db/course_choosing_sys_db/目录下的数据信息
 
@@ -120,7 +129,7 @@ class TeacherDataControl(DataControl):
 
     def read(self):
         """
-        获取讲师整个文件内容)
+        获取讲师整个文件内容
         """
         if os.path.exists(TeacherDataControl.ccsys_teacher_dst) is True:
             with open(TeacherDataControl.ccsys_teacher_dst, "r", encoding="utf-8") as rf:

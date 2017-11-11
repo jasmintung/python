@@ -54,14 +54,13 @@ class TeacherModule(object):
             account = input("请输入用户名:")
             password = input("请输入密码:")
             teacher_dict = {}
-            teacher_dict["id"] = "tc00408"  # 后面加入ID唯一性处理
+            teacher_dict["id"] = "tc00408"  # 这里根据/db/user_db/tcid_db文件里面讲师已存在ID进行ID分配
             teacher_dict["name"] = account
             teacher_dict["password"] = password
             teacher_dict["Register"] = 0
             write_database_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_2"], account)
             instance_uc = UserDataControl(write_database_dst)
-            instance_uc.merge_dicts(teacher_dict, None)
-            instance_uc.create()
+            instance_uc.create(teacher_dict)
         elif is_sure_to_register == "N":
             pass
         else:

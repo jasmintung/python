@@ -19,13 +19,23 @@ def run():
             print("选择不正确哦!")
             continue
         print(instance_type)
-        role_name = role_select(instance_type)
-        if role_name == 2:  # 进入账户注册环节, 仅适用与学员 讲师
-            instance_type.register()
+        login_result = role_select(instance_type)
+
+        if login_result[0] == 2:  # 进入账户注册环节, 仅适用与学员 讲师
+            role_register(instance_type)
+        elif login_result[0] == 0:  # 将当前登陆的用户名传入用户操作接口
+            role_operation(instance_type, login_result[1])
         else:
-            instance_type.control_operation(role_name)
+            pass
 
 
 def role_select(obj):
     return obj.auth()
 
+
+def role_register(obj):
+    obj.register()
+
+
+def role_operation(obj, role_name):
+    obj.control_operation(role_name)
