@@ -27,6 +27,7 @@ file_dst = settings.FILE_BASE
 class TeacherModule(object):
     def __int__(self):
         self.name = None
+        self.tc_login_result = None
 
     def func_control(self, args):
         func_dict = {1: self.go_to_class, 2: self.view_students_info, 3: self.give_student_score}
@@ -42,11 +43,15 @@ class TeacherModule(object):
             else:
                 print("编号输入错误")
 
+    def login_result(self):
+        return self.tc_login_result
+
     @login_deco(2)
     def auth(self):
         # 登陆
         instance_am = AuthModule(2)
-        return instance_am.login()
+        self.tc_login_result = instance_am.login()
+        print(self.tc_login_result)
 
     def register(self):  # 账户注册
         is_sure_to_register = input("是否进行注册? Y/N").strip()

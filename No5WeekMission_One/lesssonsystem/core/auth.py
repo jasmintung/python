@@ -28,11 +28,12 @@ class AuthModule(object):
 
     def acc_auth(self, account, password):
         # 读取账户数据库判断是否有
+        print("role type is: %d" % self.role)
         if self.role == 0:
-            instance_admin = AdminDataControl()
+            instance_admin = AdminDataControl(None)
             return instance_admin.account_auth(account, password)
         else:
-            instance_user = UserDataControl()
+            instance_user = UserDataControl(None)
             return instance_user.account_auth(self.role, account, password)
 
     def login(self):
@@ -54,6 +55,7 @@ class AuthModule(object):
             is_login_statue = self.acc_auth(account, password)
             if is_login_statue == 0:
                 print("欢迎光临本选课系统!")
+                break
             elif is_login_statue == 1:
                 print("\033[36;1m用户名或者密码错误!\033[0m")
                 retry_count += 1

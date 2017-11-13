@@ -1,5 +1,6 @@
 import os
 import pickle
+import json
 import copy
 from conf import settings
 file_dst = settings.FILE_BASE
@@ -7,11 +8,11 @@ file_dst = settings.FILE_BASE
 
 class DataControl(object):
 
-    def __init__(self, dst):
-        self.dst = dst
+    def __init__(self, args):
+        self.dst = None
         self.write_file_data = None
 
-    def create(self):  # 创建
+    def create(self , args):  # 创建
         with open(self.dst, "w", encoding="utf-8") as wf:
             pickle.dump(self.write_file_data, wf)
 
@@ -31,10 +32,10 @@ class DataControl(object):
 
 class AdminDataControl(DataControl):
 
-    def __init__(self):
-        super(AdminDataControl, self).__init__()
+    def __init__(self, args):
+        super(AdminDataControl, self).__init__(args)
 
-    def create(self):
+    def create(self, args):
         pass
 
     def account_auth(self, *args):
@@ -47,10 +48,12 @@ class AdminDataControl(DataControl):
         admin_db_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name1"], file_dst["admin_file_name"])
         if os.path.exists(admin_db_dst) is True:
             with open(admin_db_dst, "r", encoding="utf-8") as rf:
-                admin_account_data = pickle.load(rf)
+                admin_account_data = json.load(rf)
                 print(admin_account_data)
                 for i in admin_account_data:
-                    if args[0] in admin_account_data[i] and args[1] in admin_account_data[i]:
+                    admin_list = admin_account_data.get(i)
+                    print(args[0], args[1], admin_list)
+                    if args[0] in admin_list and args[1] in admin_list:
                         login_statue = 0
         else:
             print("文件不存在!")
@@ -61,10 +64,10 @@ class AdminDataControl(DataControl):
 
 class UserDataControl(DataControl):
 
-    def __init__(self, dst):
-        self.dst = dst
+    def __init__(self, args):
+        super(UserDataControl, self).__init__(args)
         self.user_data = None
-        super(UserDataControl, self).__init__(dst)
+        self.dst = args
 
     def account_auth(self, *args):
         """
@@ -80,7 +83,7 @@ class UserDataControl(DataControl):
         elif args[0] == 2:  # 讲师
             user_db_dst = "%s/%s/%s" % (user_db_dir, file_dst["dir_name3_2"], args[1])
         if os.path.exists(user_db_dst) is True:  # 用户存在
-            with open(user_db_dst, "r", encoding="utf-8") as rf:
+            with open(user_db_dst, "rb") as rf:
                 user_data = pickle.load(rf)
                 print(user_data)
                 if user_data["name"] == args[1] and user_data["password"] == args[2]:
@@ -91,20 +94,22 @@ class UserDataControl(DataControl):
             login_statue = 2  # 账户不存在
         return login_statue
 
-    def create(self, *args):
+    def create(self, args):
         """
 
         :param args: args表示传入的要创建的人员信息
         :return:
         """
-        with open(self.dst, "w", encoding="utf-8") as wf:
+        print(args)
+        print(self.user_data)
+        with open(self.dst, "wb") as wf:
             if self.user_data is None:
                 pickle.dump(args, wf)
             else:
                 pickle.dump(self.user_data, wf)
 
     def read(self):
-        with open(self.dst, "r", encoding="utf-8") as rf:
+        with open(self.dst, "rb") as rf:
             self.user_data = pickle.load(rf)
 
 # 以下针对db/course_choosing_sys_db/目录下的数据信息
@@ -118,13 +123,13 @@ class TeacherDataControl(DataControl):
 
     ccsys_teacher_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["teacher_file_name"])
 
-    def create(self, *args):
+    def create(self, args):
         """
         创建讲师
         :param args: 0: 学校, 1: 讲师
         :return: 创建结果
         """
-        with open(self.dst, "w", encoding="utf-8") as wf:
+        with open(self.dst, "wb") as wf:
             pickle.dump(self.teacher_data, wf)
 
     def read(self):
@@ -145,12 +150,12 @@ class SchoolDataControl(DataControl):
         self.dst = args
     ccsys_school_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["school_file_name"])
 
-    def create(self):
+    def create(self, args):
         """
         创建学校
         :return: 创建结果
         """
-        with open(SchoolDataControl.ccsys_school_dst, "w", encoding="uft-8") as wf:
+        with open(SchoolDataControl.ccsys_school_dst, "wb") as wf:
             pickle.dump(self.school_data, wf)
 
     def read(self):
@@ -175,19 +180,19 @@ class ClassDataControl(DataControl):
         self.write_file_data = None
     ccsys_class_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["class_file_name"])
 
-    def create(self):
+    def create(self, args):
         """
         创建班
         :return:
         """
-        with open(ClassDataControl.ccsys_class_dst, "w", encoding="utf-8") as wf:
+        with open(ClassDataControl.ccsys_class_dst, "wb") as wf:
             pickle.dump(self.class_data, wf)
 
     def read(self):
         """
         获取班级文件
         """
-        with open(ClassDataControl.ccsys_class_dst, "r", encoding="utf-8") as rf:
+        with open(ClassDataControl.ccsys_class_dst, "rb") as rf:
             self.class_data = pickle.load(rf)
             print(self.class_data)
 
@@ -210,12 +215,12 @@ class CourseDataControl(DataControl):
         self.dst = args
     ccsys_course_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["course_file_name"])
 
-    def create(self):
+    def create(self, args):
         """
         创建课程
         :return:
         """
-        with open(self.dst, "w", encoding="utf-8") as wf:
+        with open(self.dst, "wb") as wf:
             pickle.dump(self.course_data, wf)
 
     def read(self):
@@ -224,7 +229,7 @@ class CourseDataControl(DataControl):
         :param args: args0: 学校, args1: 0 or 1
         :return:0: 课程列表, 1 整个文件内容
         """
-        with open(CourseDataControl.ccsys_course_dst, "r", encoding="utf-8") as rf:
+        with open(CourseDataControl.ccsys_course_dst, "rb") as rf:
             self.course_data = pickle.load(rf)
             print(self.course_data)
 
@@ -239,13 +244,13 @@ class StudentDataControl(DataControl):
 
     ccsys_student_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["student_file_name"])
 
-    def create(self, *args):
+    def create(self, args):
         """
         创建学生
         :param args:文件地址
         :return:
         """
-        with open(StudentDataControl.ccsys_student_dst, "w", encoding="utf-8") as wf:
+        with open(StudentDataControl.ccsys_student_dst, "wb") as wf:
             pickle.dump(self.write_file_data, wf)
 
     def merge_dicts(self, x):
@@ -262,6 +267,6 @@ class StudentDataControl(DataControl):
         """
         获取整个文件内容
         """
-        with open(StudentDataControl.ccsys_student_dst, "r", encoding="utf-8") as rf:
+        with open(StudentDataControl.ccsys_student_dst, "rb") as rf:
             self.student_data = pickle.load(rf)
             print(self.student_data)

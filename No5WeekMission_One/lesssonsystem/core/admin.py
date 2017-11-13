@@ -19,17 +19,21 @@ dict1 = {"0001": "admin1", "0002": "admin2", "0003": "admin3"}
 class AdminModule(object):
     def __int__(self):
         self.school_name = None
-
+        self.ad_login_result = None
     school_id = 1
+
+    def login_result(self):
+        return self.ad_login_result
 
     @login_deco(8)
     def auth(self):
         # 登陆
         instance_am = AuthModule(0)
-        return instance_am.login()
+        self.ad_login_result = instance_am.login()
+        print(self.ad_login_result)
 
     def func_control(self, args):
-        func_dict = {1: self.create_school, 2: self.create_class, 3: self.create_student, 4: self.create_course}
+        func_dict = {1: self.create_school, 2: self.create_class, 3: self.create_teacher, 4: self.create_course}
         if args in func_dict:
             func_dict[args]()
         else:

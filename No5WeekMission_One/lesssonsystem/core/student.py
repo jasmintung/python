@@ -26,6 +26,7 @@ class StudentModule(object):
         self.name = None
         self.school_name = None
         self.class_name = None
+        self.st_login_result = None
 
     def func_control(self, args):
         func_dict = {1: self.register_course_system, 2: self.check_personal_socre}
@@ -42,11 +43,15 @@ class StudentModule(object):
             else:
                 print("编号输入错误")
 
+    def login_result(self):
+        return self.st_login_result
+
     @login_deco(1)
     def auth(self):
         # 登陆
         instance_am = AuthModule(1)
-        return instance_am.login()
+        self.st_login_result = instance_am.login()
+        print(self.st_login_result)
 
     def register(self):  # 账户注册
         is_sure_to_register = input("是否进行注册? Y/N").strip()
