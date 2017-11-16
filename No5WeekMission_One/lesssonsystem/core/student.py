@@ -1,5 +1,6 @@
 # -*-coding=utf-8-*-
 __author__ = 'zhangtong'
+import sys
 '''
 Contact: puzexiong@163.com
 '''
@@ -8,8 +9,8 @@ Contact: puzexiong@163.com
 # 账号数据库(唯一编号,姓名, 注册标识)
 dict1 = {"id": "st00408", "name": "杰森斯坦森", "password": "123456", "Register": 0}
 # 选课数据库学员表
-dict2 = {"大连": {"0001": ["Jack", "一班"], "0002": ["李老大", "二班"]},
-         "广州": {"0001": ["习大大", "一班"], "0002": ["王大雷", "二班"]}}
+dict2 = {"大连": {"st00408": {"姓名": "Jack", "班级": "一班"}, "st00409": {"姓名": "李老大", "班级": "二班"}},
+         "广州": {"st00001": {"姓名": "习大大", "班级": "一班"}, "st00301": {"姓名": "王大雷", "班级": "二班"}}}
 
 from core.auth import AuthModule
 from core.auth import login_deco
@@ -27,21 +28,35 @@ class StudentModule(object):
         self.school_name = None
         self.class_name = None
         self.st_login_result = None
+        self.st_id = 0
+
+    ccsys_school_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["school_file_name"])
 
     def func_control(self, args):
-        func_dict = {1: self.register_course_system, 2: self.check_personal_socre}
-        if args in func_dict:
-            instance_sm = SchoolModule()
-            school_dict = instance_sm.get_school_list()
-            print("请选择学校(根据编号)")
-            for school in school_dict:
-                print("编号: %d 学校: %s" % (school, school_dict[school]))
-            usr_chose_school_id = int(input())
-            if usr_chose_school_id in school_dict:
-                self.school_name = school_dict[usr_chose_school_id]
-                return func_dict[args]()
+        func_dict = {1: self.register_course_system, 2: self.check_personal_socre, 0: self.quit}
+        if args == 0:
+            func_dict[0]()
+        else:
+            if args in func_dict:
+                instance_sm = SchoolModule(StudentModule.ccsys_school_dst)
+                instance_sm.search_school_data()
+                school_dict = instance_sm.get_school_data()
+                print(type(school_dict))
+                if school_dict is None:
+                    print("目前还没有学校可以选择!")
+                else:
+                    print(school_dict)
+                    print("请选择学校(根据编号)")
+                    for school in school_dict:
+                        print("编号: %d 学校: %s" % (school, school_dict[school]))
+                    usr_chose_school_id = int(input())
+                    if usr_chose_school_id in school_dict:
+                        self.school_name = school_dict[usr_chose_school_id]
+                        return func_dict[args]()
+                    else:
+                        print("\033[33;1m学校选择错误!\033[0m")
             else:
-                print("编号输入错误")
+                print("\033[33;1m编号输入错误!\033[0m")
 
     def login_result(self):
         return self.st_login_result
@@ -52,6 +67,10 @@ class StudentModule(object):
         instance_am = AuthModule(1)
         self.st_login_result = instance_am.login()
         print(self.st_login_result)
+
+    def quit(self):
+        print("退出程序!")
+        sys.exit()
 
     def register(self):  # 账户注册
         is_sure_to_register = input("是否进行注册? Y/N").strip()
@@ -72,18 +91,17 @@ class StudentModule(object):
             pass
 
     def control_operation(self, name):
-        self.name = name
-        operation_info = """
-                        请选择:
-                        1. 开始选课
-                        2. 查询成绩
-                        """
-        print(operation_info)
-        input_operation = int(input().strip(">>"))
-        if self.func_control(input_operation):
-            pass
-        else:
-            print("选择不正确")
+        while True:
+            self.name = name
+            operation_info = """
+                            请选择:
+                            1. 开始选课
+                            2. 查询成绩
+                            0. 退出
+                            """
+            print(operation_info)
+            input_operation = int(input().strip(">>"))
+            self.func_control(input_operation)
 
     def register_course_system(self):  # 择校择班后进行 注册
         """
@@ -98,11 +116,13 @@ class StudentModule(object):
             print("您已选过课程了")
         else:
             # 选择学校,班级
-            class_list = ClassModule.get_class_list(self.school_name)
-            print(class_list[:])
+            instance_cs = ClassModule(self.school_name)
+            instance_cs.search_class_data()
+            class_dict = instance_cs.get_Class_data()
+            print(class_dict)
             print("请选择班级(根据班级全名)")
             usr_chose_class = input()
-            if usr_chose_class in class_list:
+            if usr_chose_class in class_dict[self.school_name]:
                 print("选择正确,是否注册当前班级?")
                 is_register = input("Y/N")
                 if is_register == 'Y':

@@ -13,8 +13,6 @@ dict2 = {"北京": ["Alex", "武配齐"],
 from core.auth import login_deco
 from core.auth import AuthModule
 from core.school import SchoolModule
-from core.classes import ClassModule
-from core.student import StudentModule
 from core.db_handler import UserDataControl
 from core.db_handler import TeacherDataControl
 from core.db_handler import ClassDataControl
@@ -25,23 +23,40 @@ file_dst = settings.FILE_BASE
 
 
 class TeacherModule(object):
-    def __int__(self):
-        self.name = None
+    def __init__(self, args):
+        self.obj = None
+        self.school_name = args
+        self.teacher_name = None
         self.tc_login_result = None
+        self.teacher_data = {}
+
+    ccsys_teacher_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["teacher_file_name"])
 
     def func_control(self, args):
-        func_dict = {1: self.go_to_class, 2: self.view_students_info, 3: self.give_student_score}
-        if args in func_dict:
-            instance_sm = SchoolModule()
-            school_dict = instance_sm.get_school_list()
-            print("请选择学校(根据编号)")
-            for school in school_dict:
-                print("编号: %d 学校: %s" % (school, school_dict[school]))
-            usr_chose_school_id = int(input())
-            if usr_chose_school_id in school_dict:
-                return func_dict[args]()
+        func_dict = {1: self.go_to_class, 2: self.view_students_info, 3: self.give_student_score, 0: self.quit}
+        if args == 0:
+            func_dict[0]()
+        else:
+            if args in func_dict:
+                instance_sm = SchoolModule()
+                instance_sm.search_school_data()
+                school_dict = instance_sm.get_schoolModule_data()
+                print(type(school_dict))
+                if school_dict is None:
+                    print("目前还没有学校可以选择!")
+                else:
+                    print(school_dict)
+                    print("请选择学校(根据编号)")
+                    for school in school_dict:
+                        print("编号: %d 学校: %s" % (school, school_dict[school]))
+                    usr_chose_school_id = int(input())
+                    if usr_chose_school_id in school_dict:
+                        self.school_name = school_dict[usr_chose_school_id]
+                        return func_dict[args]()
+                    else:
+                        print("\033[33;1m学校选择错误!\033[0m")
             else:
-                print("编号输入错误")
+                print("\033[33;1m编号输入错误!\033[0m")
 
     def login_result(self):
         return self.tc_login_result
@@ -52,6 +67,9 @@ class TeacherModule(object):
         instance_am = AuthModule(2)
         self.tc_login_result = instance_am.login()
         print(self.tc_login_result)
+
+    def quit(self):
+        exit()
 
     def register(self):  # 账户注册
         is_sure_to_register = input("是否进行注册? Y/N").strip()
@@ -72,28 +90,27 @@ class TeacherModule(object):
             pass
 
     def control_operation(self, name):
-        self.name = name
-        operation_info = """
-                请选择:
-                1. 选择授课班级
-                2. 浏览学员信息
-                3. 考核
-                """
-        print(operation_info)
-        input_operation = int(input().strip(">>"))
-        if self.func_control(input_operation):
-            pass
-        else:
-            print("选择不正确")
+        while True:
+            self.teacher_name = name
+            operation_info = """
+                    请选择:
+                    1. 选择授课班级
+                    2. 浏览学员信息
+                    3. 考核
+                    0. 退出
+                    """
+            print(operation_info)
+            input_operation = int(input().strip(">>"))
+            self.func_control(input_operation)
 
-    def check_exists(self, args):
-        # 检查要创建的讲师是否已经存在dict1
+    def check_exists(self):
         is_exists = False
-        # 数据库查询
+        print(self.teacher_data)
+        if self.teacher_data is not None:
+            if self.school_name in self.teacher_data:
+                if self.teacher_name in self.teacher_data[self.school_name]:  # 这里进行数据查询
+                    is_exists = True
         return is_exists
-
-    def add_teacher(self, *args):  # 创建讲师
-        pass
 
     def go_to_class(self, *args):  # 选择上课班级
         instance_tc_data_c = TeacherDataControl()
@@ -102,7 +119,7 @@ class TeacherModule(object):
             print(school)
         usr_chose_school_name = input("请选择校区:")
         if usr_chose_school_name in instance_tc_data_c.teacher_data:  # 判断讲师是否已经在被管理员创建关联的学校里面
-            if self.name in instance_tc_data_c[usr_chose_school_name]:
+            if self.teacher_name in instance_tc_data_c[usr_chose_school_name]:
                 instance_cs_data_c = ClassDataControl()
                 instance_cs_data_c.read()
                 for class_name in instance_cs_data_c.class_data[usr_chose_school_name]:
@@ -112,7 +129,7 @@ class TeacherModule(object):
                 if usr_chose_class_name in instance_cs_data_c.class_data[usr_chose_school_name]:
                     print("选择完成")
                     # 更新 选课数据库班级表, 更新 选课数据库讲师表
-                    instance_cs_data_c.merge_dicts(usr_chose_school_name, usr_chose_class_name, "讲师", self.name)
+                    instance_cs_data_c.merge_dicts(usr_chose_school_name, usr_chose_class_name, "讲师", self.teacher_name)
                 else:
                     print("\033[36;1m班级输入不正确\033[0m")
             else:
@@ -140,3 +157,36 @@ class TeacherModule(object):
 
     def give_student_score(self, *args):  # 给学员打分, 暂时未开发完成
         pass
+
+    def search_teacher_data(self):
+        instance_tc = TeacherDataControl(TeacherModule.ccsys_teacher_dst)
+        self.obj = instance_tc
+        instance_tc.read()
+        self.teacher_data = instance_tc.get_teacher_data()
+
+    def add_teacher(self):
+        dict_teacher = {}
+        teacher_list = []
+        while True:
+            teacher_name = input("输入要在\"%s\"校区创建的\"讲师\"名字 回车继续 输入 'Q' 结束" % self.school_name)
+            if teacher_name == 'Q':
+                break
+            teacher_list.append(teacher_name)
+
+        if self.teacher_data is None:
+            print("首次创建讲师哦!")
+            dict_teacher[self.school_name] = teacher_list
+            self.obj.set_teacher_data(dict_teacher)
+        else:
+            if self.school_name in self.teacher_data:  # 该校区已经创建过讲师
+                self.teacher_data[self.school_name] = list(set(self.teacher_data[self.school_name] + teacher_list))
+            else:
+                self.teacher_data[self.school_name] = teacher_list
+            self.obj.set_teacher_data(self.teacher_data)
+        self.obj.create(None)
+
+    def get_teacher_name(self):
+        return self.teacher_name
+
+    def set_teacher_name(self, teacher_name):
+        self.teacher_name = teacher_name

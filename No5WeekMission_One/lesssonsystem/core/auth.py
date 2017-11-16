@@ -64,7 +64,7 @@ class AuthModule(object):
                 break
         else:
             # 日志记录,并强制退出
-            exit()
+            exit("\033[32;1m您尝试登陆次数过多,被强制踢出!\033[0m")
         return is_login_statue, account
 
 

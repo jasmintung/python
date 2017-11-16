@@ -3,6 +3,9 @@ __author__ = 'zhangtong'
 '''
 Contact: puzexiong@163.com
 '''
+from core.db_handler import SchoolDataControl
+from conf import settings
+file_dst = settings.FILE_BASE
 # 学校类
 # 学校类数据结构
 dict1 = {1: "北京", 2: "广州", 3: "深圳", 4: "上海", 5: "大连", 6: "杭州", 7: "成都", 8: "武汉", 9: "沈阳"}
@@ -16,24 +19,59 @@ list1 = ["1312", "1312", "fasfasd"]
 
 
 class SchoolModule(object):
-    def __int__(self, name):
-        self.name = name
+    def __init__(self, args):
+        self.school_name = args
+        self.school_data = {}
+        self.obj = None
+    schoo_id = 0
+    ccsys_school_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["school_file_name"])
 
     def check_exists(self):
-        # 检查要创建的学校是否已经存在dict1
+        # 检查要创建的学校是否已经存在
         is_exists = False
-        if self.name == "北京":  # 这里进行数据查询
-            is_exists = True
+        print(self.school_data)
+        if self.school_data is not None:
+            for school_id in self.school_data:
+                if self.school_name == self.school_data[school_id]:  # 这里进行数据查询
+                    is_exists = True
         return is_exists
 
-    def add_school(self, name):
+    def add_school(self):
         # 新增学校
-        self.name = name
+        self.search_school_data()
+        school_dict = {}
+        if self.school_data is None:
+            print("首次添加学校哦!")
+            SchoolModule.schoo_id += 1
+        else:
+            for key in self.school_data:
+                print(self.school_data.get(key))
+                if self.school_name == self.school_data.get(key):
+                    print("学校已存在不要重复添加!")
+                    return 0
+            SchoolModule.schoo_id += 1
+            self.school_data[SchoolModule.schoo_id] = self.school_name
+        print("add_school")
+        school_dict[SchoolModule.schoo_id] = self.school_name
+        if SchoolModule.schoo_id == 1:
+            self.obj.set_school_data(school_dict)
+        else:
+            self.obj.set_school_data(self.school_data)
+        self.obj.create(None)
+        return 0
 
     def get_school_name(self):
-        return self.name
+        return self.school_name
 
-    def get_school_list(self):
-        school_list = []
-        return school_list
+    def set_school_name(self, school_name):
+        self.school_name = school_name
+
+    def get_school_data(self):
+        return self.school_data
+
+    def search_school_data(self):
+        instance_sc = SchoolDataControl(SchoolModule.ccsys_school_dst)
+        self.obj = instance_sc
+        instance_sc.read()
+        self.school_data = instance_sc.get_school_data()
 

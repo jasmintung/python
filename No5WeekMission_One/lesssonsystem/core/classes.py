@@ -3,6 +3,11 @@ __author__ = 'zhangtong'
 '''
 Contact: puzexiong@163.com
 '''
+from core.db_handler import ClassDataControl
+from conf import settings
+from core.teacher import TeacherModule
+from core.course import CourseModule
+file_dst = settings.FILE_BASE
 # 班级类
 # 选课数据库班级表
 dict1 = {"成都": {"一班": {"课程": ["JAVA", "Android", "Unity3D", "Python"],
@@ -13,8 +18,10 @@ dict1 = {"成都": {"一班": {"课程": ["JAVA", "Android", "Unity3D", "Python"
 
 
 class ClassModule(object):
-    def __int__(self, school_name):
+    def __init__(self, school_name):
         self.school_name = school_name
+        self.class_data = {}
+    ccsys_class_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["class_file_name"])
 
     def check_exists(self):  # 后面可考虑做成接口
         # 检查要创建的班级是否已经存在dict1
@@ -22,10 +29,76 @@ class ClassModule(object):
         # 数据库查询
         return is_exists
 
-    def add_class(self, *args):  # 传进来的args是以key-value形式传进来
-        # 创建班级
-        pass
+    def get_Class_data(self):
+        return self.class_data
 
-    def get_class_list(self, *args):  # args: 学校名字
-        pass
+    def search_class_data(self):
+        instance_cs = ClassDataControl(ClassModule.ccsys_class_dst)
+        self.obj = instance_cs
+        instance_cs.read()
+        self.class_data = instance_cs.get_class_data()
+        print(self.class_data)
 
+    def add_class(self):  # 增加班级的时候,目前课程，讲师列表必须写入信息,如果还没有能够录入的班级和讲师则提示不能创建班级
+        dict_class = {}
+        class_name = input("输入要创建或修改的班级名称")
+        course_list = []
+        instance_t_course = CourseModule(self.school_name)
+        instance_t_course.search_course_data()
+        while True:  # 这里要加个判断,判断即将修改或者添加的 课程 有没有在这个校区创建过,没有创建过提示不能添加!
+            print("请输入要添加或者修改\"%s\"的课程,回车继续, 输入 'Q' 结束" % class_name)
+            course = input()
+            if course == 'Q':
+                break
+            instance_t_course.set_course_name(course)
+            if instance_t_course.check_exists() is True:
+                course_list.append(course)
+            else:
+                print("\033[34;1m该课程还未创建!\033[0m")
+        teacher_list = []
+        instance_t_teacher = TeacherModule(self.school_name)
+        instance_t_teacher.search_teacher_data()
+
+        while True:  # 这里要加个判断,判断即将修改或者添加的 讲师 有没有在这个校区创建过,没有创建过提示不能添加!
+            print("请输入要添加或者修改\"%s\"的讲师,回车继续 输入 'Q' 结束" % class_name)
+            teacher = input()
+            if teacher == 'Q':
+                break
+            instance_t_teacher.set_teacher_name(teacher)
+            if instance_t_teacher.check_exists() is True:
+                teacher_list.append(teacher)
+            else:
+                print("\033[34;1m该讲师还未创建!\033[0m")
+        #  相同的合并,不相同的累加
+        class_dict = {}
+        class_info_dict = {}
+        class_info_dict["课程"] = course_list
+        class_info_dict["讲师"] = teacher_list
+        if self.class_data is None:  # ok
+            print("首次创建班级")
+            class_dict[class_name] = class_info_dict
+            dict_class[self.school_name] = class_dict
+            self.obj.set_class_data(dict_class)
+        else:
+            if self.school_name in self.class_data:  # 班级数据库有这个校区了   ok
+                if self.class_data[self.school_name].get(class_name) is None:  # 这个校区还没有要创建的班级
+                    self.class_data[self.school_name][class_name] = class_info_dict
+                else:  # 这个校区已经存在要创建的班级了,所以实际做更新班级信息处理
+                    class_dict[class_name] = class_info_dict
+                    dict_class[self.school_name] = class_dict
+                    dict_class[self.school_name][class_name]["课程"] = \
+                        self.class_data[self.school_name].get(class_name).get("课程") + course_list
+
+                    self.class_data[self.school_name][class_name]["课程"] = \
+                        list(set(dict_class[self.school_name][class_name]["课程"]))
+
+                    dict_class[self.school_name][class_name]["讲师"] = \
+                        self.class_data[self.school_name].get(class_name).get("讲师") + teacher_list
+
+                    self.class_data[self.school_name][class_name]["讲师"] = \
+                        list(set(dict_class[self.school_name][class_name]["讲师"]))
+            else:  # ok
+                class_dict[class_name] = class_info_dict
+                self.class_data[self.school_name] = class_dict
+            self.obj.set_class_data(self.class_data)
+        self.obj.create(None)
