@@ -5,11 +5,6 @@ Contact: puzexiong@163.com
 '''
 # 管理员类
 
-from core.db_handler import TeacherDataControl
-from core.db_handler import ClassDataControl
-from core.db_handler import SchoolDataControl
-from core.db_handler import StudentDataControl
-from core.db_handler import CourseDataControl
 from core.auth import login_deco
 from core.auth import AuthModule
 from core.school import SchoolModule
@@ -34,7 +29,6 @@ class AdminModule(object):
         # 登陆
         instance_am = AuthModule(0)
         self.ad_login_result = instance_am.login()
-        print(self.ad_login_result)
 
     def quit(self):
         exit()
@@ -48,7 +42,7 @@ class AdminModule(object):
             if args in func_dict:
                 func_dict[args]()
             else:
-                print("\033[33;1m选择错误!\033[0m")
+                print("\033[33;1m没有这个选项!\033[0m")
 
     def control_operation(self, name):
         while True:
@@ -62,14 +56,22 @@ class AdminModule(object):
                     0. 退出
                     """
             print(operation_info)
-            input_operation = int(input().strip(">>"))
-            self.func_control(input_operation)
+            input_operation = input()
+            if input_operation.isdigit():
+                self.func_control(int(input_operation))
+            else:
+                print("\033[33;1m输入不正确!\033[0m")
 
     def create_school(self):  # OK
         # 创建学校
         school_name = input("输入学校名称:")
         instance_t_school = SchoolModule(school_name)
-        instance_t_school.add_school()
+        instance_t_school.search_school_data()
+
+        if instance_t_school.check_exists() is True:
+            print("\033[32;1m学校已经存在了,不能重复添加!\033[0m")
+        else:
+            instance_t_school.add_school()
 
     def create_class(self):  # OK
         # 创建班级

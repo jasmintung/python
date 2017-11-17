@@ -14,5 +14,7 @@ FILE_BASE = {
     "course_file_name": "course.db",
     "school_file_name": "school.db",
     "student_file_name": "student.db",
-    "teacher_file_name": "teacher.db"
+    "teacher_file_name": "teacher.db",
+    "student_id_name": "stid_db",
+    "teacher_id_name": "tcid_db"
 }

@@ -1,11 +1,7 @@
 import random
 from core.db_handler import AdminDataControl
 from core.db_handler import UserDataControl
-from core.db_handler import TeacherDataControl
-from core.db_handler import SchoolDataControl
-from core.db_handler import ClassDataControl
-from core.db_handler import CourseDataControl
-from core.db_handler import StudentDataControl
+
 
 class AuthModule(object):
     def __init__(self, role):  # 当前是哪个角色在进行登录验证0: 管理员, 1: 学生, 2: 讲师
@@ -28,7 +24,6 @@ class AuthModule(object):
 
     def acc_auth(self, account, password):
         # 读取账户数据库判断是否有
-        print("role type is: %d" % self.role)
         if self.role == 0:
             instance_admin = AdminDataControl(None)
             return instance_admin.account_auth(account, password)

@@ -49,10 +49,8 @@ class AdminDataControl(DataControl):
         if os.path.exists(admin_db_dst) is True:
             with open(admin_db_dst, "r", encoding="utf-8") as rf:
                 admin_account_data = json.load(rf)
-                print(admin_account_data)
                 for i in admin_account_data:
                     admin_list = admin_account_data.get(i)
-                    print(args[0], args[1], admin_list)
                     if args[0] in admin_list and args[1] in admin_list:
                         login_statue = 0
         else:
@@ -85,7 +83,6 @@ class UserDataControl(DataControl):
         if os.path.exists(user_db_dst) is True:  # 用户存在
             with open(user_db_dst, "rb") as rf:
                 user_data = pickle.load(rf)
-                print(user_data)
                 if user_data["name"] == args[1] and user_data["password"] == args[2]:
                     login_statue = 0  # 账户匹配
                 elif user_data["name"] == args[1] and user_data["password"] != args[2]:
@@ -94,23 +91,38 @@ class UserDataControl(DataControl):
             login_statue = 2  # 账户不存在
         return login_statue
 
+    def check_user_exists(self):
+        """
+        查看账户是否存在
+        :return:
+        """
+        print(self.dst)
+        return os.path.exists(self.dst) is True  # 用户存在
+
     def create(self, args):
         """
 
         :param args: args表示传入的要创建的人员信息
         :return:
         """
-        print(args)
-        print(self.user_data)
         with open(self.dst, "wb") as wf:
             if self.user_data is None:
+                print(args)
                 pickle.dump(args, wf)
             else:
+                print(self.user_data)
                 pickle.dump(self.user_data, wf)
 
     def read(self):
         with open(self.dst, "rb") as rf:
-            self.user_data = pickle.load(rf)
+            if os.path.getsize(self.dst) != 0:
+                self.user_data = pickle.load(rf)
+
+    def get_user_data(self):
+        return self.user_data
+
+    def set_user_data(self, args):
+        self.user_data = args
 
 # 以下针对db/course_choosing_sys_db/目录下的数据信息
 
@@ -143,12 +155,10 @@ class SchoolDataControl(DataControl):  # 学校类
         :param args:
         :return: 学校列表
         """
-
         if os.path.exists(self.dst) is True:
             with open(self.dst, "rb") as rf:
                 if os.path.getsize(self.dst) != 0:
                     self.school_data = pickle.load(rf)
-                    print(self.school_data)
 
 
 class ClassDataControl(DataControl):  # 班级类
@@ -233,9 +243,7 @@ class StudentDataControl(DataControl):  # 学员类
         super(StudentDataControl, self).__init__(args)
         self.student_data = None
         self.school_name = None
-        self.write_file_data = None
-
-    ccsys_student_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["student_file_name"])
+        self.dst = args
 
     def create(self, args):
         """
@@ -243,26 +251,24 @@ class StudentDataControl(DataControl):  # 学员类
         :param args:文件地址
         :return:
         """
-        with open(StudentDataControl.ccsys_student_dst, "wb") as wf:
-            pickle.dump(self.write_file_data, wf)
+        with open(self.dst, "wb") as wf:
+            print(self.student_data)
+            pickle.dump(self.student_data, wf)
 
-    def merge_dicts(self, x):
-        """
+    def set_student_data(self, args):
+        self.student_data = args
 
-        :param x: 要合并的字典
-        :return:
-        """
-        z = copy.deepcopy(self.student_data)
-        z[self.school_name].update(x[self.school_name])
-        self.write_file_data = z
+    def get_student_data(self):
+        return self.student_data
 
     def read(self):
         """
         获取整个文件内容
         """
-        with open(StudentDataControl.ccsys_student_dst, "rb") as rf:
-            self.student_data = pickle.load(rf)
-            print(self.student_data)
+        with open(self.dst, "rb") as rf:
+            if os.path.getsize(self.dst) != 0:
+                self.student_data = pickle.load(rf)
+                print(self.student_data)
 
 
 class TeacherDataControl(DataControl):  # 讲师类

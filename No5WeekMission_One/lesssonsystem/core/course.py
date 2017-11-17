@@ -42,7 +42,6 @@ class CourseModule(object):
         course_dict = {}
         course_school_dict = {}
         while True:
-            # course_id = str(current_course_id).rjust(6, "0")
             course_info_dict = {}
             course_name = input("输入课程名称:")
             course_cycle = input("输入课程周期(月):")

@@ -3,9 +3,9 @@ __author__ = 'zhangtong'
 '''
 Contact: puzexiong@163.com
 '''
-from core.db_handler import SchoolDataControl
 from conf import settings
 file_dst = settings.FILE_BASE
+from core.db_handler import SchoolDataControl
 # 学校类
 # 学校类数据结构
 dict1 = {1: "北京", 2: "广州", 3: "深圳", 4: "上海", 5: "大连", 6: "杭州", 7: "成都", 8: "武汉", 9: "沈阳"}
@@ -29,7 +29,6 @@ class SchoolModule(object):
     def check_exists(self):
         # 检查要创建的学校是否已经存在
         is_exists = False
-        print(self.school_data)
         if self.school_data is not None:
             for school_id in self.school_data:
                 if self.school_name == self.school_data[school_id]:  # 这里进行数据查询
@@ -38,24 +37,15 @@ class SchoolModule(object):
 
     def add_school(self):
         # 新增学校
-        self.search_school_data()
         school_dict = {}
         if self.school_data is None:
             print("首次添加学校哦!")
-            SchoolModule.schoo_id += 1
-        else:
-            for key in self.school_data:
-                print(self.school_data.get(key))
-                if self.school_name == self.school_data.get(key):
-                    print("学校已存在不要重复添加!")
-                    return 0
-            SchoolModule.schoo_id += 1
-            self.school_data[SchoolModule.schoo_id] = self.school_name
-        print("add_school")
-        school_dict[SchoolModule.schoo_id] = self.school_name
-        if SchoolModule.schoo_id == 1:
+            SchoolModule.schoo_id = 1
+            school_dict[SchoolModule.schoo_id] = self.school_name
             self.obj.set_school_data(school_dict)
         else:
+            SchoolModule.schoo_id = len(self.school_data) + 1
+            self.school_data[SchoolModule.schoo_id] = self.school_name
             self.obj.set_school_data(self.school_data)
         self.obj.create(None)
         return 0

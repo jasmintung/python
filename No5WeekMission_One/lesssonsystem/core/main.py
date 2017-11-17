@@ -13,7 +13,7 @@ def run():
         if charactor == 1:
             instance_type = StudentModule()
         elif charactor == 2:
-            instance_type = TeacherModule()
+            instance_type = TeacherModule(None)
         elif charactor == 8:
             instance_type = AdminModule()
         elif charactor == 0:
@@ -21,7 +21,6 @@ def run():
         else:
             print("选择不正确哦!")
             continue
-        print("address", instance_type)
         role_select(instance_type)
         login_result = instance_type.login_result()
         if login_result[0] == 2:  # 进入账户注册环节, 仅适用与学员 讲师

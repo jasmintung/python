@@ -3,18 +3,19 @@ __author__ = 'zhangtong'
 '''
 Contact: puzexiong@163.com
 '''
-from core.db_handler import ClassDataControl
 from conf import settings
-from core.teacher import TeacherModule
-from core.course import CourseModule
 file_dst = settings.FILE_BASE
+from core.db_handler import ClassDataControl
+from core.course import CourseModule
+from core.teacher import TeacherModule
+
 # 班级类
 # 选课数据库班级表
-dict1 = {"成都": {"一班": {"课程": ["JAVA", "Android", "Unity3D", "Python"],
-                       "讲师": ["Alex", "Tom"]},
-                "二班": {"课程": ["C++", "C#", "Go", "Python"],
-                       "讲师": ["Jack", "Jmy"]}},
-         "武汉": {"一班": {"课程": ["算法导论", "软件工程"], "讲师": ["Mobile", "Papa"]}}}
+# dict1 = {"成都": {"一班": {"课程": ["JAVA", "Android", "Unity3D", "Python"],
+#                        "讲师": ["Alex", "Tom"]},
+#                 "二班": {"课程": ["C++", "C#", "Go", "Python"],
+#                        "讲师": ["Jack", "Jmy"]}},
+#          "武汉": {"一班": {"课程": ["算法导论", "软件工程"], "讲师": ["Mobile", "Papa"]}}}
 
 
 class ClassModule(object):
@@ -37,11 +38,11 @@ class ClassModule(object):
         self.obj = instance_cs
         instance_cs.read()
         self.class_data = instance_cs.get_class_data()
-        print(self.class_data)
 
     def add_class(self):  # 增加班级的时候,目前课程，讲师列表必须写入信息,如果还没有能够录入的班级和讲师则提示不能创建班级
         dict_class = {}
-        class_name = input("输入要创建或修改的班级名称")
+        print("输入要在 \"%s\" 创建或修改的 班级 名称" % self.school_name)
+        class_name = input()
         course_list = []
         instance_t_course = CourseModule(self.school_name)
         instance_t_course.search_course_data()
@@ -54,7 +55,7 @@ class ClassModule(object):
             if instance_t_course.check_exists() is True:
                 course_list.append(course)
             else:
-                print("\033[34;1m该课程还未创建!\033[0m")
+                print("\033[34;1m该课程还未创建,请先通过 \"创建课程\" 功能创建该课程!\033[0m")
         teacher_list = []
         instance_t_teacher = TeacherModule(self.school_name)
         instance_t_teacher.search_teacher_data()
@@ -68,7 +69,7 @@ class ClassModule(object):
             if instance_t_teacher.check_exists() is True:
                 teacher_list.append(teacher)
             else:
-                print("\033[34;1m该讲师还未创建!\033[0m")
+                print("\033[34;1m该讲师还未创建,请先通过 \"创建讲师\" 功能创建该讲师!\033[0m")
         #  相同的合并,不相同的累加
         class_dict = {}
         class_info_dict = {}

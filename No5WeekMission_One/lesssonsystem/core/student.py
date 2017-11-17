@@ -1,6 +1,16 @@
 # -*-coding=utf-8-*-
 __author__ = 'zhangtong'
 import sys
+from conf import settings
+file_dst = settings.FILE_BASE
+from core.school import SchoolModule
+from core.user_id_control import UserIdControlModule
+from core.db_handler import UserDataControl
+from core.classes import ClassModule
+from core.db_handler import StudentDataControl
+from core.auth import AuthModule
+from core.auth import login_deco
+
 '''
 Contact: puzexiong@163.com
 '''
@@ -12,25 +22,18 @@ dict1 = {"id": "st00408", "name": "杰森斯坦森", "password": "123456", "Regi
 dict2 = {"大连": {"st00408": {"姓名": "Jack", "班级": "一班"}, "st00409": {"姓名": "李老大", "班级": "二班"}},
          "广州": {"st00001": {"姓名": "习大大", "班级": "一班"}, "st00301": {"姓名": "王大雷", "班级": "二班"}}}
 
-from core.auth import AuthModule
-from core.auth import login_deco
-from core.school import SchoolModule
-from core.classes import ClassModule
-from core.db_handler import UserDataControl
-from core.db_handler import StudentDataControl
-from conf import settings
-file_dst = settings.FILE_BASE
 
 
 class StudentModule(object):
     def __init__(self):
-        self.name = None
+        self.student_name = None
         self.school_name = None
         self.class_name = None
         self.st_login_result = None
         self.st_id = 0
-
+        self.student_data = {}
     ccsys_school_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["school_file_name"])
+    ccsys_student_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["student_file_name"])
 
     def func_control(self, args):
         func_dict = {1: self.register_course_system, 2: self.check_personal_socre, 0: self.quit}
@@ -41,7 +44,6 @@ class StudentModule(object):
                 instance_sm = SchoolModule(StudentModule.ccsys_school_dst)
                 instance_sm.search_school_data()
                 school_dict = instance_sm.get_school_data()
-                print(type(school_dict))
                 if school_dict is None:
                     print("目前还没有学校可以选择!")
                 else:
@@ -66,7 +68,6 @@ class StudentModule(object):
         # 登陆
         instance_am = AuthModule(1)
         self.st_login_result = instance_am.login()
-        print(self.st_login_result)
 
     def quit(self):
         print("退出程序!")
@@ -78,13 +79,18 @@ class StudentModule(object):
             account = input("请输入用户名:")
             password = input("请输入密码:")
             student_dict = {}
-            student_dict["id"] = "st00408"  # 这里根据/db/user_db/stid_db文件里面已存在学员ID进行ID分配
+            instance_userId_Control = UserIdControlModule(None)
+            instance_userId_Control.assigned_id(0)
+            st_id = "ST" + str(instance_userId_Control.get_id()).rjust(5, "0")  # 这里根据/db/user_db/stid_db文件里面已存在学员ID进行ID分配
+            instance_userId_Control.set_id_data(st_id)
+            instance_userId_Control.create_id()  # 创建新的ID并写入ID文件
+            student_dict["id"] = st_id
             student_dict["name"] = account
             student_dict["password"] = password
             student_dict["Register"] = 0
             write_database_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], account)
             instance_uc = UserDataControl(write_database_dst)
-            instance_uc.create(student_dict)
+            instance_uc.create(student_dict)  # 用户个人信息文件创建
         elif is_sure_to_register == "N":
             pass
         else:
@@ -92,7 +98,7 @@ class StudentModule(object):
 
     def control_operation(self, name):
         while True:
-            self.name = name
+            self.student_name = name
             operation_info = """
                             请选择:
                             1. 开始选课
@@ -104,14 +110,14 @@ class StudentModule(object):
             self.func_control(input_operation)
 
     def register_course_system(self):  # 择校择班后进行 注册
-        """
-        *args: 里面有两个元素: 学校 班级
-        :return: 注册结果
-        """
         # 先判断是否已经注册成功,注册成功的前提是选校,选班,缴费后
-        student_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], self.name)
+        student_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], self.student_name)
+        print("student_dst:", student_dst)
         instance_st = UserDataControl(student_dst)
-        student_dict = instance_st.read()
+        instance_st.read()
+        student_dict = instance_st.get_user_data()
+        print("学员:", student_dict)
+        self.st_id = student_dict["id"]
         if student_dict["Register"] == 1:
             print("您已选过课程了")
         else:
@@ -127,7 +133,10 @@ class StudentModule(object):
                 is_register = input("Y/N")
                 if is_register == 'Y':
                     self.class_name = usr_chose_class
-                    self.payment()
+                    if self.payment() is True:
+                        student_dict["Register"] = 1
+                        instance_st.set_user_data(student_dict)
+                        instance_st.create(None)
                 else:
                     print("\033[36;1m您放弃注册,数据将丢失!\033[0m")
             else:
@@ -137,21 +146,35 @@ class StudentModule(object):
         # 注册后交学费,交学费后才把 账户数据库 中的注册标识置1
         """
 
-        :return:
+        :return: True:缴费完成,False:缴费失败
         """
-        sure_to_pay = input("是否缴费? Y/N")
+        pay_result = False
+        sure_to_pay = input("是否缴费?缴费后无法重新选课了哦!!! Y/N")
         if sure_to_pay == "Y":
-            student_list = []
-            student_list[0] = self.name
-            student_list[1] = self.class_name
-            write_course_file_student = {}
-            write_course_file_student[self.school_name]["0013"] = student_list
-            instance_st_data = StudentDataControl()
+            student_dict = {}
+            student_info_dict = {}
+            write_file_dict = {}
+            student_info_dict["姓名"] = self.student_name
+            student_info_dict["班级"] = self.class_name
+            student_dict[self.st_id] = student_info_dict
+            write_file_dict[self.school_name] = student_dict
+            instance_st_data = StudentDataControl(StudentModule.ccsys_student_dst)
             instance_st_data.read()
-            instance_st_data.merge_dicts(write_course_file_student)
-            instance_st_data.create()
+            self.student_data = instance_st_data.get_student_data()
+            if self.student_data is None:
+                print("\033[34;1m您是第一位报名课程的!\033[0m")
+                instance_st_data.set_student_data(write_file_dict)
+            else:
+                self.student_data[self.school_name].update(write_file_dict[self.school_name])
+                instance_st_data.set_student_data(self.student_data)
+            instance_st_data.create(None)
+
+            pay_result = True
         elif sure_to_pay == "N":
             print("\033[36;1m您未完成缴费,数据将丢失!\033[0m")
+        else:
+            print("\033[34;1m输入不正确!\033[0m")
+        return pay_result
 
     def check_exists(self):
         # 检查要创建的学员是否已经存在dict1
