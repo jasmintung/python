@@ -7,10 +7,7 @@ Contact: puzexiong@163.com
 
 from core.auth import login_deco
 from core.auth import AuthModule
-from core.school import SchoolModule
-from core.classes import ClassModule
-from core.teacher import TeacherModule
-from core.course import CourseModule
+from core.module_interface import module_create
 # 管理员数据结构
 dict1 = {"0001": "admin1", "0002": "admin2", "0003": "admin3"}
 
@@ -40,7 +37,10 @@ class AdminModule(object):
             func_dict[0]()
         else:
             if args in func_dict:
-                func_dict[args]()
+                if args == 1:
+                    func_dict[args](0)
+                else:
+                    func_dict[args]()
             else:
                 print("\033[33;1m没有这个选项!\033[0m")
 
@@ -62,55 +62,60 @@ class AdminModule(object):
             else:
                 print("\033[33;1m输入不正确!\033[0m")
 
-    def create_school(self):  # OK
+    def create_school(self, args):  # OK
+        """
+
+        :param args: 0 表示创建时调用,1表示检查时调用
+        :return:
+        """
         # 创建学校
         school_name = input("输入学校名称:")
-        instance_t_school = SchoolModule(school_name)
+        instance_module = module_create(4)
+        instance_module.set_module_init_args(school_name)
+        instance_module.create_module()
+        instance_t_school = instance_module.get_module_obj()
         instance_t_school.search_school_data()
-
-        if instance_t_school.check_exists() is True:
-            print("\033[32;1m学校已经存在了,不能重复添加!\033[0m")
+        result = instance_t_school.check_exists()
+        if args == 0:
+            if result is True:
+                print("\033[32;1m学校已经存在了,不能重复添加!\033[0m")
+            else:
+                instance_t_school.add_school()
         else:
-            instance_t_school.add_school()
+            if result is False:
+                print("\033[33;1m学校不存在,无法创建班级!\033[0m")
+        self.school_name = school_name
+        return result
 
     def create_class(self):  # OK
         # 创建班级
-        school_name = input("输入学校名称:")
-        instance_t_school = SchoolModule(school_name)
-        instance_t_school.search_school_data()
-
-        if instance_t_school.check_exists() is True:
-            instance_t_class = ClassModule(school_name)
+        if self.create_school(1) is True:
+            instance_module = module_create(5)
+            instance_module.set_module_init_args(self.school_name)
+            instance_module.create_module()
+            instance_t_class = instance_module.get_module_obj()
             instance_t_class.search_class_data()
             instance_t_class.add_class()
-        else:
-            print("\033[33;1m学校不存在,无法创建班级!\033[0m")
 
     def create_teacher(self):
         # 创建讲师
-        school_name = input("输入学校名称:")
-        instance_t_school = SchoolModule(school_name)
-        instance_t_school.search_school_data()
-
-        if instance_t_school.check_exists() is True:
-            instance_t_teacher = TeacherModule(school_name)
+        if self.create_school(1) is True:
+            instance_module = module_create(3)
+            instance_module.set_module_init_args(self.school_name)
+            instance_module.create_module()
+            instance_t_teacher = instance_module.get_module_obj()
             instance_t_teacher.search_teacher_data()
             instance_t_teacher.add_teacher()
-        else:
-            print("\033[33;1m学校不存在,无法创建讲师!\033[0m")
 
     def create_course(self):
         # 创建课程
-        school_name = input("输入学校名称:")
-        instance_t_school = SchoolModule(school_name)
-        instance_t_school.search_school_data()
-
-        if instance_t_school.check_exists() is True:
-            instance_t_course = CourseModule(school_name)
+        if self.create_school(1) is True:
+            instance_module = module_create(6)
+            instance_module.set_module_init_args(self.school_name)
+            instance_module.create_module()
+            instance_t_course = instance_module.get_module_obj()
             instance_t_course.search_course_data()
             instance_t_course.add_course()
-        else:
-            print("\033[33;1m学校不存在,无法创建课程!\033[0m")
 
     # def create_student(self):
     #     # 创建学员

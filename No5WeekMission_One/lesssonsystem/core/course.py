@@ -14,8 +14,8 @@ dict1 = {"北京": {"C++": {"学时": 12, "学费": 6000}, "python": {"学时": 
 
 
 class CourseModule(object):
-    def __init__(self, school_name):
-        self.school_name = school_name
+    def __init__(self, args):
+        self.school_name = args
         self.course_name = None
         self.course_data = {}
         self.obj = None

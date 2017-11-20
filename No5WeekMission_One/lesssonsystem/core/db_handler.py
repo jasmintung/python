@@ -191,7 +191,6 @@ class ClassDataControl(DataControl):  # 班级类
         with open(self.dst, "rb") as rf:
             if os.path.getsize(self.dst) != 0:
                 self.class_data = pickle.load(rf)
-                print(self.class_data)
 
     def merge_dicts(self, *args):
         """
@@ -268,7 +267,6 @@ class StudentDataControl(DataControl):  # 学员类
         with open(self.dst, "rb") as rf:
             if os.path.getsize(self.dst) != 0:
                 self.student_data = pickle.load(rf)
-                print(self.student_data)
 
 
 class TeacherDataControl(DataControl):  # 讲师类
@@ -303,5 +301,4 @@ class TeacherDataControl(DataControl):  # 讲师类
                 file_length = os.path.getsize(self.dst)
                 if file_length != 0:
                     self.teacher_data = pickle.load(rf)
-                    print(self.teacher_data)
 

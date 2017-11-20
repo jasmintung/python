@@ -47,7 +47,6 @@ class StudentModule(object):
                 if school_dict is None:
                     print("目前还没有学校可以选择!")
                 else:
-                    print(school_dict)
                     print("请选择学校(根据编号)")
                     for school in school_dict:
                         print("编号: %d 学校: %s" % (school, school_dict[school]))
@@ -190,6 +189,12 @@ class StudentModule(object):
         # 查阅个人成绩
         pass
 
-    def get_student_list(self):
+    def get_student_data(self):
         # 获取学员列表
-        pass
+        return self.student_data
+
+    def search_student_data(self):
+        instance_st = StudentDataControl(StudentModule.ccsys_student_dst)
+        self.obj = instance_st
+        instance_st.read()
+        self.student_data = instance_st.get_student_data()

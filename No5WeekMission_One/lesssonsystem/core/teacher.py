@@ -6,11 +6,12 @@ Contact: puzexiong@163.com
 from conf import settings
 file_dst = settings.FILE_BASE
 from core.school import SchoolModule
+from core.db_handler import StudentDataControl
 from core.auth import AuthModule
 from core.user_id_control import UserIdControlModule
 from core.db_handler import UserDataControl
-from core.classes import ClassModule
-from core.dh_handler import TeacherDataControl
+from core.db_handler import TeacherDataControl
+from core.db_handler import ClassDataControl
 from core.auth import login_deco
 # 讲师类
 # 讲师账号数据结构(唯一编号,姓名, 注册标识) 存放在user_db/teacher_db/tc00408文件里面
@@ -30,6 +31,8 @@ class TeacherModule(object):
         self.tc_id = 0
     ccsys_school_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["school_file_name"])
     ccsys_teacher_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["teacher_file_name"])
+    ccsys_class_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["class_file_name"])
+    ccsys_student_dst = "%s/%s/%s" % (file_dst["path"], file_dst["dir_name2"], file_dst["student_file_name"])
 
     def func_control(self, args):
         func_dict = {1: self.go_to_class, 2: self.view_students_info, 3: self.give_student_score, 0: self.quit}
@@ -37,16 +40,15 @@ class TeacherModule(object):
             func_dict[0]()
         else:
             if args in func_dict:
-                instance_sm = SchoolModule(TeacherModule.ccsys_school_dst)
+                instance_sm = SchoolModule(self.school_name)
                 instance_sm.search_school_data()
                 school_dict = instance_sm.get_school_data()
-                print(type(school_dict))
                 if school_dict is None:
                     print("目前还没有学校可以选择!")
                 else:
                     for school in school_dict:
-                        print("编号: %d 学校: %s" % (school, school_dict[school]))
-                    print("请选择学校(根据编号)")
+                        print("编号: %d , 学校: %s" % (school, school_dict[school]))
+                    print("请选择学校(根据编号): ")
                     usr_chose_school_id = int(input())
                     if usr_chose_school_id in school_dict:
                         self.school_name = school_dict[usr_chose_school_id]
@@ -64,7 +66,6 @@ class TeacherModule(object):
         # 登陆
         instance_am = AuthModule(2)
         self.tc_login_result = instance_am.login()
-        print(self.tc_login_result)
 
     def quit(self):
         exit()
@@ -115,46 +116,54 @@ class TeacherModule(object):
                     is_exists = True
         return is_exists
 
-    def go_to_class(self, *args):  # 选择上课班级
+    def go_to_class(self):  # 选择上课班级
+        pass
         self.search_teacher_data()
-        usr_chose_school_name = input("请选择校区:")
-        if usr_chose_school_name in self.teacher_data:  # 判断讲师是否已经在被管理员创建关联的学校里面
-            if self.teacher_name in self.teacher_data[usr_chose_school_name]:
-                instance_cs_data_c = ClassModule(self.school_name)
-                instance_cs_data_c.search_class_data()
-                class_data = instance_cs_data_c.get_Class_data()
-                for class_name in class_data[usr_chose_school_name]:
+        # 判断讲师是否已经在被管理员创建关联的学校里面
+        if self.teacher_data.get(self.school_name) is not None:
+            if self.teacher_name in self.teacher_data[self.school_name]:
+                instance_cs_data = ClassDataControl(TeacherModule.ccsys_class_dst)
+                instance_cs_data.read()
+                class_data = instance_cs_data.get_class_data()
+                print("您可以选择的班级是: ")
+                for class_name in class_data[self.school_name]:
                     print(class_name)
                 print("请选择班级(根据班级全名)")
                 usr_chose_class_name = input()
-                if usr_chose_class_name in class_data[usr_chose_school_name]:
-                    print("选择完成")
+                if usr_chose_class_name in class_data[self.school_name]:
+                    print("\033[33;1m选择完成!\033[0m")
                     # 更新 选课数据库班级表, 更新 选课数据库讲师表
                 else:
                     print("\033[36;1m班级输入不正确\033[0m")
             else:
                 print("\033[36;1m无法选择该校区班级,请重新选择!\033[0m")
         else:
-            print("\033[36;1m校区选择不正确!\033[0m")
+            print("\033[36;1m该校区还在筹备当中,暂时无法操作!\033[0m")
 
-    def view_students_info(self, *args):  # 浏览学员信息(根据学校总览, 根据班级浏览暂时未开发完成)
-        pass
-        # instance_sc_data_c = SchoolDataControl()
-        # school_info_dict = instance_sc_data_c.school_data
-        # for school_id in school_info_dict:
-        #     print(school_info_dict[school_id])
-        # usr_chose_school = int(input("请输入要查看的学校(根据编号):"))
-        # if usr_chose_school in school_info_dict:
-        #     print("1: 校浏览, 2: 班级浏览")
-        #     usr_chose = input("请选择").strip(">>")
-        #     if usr_chose == 1:
-        #         instance_st_data_c = StudentDataControl()
-        #         student_info_dict = instance_st_data_c.student_data
-        #         print(student_info_dict)
-        #     elif usr_chose == 2:
-        #         pass
-        # else:
-        #     print("\033[34;1m选择的学校不存在!\033[0m")
+    def view_students_info(self):  # 浏览学员信息(根据学校总览, 根据班级浏览暂时未开发完成)
+        print("1: 校浏览, 2: 班级浏览")
+        usr_chose = int(input("请选择: ").strip(">>"))
+        instance_st_data_c = StudentDataControl(TeacherModule.ccsys_student_dst)
+        instance_st_data_c.read()
+        student_info_dict = instance_st_data_c.get_student_data()
+        name_dict = student_info_dict[self.school_name]
+        if usr_chose == 1:
+            print("学号    姓名     班级")
+            for key_id in name_dict:
+                print(key_id,  name_dict[key_id].get("姓名"),  name_dict[key_id].get("班级"))
+        elif usr_chose == 2:
+            print("您可以浏览的班级有: ")
+            class_list = []
+            for key_id in name_dict:
+                class_list.append(name_dict[key_id].get("班级"))
+            print(set(class_list))
+            chose_class = input("输入想看的班级(全名): ")
+            print("学员姓名:")
+            for key_id in name_dict:
+                if name_dict[key_id].get("班级") == chose_class:
+                    print(name_dict[key_id].get("姓名"))
+        else:
+            print("\033[34;1m输入错误!\033[0m")
 
     def give_student_score(self, *args):  # 给学员打分, 暂时未开发完成
         pass
