@@ -8,9 +8,8 @@ file_dst = settings.FILE_BASE
 from core.db_handler import SchoolDataControl
 # 学校类
 # 学校类数据结构
-dict1 = {1: "北京", 2: "广州", 3: "深圳", 4: "上海", 5: "大连", 6: "杭州", 7: "成都", 8: "武汉", 9: "沈阳"}
-
-list1 = ["1312", "1312", "fasfasd"]
+# dict1 = {1: "北京", 2: "广州", 3: "深圳", 4: "上海", 5: "大连", 6: "杭州", 7: "成都", 8: "武汉", 9: "沈阳"}
+# list1 = ["1312", "1312", "fasfasd"]
 # usr_input = input()
 # if usr_input in list1:
 #     print("yes")
@@ -42,11 +41,11 @@ class SchoolModule(object):
             print("首次添加学校哦!")
             SchoolModule.schoo_id = 1
             school_dict[SchoolModule.schoo_id] = self.school_name
-            self.obj.set_school_data(school_dict)
+            self.obj.set_data(school_dict)
         else:
             SchoolModule.schoo_id = len(self.school_data) + 1
             self.school_data[SchoolModule.schoo_id] = self.school_name
-            self.obj.set_school_data(self.school_data)
+            self.obj.set_data(self.school_data)
         self.obj.create(None)
         return 0
 
@@ -63,5 +62,5 @@ class SchoolModule(object):
         instance_sc = SchoolDataControl(SchoolModule.ccsys_school_dst)
         self.obj = instance_sc
         instance_sc.read()
-        self.school_data = instance_sc.get_school_data()
+        self.school_data = instance_sc.get_data()
 

@@ -15,10 +15,10 @@ from core.db_handler import ClassDataControl
 from core.auth import login_deco
 # 讲师类
 # 讲师账号数据结构(唯一编号,姓名, 注册标识) 存放在user_db/teacher_db/tc00408文件里面
-dict1 = {"id": "tc00408", "name": "马化腾", "password": "654321", "Register": 0}
+# dict1 = {"id": "tc00408", "name": "马化腾", "password": "654321", "Register": 0}
 # 选课数据库讲师表
-dict2 = {"北京": ["Alex", "武配齐"],
-         "上海": ["马化腾", "甄子丹"]}
+# dict2 = {"北京": ["Alex", "武配齐"],
+#          "上海": ["马化腾", "甄子丹"]}
 
 
 class TeacherModule(object):
@@ -117,14 +117,13 @@ class TeacherModule(object):
         return is_exists
 
     def go_to_class(self):  # 选择上课班级
-        pass
         self.search_teacher_data()
         # 判断讲师是否已经在被管理员创建关联的学校里面
         if self.teacher_data.get(self.school_name) is not None:
             if self.teacher_name in self.teacher_data[self.school_name]:
                 instance_cs_data = ClassDataControl(TeacherModule.ccsys_class_dst)
                 instance_cs_data.read()
-                class_data = instance_cs_data.get_class_data()
+                class_data = instance_cs_data.get_data()
                 print("您可以选择的班级是: ")
                 for class_name in class_data[self.school_name]:
                     print(class_name)
@@ -140,39 +139,85 @@ class TeacherModule(object):
         else:
             print("\033[36;1m该校区还在筹备当中,暂时无法操作!\033[0m")
 
-    def view_students_info(self):  # 浏览学员信息(根据学校总览, 根据班级浏览暂时未开发完成)
+    def view_students_info(self):  # 浏览学员信息(根据学校总览, 根据班级浏览)
         print("1: 校浏览, 2: 班级浏览")
-        usr_chose = int(input("请选择: ").strip(">>"))
         instance_st_data_c = StudentDataControl(TeacherModule.ccsys_student_dst)
         instance_st_data_c.read()
-        student_info_dict = instance_st_data_c.get_student_data()
-        name_dict = student_info_dict[self.school_name]
-        if usr_chose == 1:
-            print("学号    姓名     班级")
-            for key_id in name_dict:
-                print(key_id,  name_dict[key_id].get("姓名"),  name_dict[key_id].get("班级"))
-        elif usr_chose == 2:
-            print("您可以浏览的班级有: ")
-            class_list = []
-            for key_id in name_dict:
-                class_list.append(name_dict[key_id].get("班级"))
-            print(set(class_list))
-            chose_class = input("输入想看的班级(全名): ")
-            print("学员姓名:")
-            for key_id in name_dict:
-                if name_dict[key_id].get("班级") == chose_class:
-                    print(name_dict[key_id].get("姓名"))
-        else:
-            print("\033[34;1m输入错误!\033[0m")
+        student_info_dict = instance_st_data_c.get_data()
+        if student_info_dict is not None:
+            name_dict = student_info_dict[self.school_name]
+            usr_chose = int(input("请选择: ").strip(">>"))
 
-    def give_student_score(self, *args):  # 给学员打分, 暂时未开发完成
-        pass
+            if usr_chose == 1:
+                print("学号    姓名     班级")
+                for key_id in name_dict:
+                    print(key_id,  name_dict[key_id].get("姓名"),  name_dict[key_id].get("班级"))
+            elif usr_chose == 2:
+                print("您可以浏览的班级有: ")
+                class_list = []
+                for key_id in name_dict:
+                    class_list.append(name_dict[key_id].get("班级"))
+                print(set(class_list))
+                chose_class = input("输入想看的班级(全名): ")
+                print("学员姓名:")
+                for key_id in name_dict:
+                    if name_dict[key_id].get("班级") == chose_class:
+                        print(name_dict[key_id].get("姓名"))
+            else:
+                print("\033[34;1m输入错误!\033[0m")
+
+    def give_student_score(self):  # 给学员打分, 暂时未开发完成
+        self.search_teacher_data()
+        # 判断讲师是否已经在被管理员创建关联的学校里面
+        if self.teacher_data.get(self.school_name) is not None:
+            instance_cs_data = ClassDataControl(TeacherModule.ccsys_class_dst)
+            instance_cs_data.read()
+            class_data = instance_cs_data.get_data()
+            print("可以选择考核的的班级是: ")
+            for class_name in class_data[self.school_name]:
+                print(class_name)
+
+            chose_class = input("请选择考核班级: ")
+            # 判断选择的班级是否存在数据库中
+            if chose_class in class_data[self.school_name]:
+                # 判断讲师是否已经在被分配到对应的班级里面
+                if self.teacher_name in class_data[self.school_name].get(class_name).get("讲师"):
+                    instance_st_data_c = StudentDataControl(TeacherModule.ccsys_student_dst)
+                    instance_st_data_c.read()
+                    student_info_dict = instance_st_data_c.get_data()
+                    if student_info_dict is not None:
+                        chose_student = input("请选择要考核的学员(输入全名): ")
+                        student_dict = student_info_dict.get(self.school_name)
+                        user_database_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], chose_student)
+                        instance_ud = UserDataControl(user_database_dst)
+                        if instance_ud.check_user_exists() is True:
+                            instance_ud.read()
+                            student_data = instance_ud.get_usr_data()
+                            student_id = student_data.get("id")
+                            if student_id in student_dict:
+                                if chose_student == student_dict.get(student_id).get("姓名") and \
+                                                chose_class == student_dict.get(student_id).get("班级"):
+                                    print("可以修改!")
+                                    score = input("请打分: ")
+                                    student_data["score"] = score
+                                    instance_ud.set_usr_data(student_data)
+                                    instance_ud.create(None)
+                            else:
+                                print("\033[34;1m学员不存在!\033[0m")
+                        else:
+                            print("\033[34;1m学员不存在!\033[0m")
+                    else:
+                        print("\033[31;1m目前没有学员可以考核!\033[0m")
+                else:
+                    print("\033[31;1m您不在这个班级,无法对改班级学员进行考核!\033[0m")
+            else:
+                print("\033[33;1m班级不存在!\033[0m")
 
     def search_teacher_data(self):
         instance_tc = TeacherDataControl(TeacherModule.ccsys_teacher_dst)
         self.obj = instance_tc
         instance_tc.read()
-        self.teacher_data = instance_tc.get_teacher_data()
+        self.teacher_data = instance_tc.get_data()
 
     def add_teacher(self):
         dict_teacher = {}
@@ -191,13 +236,13 @@ class TeacherModule(object):
 
         if self.teacher_data is None:
             dict_teacher[self.school_name] = teacher_list
-            self.obj.set_teacher_data(dict_teacher)
+            self.obj.set_data(dict_teacher)
         else:
             if self.school_name in self.teacher_data:  # 该校区已经创建过讲师
                 self.teacher_data[self.school_name] = list(set(self.teacher_data[self.school_name] + teacher_list))
             else:
                 self.teacher_data[self.school_name] = teacher_list
-            self.obj.set_teacher_data(self.teacher_data)
+            self.obj.set_data(self.teacher_data)
         self.obj.create(None)
 
     def get_teacher_name(self):

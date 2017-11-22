@@ -8,8 +8,8 @@ Contact: puzexiong@163.com
 from core.auth import login_deco
 from core.auth import AuthModule
 from core.module_interface import module_create
-# 管理员数据结构
-dict1 = {"0001": "admin1", "0002": "admin2", "0003": "admin3"}
+# 管理员数据结构(当前版本写死几位)
+# dict1 = {"0001": "admin1", "0002": "admin2", "0003": "admin3"}
 
 
 class AdminModule(object):
@@ -117,34 +117,5 @@ class AdminModule(object):
             instance_t_course.search_course_data()
             instance_t_course.add_course()
 
-    # def create_student(self):
-    #     # 创建学员
-    #     dict_student = {}
-    #     school_name = input("请输入要操作的学校的名称:")
-    #     class_name = input("请输入要操作的班级名称:")
-    #     t_school = SchoolModule(school_name)
-    #     if check_interface(t_school) is True:  # 学校存在
-    #         t_class = ClassModule(school_name)
-    #         if check_interface(t_class) is True:  # 班级存在
-    #             t_student = StudentModule(school_name, class_name)
-    #             id = 1  # 判断已有ID号
-    #             dict_student_name = {}
-    #             while True:
-    #                 list_student_name = []
-    #                 student_name = input("请输入学员姓名:")
-    #                 if check_interface(t_student, student_name) is False:
-    #                     # {"大连": {"0001": ["Jack", "一班"], "0002": ["李老大", "二班"]}}
-    #                     student_id = str(id).rstrip(6, "0")
-    #                     list_student_name.append(student_name)
-    #                     list_student_name.append(class_name)
-    #                     dict_student_name[student_id] = list_student_name
-    #                     next_opreation = input("继续增加课程回车,否则输入'#'退出")
-    #                     id += 1
-    #                     if next_opreation == '#':
-    #                         dict_student[school_name] = dict_student_name
-    #                         t_student.add_student(dict_student)
-    #                         break
-
-
-def check_interface(obj, *args):  # 将不同类别的值重复检查操作做成接口,方便后期维护
-    return obj.check_exists(args)
+# def check_interface(obj, *args):  # 将不同类别的值重复检查操作做成接口,方便后期维护
+#     return obj.check_exists(args)

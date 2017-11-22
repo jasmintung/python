@@ -9,34 +9,43 @@ file_dst = settings.FILE_BASE
 class DataControl(object):
 
     def __init__(self, args):
-        self.dst = None
-        self.write_file_data = None
+        print("DataControl")
+        print(self)
+        self.data = None
+        self.dst = args
+
+    def get_data(self):
+        return self.data
+
+    def set_data(self, args):
+        self.data = args
+
+    def read(self):
+        print("Basice Read Func!")
+        with open(self.dst, "rb") as rf:
+            if os.path.getsize(self.dst) != 0:
+                self.data = pickle.load(rf)
+            else:
+                print("数据库是空的!")
 
     def create(self, args):  # 创建
-        with open(self.dst, "w", encoding="utf-8") as wf:
-            pickle.dump(self.write_file_data, wf)
-
-    def read(self):  # 读取
-        print("Basice Read Func!")
-
-    def update(self):  # 更新
-        pass
+        print("Basice Write Func!")
+        with open(self.dst, "wb") as wf:
+            pickle.dump(self.data, wf)
 
     def account_auth(self, *args):  # 账户检测
         pass
 
-    def merge_dicts(self, x):
-        pass
+
 # 针对db/admin_db/admin_account文件里的管理员信息
 
 
 class AdminDataControl(DataControl):
 
     def __init__(self, args):
+        print("AdminDataControl")
+        print(self)
         super(AdminDataControl, self).__init__(args)
-
-    def create(self, args):
-        pass
 
     def account_auth(self, *args):
         """
@@ -63,6 +72,8 @@ class AdminDataControl(DataControl):
 class UserDataControl(DataControl):
 
     def __init__(self, args):
+        print("UserDataControl")
+        print(self)
         super(UserDataControl, self).__init__(args)
         self.user_data = None
         self.dst = args
@@ -97,7 +108,7 @@ class UserDataControl(DataControl):
         :return:
         """
         print(self.dst)
-        return os.path.exists(self.dst) is True  # 用户存在
+        return os.path.exists(self.dst)  # 用户是否存在
 
     def create(self, args):
         """
@@ -107,10 +118,8 @@ class UserDataControl(DataControl):
         """
         with open(self.dst, "wb") as wf:
             if self.user_data is None:
-                print(args)
                 pickle.dump(args, wf)
             else:
-                print(self.user_data)
                 pickle.dump(self.user_data, wf)
 
     def read(self):
@@ -118,187 +127,52 @@ class UserDataControl(DataControl):
             if os.path.getsize(self.dst) != 0:
                 self.user_data = pickle.load(rf)
 
-    def get_user_data(self):
+    def get_usr_data(self):
         return self.user_data
 
-    def set_user_data(self, args):
+    def set_usr_data(self, args):
         self.user_data = args
 
 # 以下针对db/course_choosing_sys_db/目录下的数据信息
 
 
-class SchoolDataControl(DataControl):  # 学校类
+class SchoolDataControl(DataControl):  # 学校数据类
 
     def __init__(self, args):
+        print("SchoolDataControl")
+        print(self)
         super(SchoolDataControl, self).__init__(args)
-        self.school_data = None
-        self.dst = args
-
-    def get_school_data(self):
-        return self.school_data
-
-    def set_school_data(self, args):
-        self.school_data = args
-
-    def create(self, args):
-        """
-        创建学校
-        :return: 创建结果
-        """
-        with open(self.dst, "wb") as wf:
-            print(self.school_data)
-            pickle.dump(self.school_data, wf)
-
-    def read(self):
-        """
-        获取学校列表
-        :param args:
-        :return: 学校列表
-        """
-        if os.path.exists(self.dst) is True:
-            with open(self.dst, "rb") as rf:
-                if os.path.getsize(self.dst) != 0:
-                    self.school_data = pickle.load(rf)
 
 
-class ClassDataControl(DataControl):  # 班级类
+class ClassDataControl(DataControl):  # 班级数据类
 
     def __init__(self, args):
+        print("ClassDataControl")
+        print(self)
         super(ClassDataControl, self).__init__(args)
-        self.class_data = None
-        self.write_file_data = None
-        self.dst = args
-
-    def get_class_data(self):
-        return self.class_data
-
-    def set_class_data(self, args):
-        self.class_data = args
-
-    def create(self, args):
-        """
-        创建班
-        :return:
-        """
-        with open(self.dst, "wb") as wf:
-            print(self.class_data)
-            pickle.dump(self.class_data, wf)
-
-    def read(self):
-        """
-        获取班级文件
-        """
-        with open(self.dst, "rb") as rf:
-            if os.path.getsize(self.dst) != 0:
-                self.class_data = pickle.load(rf)
-
-    def merge_dicts(self, *args):
-        """
-
-        :param args: 要合并信息
-        :return:
-        """
-        self.class_data[args[0]][args[1]][args[2]].append(args[3])
-        self.write_file_data = self.class_data
 
 
-class CourseDataControl(DataControl):  # 课程类
-    course_id = 0
+class CourseDataControl(DataControl):  # 课程数据类
 
     def __init__(self, args):
+        print("CourseDataControl")
+        print(self)
         super(CourseDataControl, self).__init__(args)
-        self.course_data = None
-        self.dst = args
-
-    def get_course_data(self):
-        return self.course_data
-
-    def set_course_data(self, args):
-        self.course_data = args
-
-    def create(self, args):
-        """
-        创建课程
-        :return:
-        """
-        with open(self.dst, "wb") as wf:
-            pickle.dump(self.course_data, wf)
-
-    def read(self):
-        """
-        获取课程列表
-        :param args: args0: 学校, args1: 0 or 1
-        :return:0: 课程列表, 1 整个文件内容
-        """
-        with open(self.dst, "rb") as rf:
-            if os.path.getsize(self.dst) != 0:
-                self.course_data = pickle.load(rf)
-                print(self.course_data)
 
 
-class StudentDataControl(DataControl):  # 学员类
+class StudentDataControl(DataControl):  # 学员数据类
 
     def __init__(self, args):
+        print("StudentDataControl")
+        print(self)
         super(StudentDataControl, self).__init__(args)
-        self.student_data = None
-        self.school_name = None
-        self.dst = args
-
-    def create(self, args):
-        """
-        创建学生
-        :param args:文件地址
-        :return:
-        """
-        with open(self.dst, "wb") as wf:
-            print(self.student_data)
-            pickle.dump(self.student_data, wf)
-
-    def set_student_data(self, args):
-        self.student_data = args
-
-    def get_student_data(self):
-        return self.student_data
-
-    def read(self):
-        """
-        获取整个文件内容
-        """
-        with open(self.dst, "rb") as rf:
-            if os.path.getsize(self.dst) != 0:
-                self.student_data = pickle.load(rf)
 
 
-class TeacherDataControl(DataControl):  # 讲师类
+class TeacherDataControl(DataControl):  # 讲师数据类
 
     def __init__(self, args):
+        print("TeacherDataControl")
+        print(self)
         super(TeacherDataControl, self).__init__(args)
-        self.teacher_data = None
-        self.dst = args
 
-    def get_teacher_data(self):
-        return self.teacher_data
-
-    def set_teacher_data(self, args):
-        self.teacher_data = args
-
-    def create(self, args):
-        """
-        创建讲师
-        :param args: 0: 学校, 1: 讲师
-        :return: 创建结果
-        """
-        with open(self.dst, "wb") as wf:
-            print(self.teacher_data)
-            pickle.dump(self.teacher_data, wf)
-
-    def read(self):
-        """
-        获取讲师整个文件内容
-        """
-        if os.path.exists(self.dst) is True:
-            with open(self.dst, "rb") as rf:
-                file_length = os.path.getsize(self.dst)
-                if file_length != 0:
-                    self.teacher_data = pickle.load(rf)
 

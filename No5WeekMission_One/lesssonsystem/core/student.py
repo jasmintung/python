@@ -17,11 +17,10 @@ Contact: puzexiong@163.com
 # 学员类
 # 学员类数据结构
 # 账号数据库(唯一编号,姓名, 注册标识)
-dict1 = {"id": "st00408", "name": "杰森斯坦森", "password": "123456", "Register": 0}
+# dict1 = {"id": "st00408", "name": "杰森斯坦森", "password": "123456", "Register": 0, "score": 0}
 # 选课数据库学员表
-dict2 = {"大连": {"st00408": {"姓名": "Jack", "班级": "一班"}, "st00409": {"姓名": "李老大", "班级": "二班"}},
-         "广州": {"st00001": {"姓名": "习大大", "班级": "一班"}, "st00301": {"姓名": "王大雷", "班级": "二班"}}}
-
+# dict2 = {"大连": {"st00408": {"姓名": "Jack", "班级": "一班"}, "st00409": {"姓名": "李老大", "班级": "二班"}},
+#          "广州": {"st00001": {"姓名": "习大大", "班级": "一班"}, "st00301": {"姓名": "王大雷", "班级": "二班"}}}
 
 
 class StudentModule(object):
@@ -87,6 +86,7 @@ class StudentModule(object):
             student_dict["name"] = account
             student_dict["password"] = password
             student_dict["Register"] = 0
+            student_dict["score"] = 0
             write_database_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], account)
             instance_uc = UserDataControl(write_database_dst)
             instance_uc.create(student_dict)  # 用户个人信息文件创建
@@ -114,7 +114,7 @@ class StudentModule(object):
         print("student_dst:", student_dst)
         instance_st = UserDataControl(student_dst)
         instance_st.read()
-        student_dict = instance_st.get_user_data()
+        student_dict = instance_st.get_usr_data()
         print("学员:", student_dict)
         self.st_id = student_dict["id"]
         if student_dict["Register"] == 1:
@@ -123,7 +123,7 @@ class StudentModule(object):
             # 选择学校,班级
             instance_cs = ClassModule(self.school_name)
             instance_cs.search_class_data()
-            class_dict = instance_cs.get_Class_data()
+            class_dict = instance_cs.get_class_data()
             print(class_dict)
             print("请选择班级(根据班级全名)")
             usr_chose_class = input()
@@ -134,7 +134,7 @@ class StudentModule(object):
                     self.class_name = usr_chose_class
                     if self.payment() is True:
                         student_dict["Register"] = 1
-                        instance_st.set_user_data(student_dict)
+                        instance_st.set_usr_data(student_dict)
                         instance_st.create(None)
                 else:
                     print("\033[36;1m您放弃注册,数据将丢失!\033[0m")
@@ -159,21 +159,31 @@ class StudentModule(object):
             write_file_dict[self.school_name] = student_dict
             instance_st_data = StudentDataControl(StudentModule.ccsys_student_dst)
             instance_st_data.read()
-            self.student_data = instance_st_data.get_student_data()
+            self.student_data = instance_st_data.get_data()
             if self.student_data is None:
                 print("\033[34;1m您是第一位报名课程的!\033[0m")
-                instance_st_data.set_student_data(write_file_dict)
+                instance_st_data.set_data(write_file_dict)
             else:
                 self.student_data[self.school_name].update(write_file_dict[self.school_name])
-                instance_st_data.set_student_data(self.student_data)
+                instance_st_data.set_data(self.student_data)
+                print("\033[34;1m选课成功!\033[0m")
             instance_st_data.create(None)
-
             pay_result = True
         elif sure_to_pay == "N":
             print("\033[36;1m您未完成缴费,数据将丢失!\033[0m")
         else:
             print("\033[34;1m输入不正确!\033[0m")
         return pay_result
+
+    def get_student_data(self):
+        # 获取学员列表
+        return self.student_data
+
+    def search_student_data(self):
+        instance_st = StudentDataControl(StudentModule.ccsys_student_dst)
+        self.obj = instance_st
+        instance_st.read()
+        self.student_data = instance_st.get_data()
 
     def check_exists(self):
         # 检查要创建的学员是否已经存在dict1
@@ -187,14 +197,13 @@ class StudentModule(object):
 
     def check_personal_socre(self):
         # 查阅个人成绩
-        pass
+        user_database_dst = "%s/%s/%s/%s" % (file_dst["path"], file_dst["dir_name3"], file_dst["dir_name3_1"], self.student_name)
+        instance_ud = UserDataControl(user_database_dst)
+        if instance_ud.check_user_exists() is True:
+            instance_ud.read()
+            student_data = instance_ud.get_usr_data()
+            score = student_data.get("score")
+            print("\033[34;1m您的成绩是: \033[0m", score)
+        else:
+            print("您的信息被删除了!")
 
-    def get_student_data(self):
-        # 获取学员列表
-        return self.student_data
-
-    def search_student_data(self):
-        instance_st = StudentDataControl(StudentModule.ccsys_student_dst)
-        self.obj = instance_st
-        instance_st.read()
-        self.student_data = instance_st.get_student_data()

@@ -30,14 +30,14 @@ class ClassModule(object):
         # 数据库查询
         return is_exists
 
-    def get_Class_data(self):
+    def get_class_data(self):
         return self.class_data
 
     def search_class_data(self):
         instance_cs = ClassDataControl(ClassModule.ccsys_class_dst)
         self.obj = instance_cs
         instance_cs.read()
-        self.class_data = instance_cs.get_class_data()
+        self.class_data = instance_cs.get_data()
 
     def add_class(self):  # 增加班级的时候,目前课程，讲师列表必须写入信息,如果还没有能够录入的班级和讲师则提示不能创建班级
         dict_class = {}
@@ -79,7 +79,7 @@ class ClassModule(object):
             print("首次创建班级")
             class_dict[class_name] = class_info_dict
             dict_class[self.school_name] = class_dict
-            self.obj.set_class_data(dict_class)
+            self.obj.set_data(dict_class)
         else:
             if self.school_name in self.class_data:  # 班级数据库有这个校区了   ok
                 if self.class_data[self.school_name].get(class_name) is None:  # 这个校区还没有要创建的班级
@@ -101,5 +101,5 @@ class ClassModule(object):
             else:  # ok
                 class_dict[class_name] = class_info_dict
                 self.class_data[self.school_name] = class_dict
-            self.obj.set_class_data(self.class_data)
+            self.obj.set_data(self.class_data)
         self.obj.create(None)
