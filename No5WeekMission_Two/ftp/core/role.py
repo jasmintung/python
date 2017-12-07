@@ -1,10 +1,12 @@
 class RoleBase(object):
 
-    def __init__(self, user_name, password):  # Constructor of the class
+    def __init__(self, user_name, password, authority_level):  # Constructor of the class
         self.user_name = user_name  # 登陆用户名
         self.password = password  # 登陆密码
-        self.authority_level = 0  # 权限等级
+        self.authority_level = authority_level  # 角色权限等级
         self.down_upload_level = 0  # 下载上传等级
+        self.current_view_dst = ""  # 当前停留在的绝对目录路径
+        self.current_view_file = ""  # 当前要操作的文件
 
     def get_user_name(self):
         """
