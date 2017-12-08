@@ -55,13 +55,13 @@ data = null
 account = xxx
 password = xxx
 cmd = "view"
-data = 默认初始访问目录*默认目录中的子目录及文件
+data = 默认初始访问目录路径(字符串)*该目录路径下的子目录及所有文件(列表)
 3、向前浏览
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
 cmd = "next"
-data = 要跳转到的具体的文件夹名字
+data = 要跳转到的路径名
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
@@ -72,7 +72,7 @@ data = 当前文件夹下所有的子目录及文件信息的打印列表
 account = xxx
 password = xxx
 cmd = "prev"
-data = 要跳转到的具体的文件夹名字
+data = 要跳转到的路径名
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
@@ -87,8 +87,18 @@ data = 要下载文件的绝对路径(目录+文件名)
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
-cmd = "download"
-data = 下载的文件的数据
+cmd = "download_RES"
+data = 下载的文件的总大小
+客户端--------------------------------------------->服务器
+account = xxx
+password = xxx
+cmd = "download_RES"
+data = "READY" or "NOT_READY"
+服务器--------------------------------------------->客户端
+account = xxx
+password = xxx
+cmd = "download_ing"
+data = 当前传送的文件的大小
 6、上传
 客户端--------------------------------------------->服务器
 account = xxx
