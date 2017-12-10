@@ -1,4 +1,5 @@
 import socketserver
+from core import server_data_process
 
 host = 'localhost'
 port = 8009
@@ -10,16 +11,14 @@ class FtpServer(socketserver.BaseRequestHandler):
         conn = self.request
         conn.sendall("This is server...")
         print(conn.getpeername())
+        instance_process = server_data_process.ServerDataProcess()
         flag = True
         while flag:
-            data = conn.recv(1024)
+            data = conn.recv(8*1024)
             if not data:
                 print("client broke")
                 break
-            print(data.decode())
-            if data.decode() == 'exit':
-                flag = False
-
+            instance_process.analyse_client_data(data)
 
 def run():
     server = socketserver.ThreadingTCPServer((host, port), FtpServer)
