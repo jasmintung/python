@@ -20,6 +20,7 @@ class FtpServer(socketserver.BaseRequestHandler):
                 break
             instance_process.analyse_client_data(data)
 
+
 def run():
     server = socketserver.ThreadingTCPServer((host, port), FtpServer)
     server.serve_forever()

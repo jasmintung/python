@@ -44,7 +44,7 @@ data = null
 account = xxx
 password = xxx
 cmd = "login"
-data = 登陆结果
+data = 登陆结果: 1 REAL  2: GUEST  9  ADMIN  0 用户不存在  8 密码错误
 2、浏览
 客户端--------------------------------------------->服务器(登陆成功后自动发送)
 account = xxx
@@ -55,7 +55,7 @@ data = null
 account = xxx
 password = xxx
 cmd = "view"
-data = 默认初始访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表)
+data = 默认初始访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表转字符串)
 3、向前浏览
 客户端--------------------------------------------->服务器
 account = xxx
