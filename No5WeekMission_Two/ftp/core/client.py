@@ -4,7 +4,7 @@ from core import admin_role
 from core import real_role
 from core import guest_role
 
-operation_fun = {0: "login", 1: "view", 2: "next", 3: "prev", 4: "download", 5: "upload"}
+operation_fun = {0: "login", 1: "view", 2: "jump", 3: "download", 4: "upload"}
 download_file_save_path = ""  # 下载文件存放在本地的具体地址
 
 
@@ -110,9 +110,7 @@ def run():
                         if recv_data.get("cmd") == "view" and recv_data.get("data") is not None:
                             # 这里解析出初始默认返回登陆访问到目录及目录中的文件
                             process_view(client, user_name, password, recv_data.get("data"))
-                        elif recv_data.get("cmd") == "next" and recv_data.get("data") is not None:  # 接收next指令应答
-                            process_view(client, user_name, password, recv_data.get("data"))
-                        elif recv_data.get("cmd") == "prev" and recv_data.get("data") is not None:  # 接收prev指令应答
+                        elif recv_data.get("cmd") == "jump" and recv_data.get("data") is not None:  # 接收next指令应答
                             process_view(client, user_name, password, recv_data.get("data"))
                         elif recv_data.get("cmd") == "download_RES" and recv_data.get("data") is not None:  # 接收download_RES指令应答
                             process_download_res(client, user_name, password, recv_data.get("data"))
@@ -150,8 +148,7 @@ def process_view(client, account, password, args):
         print("当前目录是:", path)
         print("文件列表:", file_list)
         notice_info = """
-            "目录向前跳转请输入: next*具体你要跳转到的绝对路径"
-            "目录向后跳转请输入: prev*具体你要跳转到的绝对路径"
+            "目录跳转请输入: jump*具体你要跳转到的绝对路径名"
             "上传文件请输入: upload*服务器存放上传文件的绝对路径*本地要上传文件的绝对路径"
             "下载文件请输入: download*服务器存放下载文件的绝对路径"
             "退出": quit

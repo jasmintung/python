@@ -15,7 +15,9 @@
                 data == 9: Admin用户
                 data == 0: 登陆失败
 ## 客户端，服务器端按照上述字典格式对bytes数据进行转换，以解析其数据内容
-
+## FTP服务器端：普通用户自己的初始目录结构为：F:\XXX\XXXXXX\XXXX\用户名
+## 所有用户在同一个目录层级
+## 后续的代码编写,路径的解析也将严格根据上述描述的特征进行解析
 # bytes object
 b = b"example"
 
@@ -56,30 +58,20 @@ account = xxx
 password = xxx
 cmd = "view"
 data = 默认初始访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表转字符串)
-3、向前浏览
-客户端--------------------------------------------->服务器
-account = xxx
-password = xxx
-cmd = "next"
-data = 要跳转到的路径名
-服务器--------------------------------------------->客户端
-account = xxx
-password = xxx
-cmd = "next"
-data = 跳转访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表) or "no_permission"
-4、向后浏览
-客户端--------------------------------------------->服务器
-account = xxx
-password = xxx
-cmd = "prev"
-data = 要跳转到的路径名
-服务器--------------------------------------------->客户端
-account = xxx
-password = xxx
-cmd = "prev"
-data = 跳转访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表) or "no_permission"
 
-5、下载
+3、跳转路径
+客户端--------------------------------------------->服务器
+account = xxx
+password = xxx
+cmd = "jump"
+data = 要跳转到的路径名
+服务器--------------------------------------------->客户端
+account = xxx
+password = xxx
+cmd = "jump"
+data = 跳转访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表) or "no_permission" or "path_error"
+
+4、下载
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
@@ -101,7 +93,7 @@ password = xxx
 cmd = "download_ing"
 data = 当前传送的文件的大小
 
-6、上传
+5、上传
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
