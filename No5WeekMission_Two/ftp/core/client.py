@@ -14,6 +14,7 @@ class Client(object):
         self.ip = ip
         self.port = port
         self.socket = None
+        self.role = None
         self.login_statue = 0
         self.download_file_size = 0
         self.upload_file_path = ""
@@ -71,6 +72,11 @@ class Client(object):
     def close(self):
         self.socket.close()
 
+    def set_role_instance(self, role):
+        self.role = role
+
+    def get_role_instance(self):
+        return self.role
 
 def run():
     while True:
@@ -109,9 +115,9 @@ def run():
                     elif client.get_login_statue() == 1:
                         if recv_data.get("cmd") == "view" and recv_data.get("data") is not None:
                             # 这里解析出初始默认返回登陆访问到目录及目录中的文件
-                            process_view(client, user_name, password, recv_data.get("data"))
+                            process_view("view", client, user_name, password, recv_data.get("data"))
                         elif recv_data.get("cmd") == "jump" and recv_data.get("data") is not None:  # 接收next指令应答
-                            process_view(client, user_name, password, recv_data.get("data"))
+                            process_view("jump", client, user_name, password, recv_data.get("data"))
                         elif recv_data.get("cmd") == "download_RES" and recv_data.get("data") is not None:  # 接收download_RES指令应答
                             process_download_res(client, user_name, password, recv_data.get("data"))
                         elif recv_data.get("cmd") == "download_ing" and recv_data.get("data") is not None:  # 接收download_ing指令应答
@@ -140,11 +146,15 @@ def init_role(type, *args):
     return instance_user
 
 
-def process_view(client, account, password, args):
+def process_view(cmd, client, account, password, args):
     if args.startwith("no_permission"):
         print("\33[33;1m没有权限访问!\33[0m")
+    elif args.startwith("path_error"):
+        print("\33[33;1m路径错误!\33[0m")
     else:
         path, file_list = args.strip().split("*")
+        if cmd == "view":
+
         print("当前目录是:", path)
         print("文件列表:", file_list)
         notice_info = """
@@ -185,14 +195,17 @@ def process_view(client, account, password, args):
 
 
 def process_download_res(client, account, password, args):
-    print("下载文件的总大小:", args)
-    operation_protocol = {}
-    operation_protocol["account"] = account
-    operation_protocol["password"] = password
-    operation_protocol["cmd"] = "download_RES"
-    operation_protocol["data"] = "READY"
-    client.set_protocol(operation_protocol)
-    client.set_download_file_size(args)
+    if args != "file_not_exists":
+        print("下载文件的总大小:", args)
+        operation_protocol = {}
+        operation_protocol["account"] = account
+        operation_protocol["password"] = password
+        operation_protocol["cmd"] = "download_RES"
+        operation_protocol["data"] = "READY"
+        client.set_protocol(operation_protocol)
+        client.set_download_file_size(args)
+    else:
+        pass
 
 
 def process_download_ing(client):
@@ -207,6 +220,7 @@ def process_download_ing(client):
         print("下载完成!")
         wf.write(file_datas)
         wf.close()
+
 
 def process_upload_res(client, account, password, args):
     # 服务器 - -------------------------------------------->客户端

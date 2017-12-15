@@ -11,7 +11,7 @@ class FtpServer(socketserver.BaseRequestHandler):
         conn = self.request
         conn.sendall("This is server...")
         print(conn.getpeername())
-        instance_process = server_data_process.ServerDataProcess()
+        instance_process = server_data_process.ServerDataProcess(conn)
         flag = True
         while flag:
             data = conn.recv(8*1024)

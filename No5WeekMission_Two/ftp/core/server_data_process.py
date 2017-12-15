@@ -6,9 +6,10 @@ db_dir = settings.DATABASE
 
 class ServerDataProcess(object):
 
-    def __init__(self):
+    def __init__(self, socket):
+        self.socket = socket
         self.data = ""
-        self.current_path = ""
+        self.current_download_path = ""
         self.protocol = {
             "account": "",
             "password": "",
@@ -21,11 +22,11 @@ class ServerDataProcess(object):
     def get_process_res_data(self):
         return self.protocol
 
-    def get_current_path(self):
-        return self.current_path
+    def get_current_download_path(self):
+        return self.current_download_path
 
-    def set_current_path(self, path):
-        self.current_path = path
+    def set_current_download_path(self, path):
+        self.current_download_path = path
 
     def analyse_client_data(self, args):
         recv_data = eval(args.decode())
@@ -35,7 +36,7 @@ class ServerDataProcess(object):
             elif recv_data["cmd"] == "view":
                 self.process_view(recv_data.get("account"), recv_data.get("password"))
             elif recv_data["cmd"] == "jump":
-                self.process_next_prev(recv_data.get("account"), recv_data.get("password"),recv_data.get("data"))
+                self.process_next_prev(recv_data.get("account"), recv_data.get("password"), recv_data.get("data"))
             elif recv_data["cmd"] == "download":
                 self.process_download(recv_data.get("account"), recv_data.get("password"), recv_data.get("data"))
             elif recv_data["cmd"] == "upload":
@@ -85,7 +86,6 @@ class ServerDataProcess(object):
 
     def process_view(self, account, password):
         check_result = self.account_check(account, password)
-        self.set_current_path(check_result[1])
         file_list = os.listdir(check_result[1])  # 这里返回的是一个列表
         response_dict = {}
         response_dict["account"] = account
@@ -104,20 +104,40 @@ class ServerDataProcess(object):
         result = check_result[0]
         default_path = check_result[1]
         if result != 0 and result != 8:
-            if result == 2:
-                print("该用户只能访问自己的主目录!")
-                response_dict["data"] = "no_permission"
-            else:
-                self.target_path_check(result, account, default_path, jump_path)
+            response_dict["data"] = self.target_path_check(result, account, default_path, jump_path)
+        self.set_process_res_data(response_dict)
 
     def process_download(self, account, password, download_file_path):
-        pass
+        response_dict = {}
+        response_dict["account"] = account
+        response_dict["password"] = password
+        response_dict["cmd"] = "download_RES"
+        if not os.path.isfile(download_file_path):
+            response_dict["data"] = "file_not_exists"
+        else:
+            check_result = self.account_check(account, password)
+            result = check_result[0]
+            default_path = check_result[1]
+            if result != 0 and result != 8:
+                response_dict["data"] = self.target_file_check(result, account, default_path, download_file_path)
+        self.set_process_res_data(response_dict)
 
     def process_download_res(self, account, password, response):
-        pass
-
-    def process_download_ing(self, account, password, down_file_data):
-        pass
+        if response == "READY":
+            response_dict = {}
+            response_dict["account"] = account
+            response_dict["password"] = password
+            response_dict["cmd"] = "download_ing"
+            file_path = self.get_current_download_path()
+            fp = open(file_path, "rb")
+            while True:
+                file_data = fp.read(1*1024)
+                response_dict["data"] = file_data
+                if not file_data:
+                    break
+                self.socket.send(response_dict)
+            self.socket.close()
+            print("send over...")
 
     def process_upload(self, account, password, args):
         pass
@@ -131,6 +151,7 @@ class ServerDataProcess(object):
     # 这里有个规则,管理员创建用户目录的时候，所有用户的目录都在同一个父目录下面
 
     def target_path_check(self, account_type, account, default_path, target_path):
+        result_data = ""
         if os.path.isdir(target_path):  # 先判断要跳转的路径是否存在
             # 接着判断根路径是否一致,否则跳转到其它根去了是不允许的
             index = default_path.find(":")
@@ -145,11 +166,16 @@ class ServerDataProcess(object):
                             target_user_content1 = target_path[len(user_content_base):-1]
                             if not target_user_content1.startwith(user_content1):
                                 if account_type == 1:  # Real用户不能访问同级目录的其它用户的目录及文件内容
-                                    pass
+                                    result_data = "no_permission"
                                 elif account_type == 9:  # 管理员可以访问
-                                    pass
+                                    print("可以访问拉!")
+                                    result_data = target_path + "*" + "".join(os.listdir(target_path))
+                            else:
+                                if account_type == 2:
+                                    print("可以访问拉!")
+                                    result_data = target_path + "*" + "".join(os.listdir(target_path))
                         else:
-                            pass
+                            result_data = "path_error"
                     else:
                         if len(target_path) > len(user_content_base):
                             # F:\mnt\streamax\home\zhangtong
@@ -158,17 +184,53 @@ class ServerDataProcess(object):
                             target_user_content1 = target_path[len(user_content_base):-1]
                             if user_content1 != target_user_content1:
                                 if account_type == 1:  # Real用户不能访问同级目录的其它用户的目录及文件内容
-                                    pass
+                                    result_data = "no_permission"
                                 elif account_type == 9:  # 管理员可以访问
-                                    pass
+                                    print("可以访问拉!")
+                                    result_data = target_path + "*" + "".join(os.listdir(target_path))
                             else:
+
                                 print("可以访问拉!")
+                                result_data = target_path + "*" + "".join(os.listdir(target_path))
                         else:
                             # F:\st\workspace
-                            print("可以访问拉!")
+                            if account_type != 2:
+                                print("可以访问拉!")
+                                result_data = target_path + "*" + "".join(os.listdir(target_path))
+                            else:
+                                result_data = "no_permission"
                 else:
-                    print("可以访问拉!")
+                    if account_type != 2:
+                        print("可以访问拉!")
+                        result_data = target_path + "*" + "".join(os.listdir(target_path))
+                    else:
+                        result_data = "no_permission"
             else:
-                print("路径不存在!")
+                result_data = "path_error"
         else:
-            print("路径不存在!")
+            result_data = "path_error"
+        return result_data
+
+    def target_file_check(self, account_type, account, default_path, target_file):
+        # 下载路径的检查比较简单,判断下载路径是否是在初始路径下的子目录中的文件即可,或者下载路径在根路径下的其它目录中的文件并且不是其它用户目录下的文件
+        result_data = ""
+        user_account = default_path[default_path.find(account):-1]  # 再加一个账户验证
+        user_content_base = default_path[0:default_path.find(account)]
+        if user_account != account:
+            result_data = "file_not_exists"
+        else:
+            if target_file.startwith(default_path):
+                if os.path.exists(target_file):
+                    result_data = os.path.getsize(target_file)
+                    self.set_current_download_path(target_file)
+                else:
+                    result_data = "file_not_exists"
+            else:
+                if target_file.startwith(user_content_base):
+                    temp_sub_path = target_file[default_path.find(account):-1]
+                    if not temp_sub_path.startwith(account):
+                        result_data = "file_not_exists"
+                    else:
+                        result_data = os.path.getsize(target_file)
+                        self.set_current_download_path(target_file)
+        return result_data

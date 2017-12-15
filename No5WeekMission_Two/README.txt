@@ -81,7 +81,7 @@ data = 要下载文件的绝对路径
 account = xxx
 password = xxx
 cmd = "download_RES"
-data = 下载的文件的总大小
+data = 下载的文件的总大小 or "file_not_exists"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
@@ -98,7 +98,7 @@ data = 当前传送的文件的大小
 account = xxx
 password = xxx
 cmd = "upload"
-data = 要上传到服务器上的绝对路径*要上传的文件的绝对路径*文件大小   # 星号隔开
+data = 要上传到服务器上的绝对路径(根据路径规则,本软件暂时只支持用户上传到自己初始默认路径下面及下面的子目录中)*要上传的文件的绝对路径*文件大小   # 星号隔开
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
