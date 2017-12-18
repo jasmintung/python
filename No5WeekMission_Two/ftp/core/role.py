@@ -7,6 +7,7 @@ class RoleBase(object):
         self.down_upload_level = 0  # 下载上传等级
         self.current_view_dst = ""  # 当前停留在的绝对目录路径
         self.current_view_file = ""  # 当前要操作的文件
+        self.default_path = ""   # 用户初始目录路径
 
     def get_user_name(self):
         """
@@ -52,3 +53,17 @@ class RoleBase(object):
         """
         return self.down_upload_level
 
+    def set_default_path(self, path):
+        """
+        设置用户自身默认目录
+        :param path: 初始路径
+        :return:
+        """
+        self.default_path = path
+
+    def get_default_path(self):
+        """
+        获取用户自身默认目录
+        :return:
+        """
+        return self.default_path

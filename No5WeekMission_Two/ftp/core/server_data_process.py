@@ -10,6 +10,8 @@ class ServerDataProcess(object):
         self.socket = socket
         self.data = ""
         self.current_download_path = ""
+        self.current_upload_path = ""
+        self.count_upload_file_size = 0
         self.protocol = {
             "account": "",
             "password": "",
@@ -27,6 +29,12 @@ class ServerDataProcess(object):
 
     def set_current_download_path(self, path):
         self.current_download_path = path
+
+    def set_current_upload_path(self, path):
+        self.current_upload_path = path
+
+    def get_current_upload_path(self):
+        return self.current_upload_path
 
     def analyse_client_data(self, args):
         recv_data = eval(args.decode())
@@ -140,13 +148,56 @@ class ServerDataProcess(object):
             print("send over...")
 
     def process_upload(self, account, password, args):
-        pass
+        # 客户端那边对要存储文件的路径已经做了校验所以服务器这边可以不用再做校验,当然不排除管理员对客户路径做了调整，但这种可能本项目暂时不考虑处理
+        result = 0
+        response_dict = {}
+        response_dict["account"] = account
+        response_dict["password"] = password
+        response_dict["cmd"] = "upload_RES"
+        dir_path, file_name, file_length = args.strip().split("*")
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
+        upload_path = dir_path + "\\" + file_name
+        result = self.create_file(upload_path, file_length)
+        if result == 0:
+            self.set_current_upload_path(upload_path)
+            response_dict["data"] = "READY"
+        elif result == -1:
+            response_dict["data"] = "FILE_ALREADY_EXISTS"
+        else:
+            response_dict["data"] = "NOT_READY"  # 主要针对其它异常情况的应答,但还没落实具体其它哪些具体情况
+
+    def create_file(self, path, size):
+        result = 0
+        if not os.path.isfile(path):
+            # 文件不存在,打开文件后，进行偏移，然后写入一个字节的内容，最后的这个字节一定要写入，否则文件不会如期望的那样大
+            with open(path, "wb") as f:
+                f.seek(size - 1)
+                f.write(b'\x00')
+            result = 1
+        else:
+            # 覆盖写入
+            result = -1
+        return result
 
     def process_upload_res(self, account, password, response):
-        pass
+        if response == "READY":
+            response_dict = {}
+            response_dict["account"] = account
+            response_dict["password"] = password
+            response_dict["cmd"] = "upload_ing"
+            response_dict["data"] = "SUCCESS" + "*" + "0"
+            self.set_process_res_data(response_dict)
 
     def process_upload_ing(self, account, password, upload_file_data):
-        pass
+        response_dict = {}
+        response_dict["account"] = account
+        response_dict["password"] = password
+        response_dict["cmd"] = "upload_ing"
+        with open(self.get_current_upload_path(), "ab") as af:
+            self.count_upload_file_size += af.write(upload_file_data.encode("utf-8"))
+        response_dict["data"] = "SUCCESS" + "*" + str(self.count_upload_file_size)
+        self.set_process_res_data(response_dict)
 
     # 这里有个规则,管理员创建用户目录的时候，所有用户的目录都在同一个父目录下面
 

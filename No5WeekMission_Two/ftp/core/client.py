@@ -106,6 +106,7 @@ def run():
                             print("登陆成功!")
                             client.set_login_statue(1)
                             instance_role = init_role(recv_data.get("data"), user_name, password)
+                            client.set_role_instance(instance_role)
                             init_operation_protocol = {}
                             init_operation_protocol["account"] = instance_role.get_user_name()
                             init_operation_protocol["password"] = instance_role.get_password()
@@ -113,19 +114,20 @@ def run():
                             init_operation_protocol["data"] = ""
                             client.set_protocol(init_operation_protocol)
                     elif client.get_login_statue() == 1:
-                        if recv_data.get("cmd") == "view" and recv_data.get("data") is not None:
-                            # 这里解析出初始默认返回登陆访问到目录及目录中的文件
-                            process_view("view", client, user_name, password, recv_data.get("data"))
-                        elif recv_data.get("cmd") == "jump" and recv_data.get("data") is not None:  # 接收next指令应答
-                            process_view("jump", client, user_name, password, recv_data.get("data"))
-                        elif recv_data.get("cmd") == "download_RES" and recv_data.get("data") is not None:  # 接收download_RES指令应答
-                            process_download_res(client, user_name, password, recv_data.get("data"))
-                        elif recv_data.get("cmd") == "download_ing" and recv_data.get("data") is not None:  # 接收download_ing指令应答
-                            process_download_ing(client)
-                        elif recv_data.get("cmd") == "upload_RES" and recv_data.get("data") is not None:  # 接收upload_RES指令应答
-                            process_upload_res(client, user_name, password, recv_data.get("data"))
-                        elif recv_data.get("cmd") == "upload_ing" and recv_data.get("data") is not None:
-                            process_upload_ing(client, user_name, password, recv_data.get("data"))
+                        if not recv_data.get("data"):
+                            if recv_data.get("cmd") == "view":
+                                # 这里解析出初始默认返回登陆访问到目录及目录中的文件
+                                process_view("view", client, user_name, password, recv_data.get("data"))
+                            elif recv_data.get("cmd") == "jump":  # 接收next指令应答
+                                process_view("jump", client, user_name, password, recv_data.get("data"))
+                            elif recv_data.get("cmd") == "download_RES":  # 接收download_RES指令应答
+                                process_download_res(client, user_name, password, recv_data.get("data"))
+                            elif recv_data.get("cmd") == "download_ing":  # 接收download_ing指令应答
+                                process_download_ing(client)
+                            elif recv_data.get("cmd") == "upload_RES":  # 接收upload_RES指令应答
+                                process_upload_res(client, user_name, password, recv_data.get("data"))
+                            elif recv_data.get("cmd") == "upload_ing":
+                                process_upload_ing(client, user_name, password, recv_data.get("data"))
         else:
             print("连接错误! error code is %d" % result)
 
@@ -135,6 +137,7 @@ def init_role(type, *args):
     if type == 1:
         print("您是Real用户!")
         instance_user = real_role.Real(args[0], args[1], 1)
+
     elif type == 2:
         print("您是Guest用户!")
         instance_user = guest_role.Guest(args[0], args[1], 2)
@@ -143,7 +146,27 @@ def init_role(type, *args):
         instance_user = admin_role.Admin(args[0], args[1], 9)
     else:
         print("您的访问权限可能未分配!请联系后台管理员!")
+    if not instance_user:
+        instance_user.set_authority_level(type)
     return instance_user
+
+
+def create_role():
+    """
+    管理员功能 之 创建普通用户
+    :return:
+    """
+    account = input("请输入创建用户用户名:")
+    password = input("请输入创建用户密码:")
+    type = input("请输入创建用户类型:")
+
+
+def delete_role():
+    """
+    管理员功能 之 创建普通用户
+    :return:
+    """
+    account = input("请输入要删除的账户用户名:")
 
 
 def process_view(cmd, client, account, password, args):
@@ -154,44 +177,69 @@ def process_view(cmd, client, account, password, args):
     else:
         path, file_list = args.strip().split("*")
         if cmd == "view":
+            print("您的home目录是:", path)
+            client.get_role_instance().set_default_path(path)
+        elif cmd == "jump":
+            print("您当前的目录是:", path)
+        print("目录中的文件及子目录有:", file_list)
+        if client.get_role_instance().get_authority_level() == 9:
+            admin_notice = """
+                "创建用户": 1
+                "删除用户": 0
+                "其它操作": 任意输入
+            """
+            print(admin_notice)
+            choice = (int(input("请根据编号选择操作:")))
+            if choice == 0:
+                delete_role()
+            elif choice == 1:
+                create_role()
+            else:
+                process_view_func(client, account, password)
+        else:
+            process_view_func(client, account, password)
 
-        print("当前目录是:", path)
-        print("文件列表:", file_list)
-        notice_info = """
-            "目录跳转请输入: jump*具体你要跳转到的绝对路径名"
-            "上传文件请输入: upload*服务器存放上传文件的绝对路径*本地要上传文件的绝对路径"
-            "下载文件请输入: download*服务器存放下载文件的绝对路径"
-            "退出": quit
-        """
-        print(notice_info)
-        operation = input("请输入>>").strip()
-        check = False
-        if operation == "quit":  # 退出
-            client.close()
-            exit()
-        for key in operation_fun:
-            if operation.startswith(operation_fun[key]):
-                check = True
-                break
-        if check:
-            operation_protocol = {}
-            operation_protocol["account"] = account
-            operation_protocol["password"] = password
-            if operation.startswith("upload"):
-                cmd, path_server, path_local = operation.strip().split("*")
-                if os.path.isfile(path_local):
-                    operation_protocol["data"] = path_server +"*" + path_local
+
+def process_view_func(client, account, password):
+    notice_info = """
+                    "目录跳转请输入: jump*具体你要跳转到的绝对路径名"
+                    "上传文件请输入: upload*FTP服务器上自己的目录下的路径*本地要上传文件的绝对路径"
+                    "下载文件请输入: download*服务器存放下载文件的绝对路径"
+                    "退出": quit
+                """
+    print(notice_info)
+    operation = input("请输入>>").strip()
+    check = False
+    if operation == "quit":  # 退出
+        client.close()
+        exit()
+    for key in operation_fun:
+        if operation.startswith(operation_fun[key]):
+            check = True
+            break
+    if check:
+        operation_protocol = {}
+        operation_protocol["account"] = account
+        operation_protocol["password"] = password
+        if operation.startswith("upload"):
+            cmd, path_server, path_local = operation.strip().split("*")
+            user_default_path = client.get_role_instance().get_default_path()
+            if os.path.isfile(path_local):
+                if not path_server.startwith(user_default_path):
+                    print("上传路径有误!")
+                else:
                     client.set_upload_file_path(path_local)
-                    client.set_upload_file_length(os.path.getsize(path_local))
+                    file_length = client.set_upload_file_length(os.path.getsize(path_local))
+                    operation_protocol["data"] = path_server + "*" + os.path.basename(path_local) + "*" + file_length
                     operation_protocol["cmd"] = cmd
                     client.set_protocol(operation_protocol)
-                else:
-                    print("上传的文件不存在!")
             else:
-                cmd, path = operation.strip().split("*")
-                operation_protocol["data"] = path
-                operation_protocol["cmd"] = cmd
-                client.set_protocol(operation_protocol)
+                print("上传的文件不存在!")
+        else:
+            cmd, path = operation.strip().split("*")
+            operation_protocol["data"] = path
+            operation_protocol["cmd"] = cmd
+            client.set_protocol(operation_protocol)
 
 
 def process_download_res(client, account, password, args):
@@ -235,6 +283,7 @@ def process_upload_res(client, account, password, args):
         upload_res_protocol["cmd"] = "upload_RES"
         upload_res_protocol["data"] = "READY"
         client.set_protocol(upload_res_protocol)
+
 
 def process_upload_ing(client, account, password, args):
     # 服务器 - -------------------------------------------->客户端

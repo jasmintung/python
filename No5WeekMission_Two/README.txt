@@ -69,7 +69,7 @@ data = 要跳转到的路径名
 account = xxx
 password = xxx
 cmd = "jump"
-data = 跳转访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表) or "no_permission" or "path_error"
+data = 跳转访问目录绝对路径(字符串)*该目录路径下的子目录及所有文件(列表转字符串) or "no_permission" or "path_error"
 
 4、下载
 客户端--------------------------------------------->服务器
@@ -98,12 +98,12 @@ data = 当前传送的文件的大小
 account = xxx
 password = xxx
 cmd = "upload"
-data = 要上传到服务器上的绝对路径(根据路径规则,本软件暂时只支持用户上传到自己初始默认路径下面及下面的子目录中)*要上传的文件的绝对路径*文件大小   # 星号隔开
+data = 要上传到服务器上的绝对路径(根据本项目路径权限规则,本软件暂时只支持用户上传到自己初始默认路径下面及下面的子目录中)*文件名*文件大小   # 星号隔开
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
 cmd = "upload_RES"
-data = "READY" or "NOT_READY"
+data = "READY" or "NOT_READY" or "FILE_ALREADY_EXISTS"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
