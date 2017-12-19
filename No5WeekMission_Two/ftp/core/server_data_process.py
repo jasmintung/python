@@ -19,7 +19,7 @@ class ServerDataProcess(object):
             "data": 0}
 
     def set_process_res_data(self, args):
-        return args
+        self.protocol = args
 
     def get_process_res_data(self):
         return self.protocol
@@ -37,6 +37,7 @@ class ServerDataProcess(object):
         return self.current_upload_path
 
     def analyse_client_data(self, args):
+        print("服务器收到的数据:", args)
         recv_data = eval(args.decode())
         if isinstance(recv_data, dict):
             if recv_data["cmd"] == "login":
@@ -85,11 +86,13 @@ class ServerDataProcess(object):
 
     def process_login(self, account, password):
         check_result = self.account_check(account, password)
+        print(check_result)
         response_dict = {}
         response_dict["account"] = account
         response_dict["password"] = password
         response_dict["cmd"] = "login"
         response_dict["data"] = check_result[0]
+        print(response_dict)
         self.set_process_res_data(response_dict)
 
     def process_view(self, account, password):
@@ -98,7 +101,7 @@ class ServerDataProcess(object):
         response_dict = {}
         response_dict["account"] = account
         response_dict["password"] = password
-        response_dict["cmd"] = "login"
+        response_dict["cmd"] = "view"
         response_dict["data"] = check_result[1] + "*" + "".join(file_list)
         self.set_process_res_data(response_dict)
 
@@ -143,7 +146,7 @@ class ServerDataProcess(object):
                 response_dict["data"] = file_data
                 if not file_data:
                     break
-                self.socket.send(response_dict)
+                self.socket.send(str(response_dict).encode("utf-8"))
             self.socket.close()
             print("send over...")
 
@@ -203,28 +206,32 @@ class ServerDataProcess(object):
 
     def target_path_check(self, account_type, account, default_path, target_path):
         result_data = ""
+        print("target_path : ", target_path)
         if os.path.isdir(target_path):  # 先判断要跳转的路径是否存在
             # 接着判断根路径是否一致,否则跳转到其它根去了是不允许的
             index = default_path.find(":")
             base_dir = default_path[0:index+1]
-            if target_path.startwith(base_dir):
+            print("default_path : ", default_path)
+            print("base_dir :", base_dir)
+            if target_path.startswith(base_dir):
                 # 接着判断要跳转的路径是否是其它用户的目录里面去了:F:\mnt\streamax\home\zhangtong
                 user_content_base = default_path[0:default_path.find(account)]  # 得到 F:\mnt\streamax\home\
-                user_content1 = default_path[default_path.find(account):-1]  # 得到上面目录 zhangtong在字符串的坐标
-                if target_path.startwith(user_content_base):
+                user_content1 = default_path[default_path.find(account):-1]  # 得到上面目录 zhangtong在字符串的坐标\
+                print("user_content_base : ", user_content_base)
+                if target_path.startswith(user_content_base):
                     if len(default_path) < len(target_path):
                         if target_path.find(user_content_base) != -1:
                             target_user_content1 = target_path[len(user_content_base):-1]
-                            if not target_user_content1.startwith(user_content1):
+                            if not target_user_content1.startswith(user_content1):
                                 if account_type == 1:  # Real用户不能访问同级目录的其它用户的目录及文件内容
                                     result_data = "no_permission"
                                 elif account_type == 9:  # 管理员可以访问
                                     print("可以访问拉!")
-                                    result_data = target_path + "*" + "".join(os.listdir(target_path))
+                                    result_data = target_path + "*" + str(os.listdir(target_path))
                             else:
-                                if account_type == 2:
+                                if account_type == 2 or account_type == 9:
                                     print("可以访问拉!")
-                                    result_data = target_path + "*" + "".join(os.listdir(target_path))
+                                    result_data = target_path + "*" + str(os.listdir(target_path))
                         else:
                             result_data = "path_error"
                     else:
@@ -238,39 +245,40 @@ class ServerDataProcess(object):
                                     result_data = "no_permission"
                                 elif account_type == 9:  # 管理员可以访问
                                     print("可以访问拉!")
-                                    result_data = target_path + "*" + "".join(os.listdir(target_path))
+                                    result_data = target_path + "*" + str(os.listdir(target_path))
                             else:
-
                                 print("可以访问拉!")
-                                result_data = target_path + "*" + "".join(os.listdir(target_path))
+                                result_data = target_path + "*" + str(os.listdir(target_path))
                         else:
                             # F:\st\workspace
                             if account_type != 2:
                                 print("可以访问拉!")
-                                result_data = target_path + "*" + "".join(os.listdir(target_path))
+                                result_data = target_path + "*" + str(os.listdir(target_path))
                             else:
                                 result_data = "no_permission"
                 else:
                     if account_type != 2:
                         print("可以访问拉!")
-                        result_data = target_path + "*" + "".join(os.listdir(target_path))
+                        result_data = target_path + "*" + str(os.listdir(target_path))
                     else:
                         result_data = "no_permission"
             else:
                 result_data = "path_error"
         else:
+            print("123456678")
             result_data = "path_error"
         return result_data
 
     def target_file_check(self, account_type, account, default_path, target_file):
         # 下载路径的检查比较简单,判断下载路径是否是在初始路径下的子目录中的文件即可,或者下载路径在根路径下的其它目录中的文件并且不是其它用户目录下的文件
         result_data = ""
-        user_account = default_path[default_path.find(account):-1]  # 再加一个账户验证
+        user_account = default_path[default_path.find(account):]  # 再加一个账户验证
+        print(user_account, account)
         user_content_base = default_path[0:default_path.find(account)]
-        if user_account != account:
+        if user_account != account and account_type != 9:
             result_data = "file_not_exists"
         else:
-            if target_file.startwith(default_path):
+            if target_file.startswith(default_path):
                 if os.path.exists(target_file):
                     result_data = os.path.getsize(target_file)
                     self.set_current_download_path(target_file)
@@ -278,7 +286,7 @@ class ServerDataProcess(object):
                     result_data = "file_not_exists"
             else:
                 if target_file.startwith(user_content_base):
-                    temp_sub_path = target_file[default_path.find(account):-1]
+                    temp_sub_path = target_file[default_path.find(account):]
                     if not temp_sub_path.startwith(account):
                         result_data = "file_not_exists"
                     else:
