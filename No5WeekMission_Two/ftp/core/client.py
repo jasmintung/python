@@ -19,6 +19,7 @@ class Client(object):
         self.download_file_name = ""
         self.download_file_save_dir = ""
         self.download_file_size = 0
+        self.download_count_size = 0    # 单次任务累计收到的文件大小
         self.upload_file_path = ""
         self.upload_file_offset = 0  # 上传文件的偏移量
         self.upload_file_length = 0  # 上传文件总大小
@@ -95,6 +96,12 @@ class Client(object):
     def get_download_file_save_dir(self):
         return self.download_file_save_dir
 
+    def set_download_count_size(self, args):
+        self.download_count_size = args
+
+    def get_download_count_size(self):
+        return self.download_count_size
+
 
 def run():
     while True:
@@ -105,7 +112,7 @@ def run():
         if result == 0:
             while True:
                 data = client.get_socket().recv(1024)
-                print("客户端收到的数据:", data.decode())
+                print("client recv data:", data.decode())
                 if data:
                     break
             user_name = input("请输入登陆名:").strip()
@@ -146,7 +153,7 @@ def run():
                             elif recv_data.get("cmd") == "download_RES":  # 接收download_RES指令应答
                                 process_download_res(client, user_name, password, recv_data.get("data"))
                             elif recv_data.get("cmd") == "download_ing":  # 接收download_ing指令应答
-                                process_download_ing(client)
+                                process_download_ing(client, user_name, password, recv_data.get("data"))
                             elif recv_data.get("cmd") == "upload_RES":  # 接收upload_RES指令应答
                                 process_upload_res(client, user_name, password, recv_data.get("data"))
                             elif recv_data.get("cmd") == "upload_ing":
@@ -275,9 +282,17 @@ def process_view_func(client, account, password):
             operation_protocol["cmd"] = cmd
             if cmd == "download":
                 dir, file_name = os.path.split(path)
-                client.set_download_file_name(file_name)
-            client.set_protocol(operation_protocol)
-            client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
+                save_dir = download_file_save_base_path + "\\" + account
+                if os.path.isfile(save_dir + "\\" + file_name):
+                    print("\033[31;1m已经下载过了!\033[0m")
+                    process_view_func(client, account, password)
+                else:
+                    client.set_download_file_name(file_name)
+                    client.set_protocol(operation_protocol)
+                    client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
+            else:
+                client.set_protocol(operation_protocol)
+                client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
 
 
 def process_download_res(client, account, password, args):
@@ -287,36 +302,70 @@ def process_download_res(client, account, password, args):
         operation_protocol["account"] = account
         operation_protocol["password"] = password
         operation_protocol["cmd"] = "download_RES"
-        operation_protocol["data"] = "READY"
+        operation_protocol["data"] = "READY" + "*" + str(0)
         save_dir = download_file_save_base_path + "\\" + account
         if not os.path.isdir(save_dir):
             os.makedirs(save_dir)
         client.set_download_file_save_dir(save_dir)
         client.set_protocol(operation_protocol)
         client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
-        client.set_download_file_size(args)
+        client.set_download_file_size(int(args))
     else:
-        print("\033[33;1m文件不存在\033[0m")
+        if args.isdigit():
+            print("\033[33;1m要下载的文件是空的!\033[0m")
+        else:
+            print("\033[33;1m文件不存在\033[0m")
         process_view_func(client, account, password)
 
 
-def process_download_ing(client):
-    current_get_size = 0
-    file_datas = b''
+def process_download_ing(client, account, password, data):
+    count_size = client.get_download_count_size()
+    print("data is :", data)
+    print("count_size is :", count_size)
+
+    current_get_server_data_size = len(data)
     down_file_name = client.get_download_file_name()
     save_file_path = client.get_download_file_save_dir() + "\\" + down_file_name
+    tmp_save_file_path = client.get_download_file_save_dir() + "\\" + down_file_name + ".tmp"
+    print("save_file_path is :", save_file_path)
+    print("current_get_size is :", current_get_server_data_size)
+    print("client.get_download_file_size() is :", client.get_download_file_size())
     if not os.path.isfile(save_file_path):
-        wf = open(save_file_path, "wb")
+        if not os.path.isfile(tmp_save_file_path):
+            print("第一次写")
+            wf = open(tmp_save_file_path, "wb")
+        else:
+            print("追加写")
+            wf = open(tmp_save_file_path, "ab")
+        res = process_download_write_file(client, account, password, wf, int(count_size) + current_get_server_data_size,
+                                          data)
+        if res == 1:
+            os.rename(tmp_save_file_path, save_file_path)
+            process_view_func(client, account, password)
     else:
-        wf = open(save_file_path, "ab")
-    while current_get_size != client.get_download_file_size():
-        data = client.get_socket().recv(4*1024)
-        current_get_size += len(data)
-        file_datas += data
+        print("\033[31;1m已经下载过了!\033[0m")
+        process_view_func(client, account, password)
+
+
+def process_download_write_file(client, account, password, fp, total_size, data):
+    write_result = 0
+    client.set_download_count_size(int(total_size))
+    fp.write(data)
+    fp.close()
+    operation_protocol = {}
+    operation_protocol["account"] = account
+    operation_protocol["password"] = password
+    if int(total_size) < client.get_download_file_size():
+        operation_protocol["cmd"] = "download_RES"
+        operation_protocol["data"] = "READY" + "*" + str(total_size)
+        client.set_protocol(operation_protocol)
+        client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
+        write_result = 0
     else:
-        print("下载完成!")
-        wf.write(file_datas)
-        wf.close()
+        print("\033[33;1m下载完成\033[0m")
+        client.set_download_count_size(0)
+        write_result = 1
+    return write_result
 
 
 def process_upload_res(client, account, password, args):

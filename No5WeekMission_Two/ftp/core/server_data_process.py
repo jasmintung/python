@@ -134,21 +134,26 @@ class ServerDataProcess(object):
         self.set_process_res_data(response_dict)
 
     def process_download_res(self, account, password, response):
-        if response == "READY":
+        res, file_offset = response.strip().split("*")  # data 可以作为要传输文件的偏移量
+        print("file offset is :", file_offset)
+        if res == "READY":
             response_dict = {}
             response_dict["account"] = account
             response_dict["password"] = password
             response_dict["cmd"] = "download_ing"
             file_path = self.get_current_download_path()
-            fp = open(file_path, "rb")
-            while True:
-                file_data = fp.read(1*1024)
+            with open(file_path, "rb") as fp:
+                fp.seek(int(file_offset), 0)
+                file_data = fp.read(4*1024)  # 一次读4K
                 response_dict["data"] = file_data
                 if not file_data:
-                    break
-                self.socket.send(str(response_dict).encode("utf-8"))
-            self.socket.close()
-            print("send over...")
+                    print("send over...")
+                else:
+                    self.set_process_res_data(response_dict)
+                    print("sending download file...")
+            # self.socket.send(str(response_dict).encode("utf-8"))
+            # self.socket.sendall(str(response_dict).encode("utf-8"))
+            # file_offset += file_data
 
     def process_upload(self, account, password, args):
         # 客户端那边对要存储文件的路径已经做了校验所以服务器这边可以不用再做校验,当然不排除管理员对客户路径做了调整，但这种可能本项目暂时不考虑处理
@@ -216,12 +221,12 @@ class ServerDataProcess(object):
             if target_path.startswith(base_dir):
                 # 接着判断要跳转的路径是否是其它用户的目录里面去了:F:\mnt\streamax\home\zhangtong
                 user_content_base = default_path[0:default_path.find(account)]  # 得到 F:\mnt\streamax\home\
-                user_content1 = default_path[default_path.find(account):-1]  # 得到上面目录 zhangtong在字符串的坐标\
+                user_content1 = default_path[default_path.find(account):]  # 得到上面目录 zhangtong在字符串的坐标\
                 print("user_content_base : ", user_content_base)
                 if target_path.startswith(user_content_base):
                     if len(default_path) < len(target_path):
                         if target_path.find(user_content_base) != -1:
-                            target_user_content1 = target_path[len(user_content_base):-1]
+                            target_user_content1 = target_path[len(user_content_base):]
                             if not target_user_content1.startswith(user_content1):
                                 if account_type == 1:  # Real用户不能访问同级目录的其它用户的目录及文件内容
                                     result_data = "no_permission"
@@ -239,13 +244,15 @@ class ServerDataProcess(object):
                             # F:\mnt\streamax\home\zhangtong
                             # target:   F:\mnt\streamax\home\same
                             # target:   F:\mnt\streamax\home\tongzhang
-                            target_user_content1 = target_path[len(user_content_base):-1]
+                            target_user_content1 = target_path[len(user_content_base):]
                             if user_content1 != target_user_content1:
-                                if account_type == 1:  # Real用户不能访问同级目录的其它用户的目录及文件内容
-                                    result_data = "no_permission"
-                                elif account_type == 9:  # 管理员可以访问
+                                print("account_type is :", account_type)
+                                if account_type == 9:  # 管理员可以访问
                                     print("可以访问拉!")
                                     result_data = target_path + "*" + str(os.listdir(target_path))
+                                else:
+                                    print("没有权限")  # Real 和 Guest用户不能访问同级目录的其它用户的目录及文件内容
+                                    result_data = "no_permission"
                             else:
                                 print("可以访问拉!")
                                 result_data = target_path + "*" + str(os.listdir(target_path))
@@ -255,12 +262,14 @@ class ServerDataProcess(object):
                                 print("可以访问拉!")
                                 result_data = target_path + "*" + str(os.listdir(target_path))
                             else:
+                                print("没有权限")
                                 result_data = "no_permission"
                 else:
                     if account_type != 2:
                         print("可以访问拉!")
                         result_data = target_path + "*" + str(os.listdir(target_path))
                     else:
+                        print("没有权限")
                         result_data = "no_permission"
             else:
                 result_data = "path_error"
@@ -285,9 +294,9 @@ class ServerDataProcess(object):
                 else:
                     result_data = "file_not_exists"
             else:
-                if target_file.startwith(user_content_base):
+                if target_file.startswith(user_content_base):
                     temp_sub_path = target_file[default_path.find(account):]
-                    if not temp_sub_path.startwith(account):
+                    if not temp_sub_path.startswith(account):
                         result_data = "file_not_exists"
                     else:
                         result_data = os.path.getsize(target_file)

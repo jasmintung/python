@@ -2,7 +2,7 @@ import socketserver
 from core import server_data_process
 
 host = 'localhost'
-port = 8009
+port = 9986
 
 
 class FtpServer(socketserver.BaseRequestHandler):
@@ -21,7 +21,7 @@ class FtpServer(socketserver.BaseRequestHandler):
             instance_process.analyse_client_data(data)
             send_data = str(instance_process.get_process_res_data())
             print("server send: ", send_data)
-            conn.send(send_data.encode("utf-8"))
+            conn.sendall(send_data.encode("utf-8"))
 
 
 def run():
