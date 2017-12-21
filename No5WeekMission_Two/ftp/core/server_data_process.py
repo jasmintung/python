@@ -144,7 +144,8 @@ class ServerDataProcess(object):
             file_path = self.get_current_download_path()
             with open(file_path, "rb") as fp:
                 fp.seek(int(file_offset), 0)
-                file_data = fp.read(4*1024)  # 一次读4K
+                file_data = fp.read(2*1024)  # 一次读2K
+                print(type(file_data))
                 response_dict["data"] = file_data
                 if not file_data:
                     print("send over...")

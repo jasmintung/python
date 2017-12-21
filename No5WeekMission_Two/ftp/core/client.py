@@ -124,44 +124,56 @@ def run():
             client.set_protocol(login_protocol)
             client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
             while True:
-                data = client.get_socket().recv(10*1024)
-                if not data:
-                    continue
-                print("client recv data:", data.decode())
-                if len(data.decode()) > 20:
-                    recv_data = eval(data.decode())
-                    if recv_data.get("account") == user_name and recv_data.get("password") == password:
-                        if client.get_login_statue() == 0:
-                            if recv_data.get("cmd") == "login":
-                                print("登陆成功!")
-                                client.set_login_statue(1)
-                                instance_role = init_role(recv_data.get("data"), user_name, password)
-                                client.set_role_instance(instance_role)
-                                init_operation_protocol = {}
-                                init_operation_protocol["account"] = instance_role.get_user_name()
-                                init_operation_protocol["password"] = instance_role.get_password()
-                                init_operation_protocol["cmd"] = "view"
-                                init_operation_protocol["data"] = ""
-                                client.set_protocol(init_operation_protocol)
-                                client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
-                        elif client.get_login_statue() == 1:
-                            if recv_data.get("cmd") == "view":
-                                # 这里解析出初始默认返回登陆访问到目录及目录中的文件
-                                process_view("view", client, user_name, password, recv_data.get("data"))
-                            elif recv_data.get("cmd") == "jump":  # 接收next指令应答
-                                process_view("jump", client, user_name, password, recv_data.get("data"))
-                            elif recv_data.get("cmd") == "download_RES":  # 接收download_RES指令应答
-                                process_download_res(client, user_name, password, recv_data.get("data"))
-                            elif recv_data.get("cmd") == "download_ing":  # 接收download_ing指令应答
-                                process_download_ing(client, user_name, password, recv_data.get("data"))
-                            elif recv_data.get("cmd") == "upload_RES":  # 接收upload_RES指令应答
-                                process_upload_res(client, user_name, password, recv_data.get("data"))
-                            elif recv_data.get("cmd") == "upload_ing":
-                                process_upload_ing(client, user_name, password, recv_data.get("data"))
+                print("接收到数据")
+                res_return_size = client.get_socket().recv(1024)
+                total_rece_size = int(res_return_size)
+                client.get_socket().send("ready,go ahead!".encode("utf-8"))
+                received_size = 0
+                res_data = b''
 
-                else:
-                    print("接收错误! error code is %d" % result)
-                    client.get_socket().send("error receive".encode("utf-8"))
+                while received_size != total_rece_size:
+                    print("received_size:", received_size)
+                    print("total size:", total_rece_size)
+                    cmd_res = client.get_socket().recv(10 * 1024)
+                    received_size += len(cmd_res.decode())
+                    res_data += cmd_res
+                    print("client revc len: ", received_size)
+                    print("recv data is :", cmd_res.decode())
+                    if received_size == total_rece_size:
+                        print("next")
+                        recv_data = eval(str(res_data.decode()))
+                        if recv_data.get("account") == user_name and recv_data.get("password") == password:
+                            if client.get_login_statue() == 0:
+                                if recv_data.get("cmd") == "login":
+                                    print("登陆成功!")
+                                    client.set_login_statue(1)
+                                    instance_role = init_role(recv_data.get("data"), user_name, password)
+                                    client.set_role_instance(instance_role)
+                                    init_operation_protocol = {}
+                                    init_operation_protocol["account"] = instance_role.get_user_name()
+                                    init_operation_protocol["password"] = instance_role.get_password()
+                                    init_operation_protocol["cmd"] = "view"
+                                    init_operation_protocol["data"] = ""
+                                    client.set_protocol(init_operation_protocol)
+                                    client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
+                            elif client.get_login_statue() == 1:
+                                if recv_data.get("cmd") == "view":
+                                    # 这里解析出初始默认返回登陆访问到目录及目录中的文件
+                                    process_view("view", client, user_name, password, recv_data.get("data"))
+                                elif recv_data.get("cmd") == "jump":  # 接收next指令应答
+                                    process_view("jump", client, user_name, password, recv_data.get("data"))
+                                elif recv_data.get("cmd") == "download_RES":  # 接收download_RES指令应答
+                                    process_download_res(client, user_name, password, recv_data.get("data"))
+                                elif recv_data.get("cmd") == "download_ing":  # 接收download_ing指令应答
+                                    process_download_ing(client, user_name, password, recv_data.get("data"))
+                                elif recv_data.get("cmd") == "upload_RES":  # 接收upload_RES指令应答
+                                    process_upload_res(client, user_name, password, recv_data.get("data"))
+                                elif recv_data.get("cmd") == "upload_ing":
+                                    process_upload_ing(client, user_name, password, recv_data.get("data"))
+                        else:
+                            print("格式不对!")
+                            # print("接收错误! error code is %d" % result)
+                            # client.get_socket().send("error receive".encode("utf-8"))
         else:
             client.get_socket().send("error receive".encode("utf-8"))
             print("连接错误! error code is %d" % result)

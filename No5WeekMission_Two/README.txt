@@ -18,7 +18,7 @@
 ## FTP服务器端：普通用户自己的初始目录结构为：F:\XXX\XXXXXX\XXXX\用户名
 ## 所有用户在同一个目录层级
 ## 后续的代码编写,路径的解析也将严格根据上述描述的特征进行解析
-## 下载保存的路径为:   C:\Users\Public\用户名\download文件夹下
+## 下载保存的路径为:   C:\Users\Public\用户名\download文件夹下  可根据自己的使用情况在conf/settings里面进行配置
 # bytes object
 b = b"example"
 
