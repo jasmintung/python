@@ -167,14 +167,17 @@ class ServerDataProcess(object):
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
         upload_path = dir_path + "\\" + file_name
-        result = self.create_file(upload_path, file_length)
-        if result == 0:
+        print("upload_path is:", upload_path)
+        print("upload file length is:", file_length)
+        result = self.create_file(upload_path, int(file_length))
+        if result == 1:
             self.set_current_upload_path(upload_path)
             response_dict["data"] = "READY"
         elif result == -1:
             response_dict["data"] = "FILE_ALREADY_EXISTS"
         else:
             response_dict["data"] = "NOT_READY"  # 主要针对其它异常情况的应答,但还没落实具体其它哪些具体情况
+        self.set_process_res_data(response_dict)
 
     def create_file(self, path, size):
         result = 0
@@ -204,7 +207,7 @@ class ServerDataProcess(object):
         response_dict["password"] = password
         response_dict["cmd"] = "upload_ing"
         with open(self.get_current_upload_path(), "ab") as af:
-            self.count_upload_file_size += af.write(upload_file_data.encode("utf-8"))
+            self.count_upload_file_size += af.write(str(upload_file_data).encode("utf-8"))
         response_dict["data"] = "SUCCESS" + "*" + str(self.count_upload_file_size)
         self.set_process_res_data(response_dict)
 

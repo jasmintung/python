@@ -254,7 +254,7 @@ def process_view(cmd, client, account, password, args):
 def process_view_func(client, account, password):
     notice_info = """
                     "目录跳转请输入: jump*具体你要跳转到的绝对路径名"
-                    "上传文件请输入: upload*FTP服务器上自己的目录下的路径*本地要上传文件的绝对路径"
+                    "上传文件请输入: upload*FTP服务器上您home目录下或者子目录下*本地要上传文件的绝对路径"
                     "下载文件请输入: download*服务器存放下载文件的绝对路径"
                     "退出": quit
                 """
@@ -274,17 +274,23 @@ def process_view_func(client, account, password):
         operation_protocol["password"] = password
         if operation.startswith("upload"):
             cmd, path_server, path_local = operation.strip().split("*")
+            print("cmd:", cmd)
+            print("path_server:", path_server)
+            print("path_local:", path_local)
             user_default_path = client.get_role_instance().get_default_path()
             if os.path.isfile(path_local):
-                if not path_server.startwith(user_default_path):
+                if not path_server.startswith(user_default_path):
                     print("上传路径有误!")
                 else:
                     client.set_upload_file_path(path_local)
-                    file_length = client.set_upload_file_length(os.path.getsize(path_local))
-                    operation_protocol["data"] = path_server + "*" + os.path.basename(path_local) + "*" + file_length
+                    file_length = os.path.getsize(path_local)
+                    client.set_upload_file_length(file_length)
+                    operation_protocol["data"] = path_server + "*" + \
+                                                 os.path.basename(path_local) + \
+                                                 "*" + str(file_length)
                     operation_protocol["cmd"] = cmd
                     client.set_protocol(operation_protocol)
-                    client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
+                    client.get_socket().send(str(operation_protocol).encode("utf-8"))
             else:
                 print("上传的文件不存在!")
         else:
@@ -405,11 +411,11 @@ def process_upload_ing(client, account, password, args):
     is_upload_end = False
     result, server_file_length = args.strip().split("*")
     if result == "SUCCESS":
-        if server_file_length == client.get_upload_file_length():
+        if int(server_file_length) == client.get_upload_file_length():
             print("\033[33;1m上传完成\033[0m")
             is_upload_end = True
         else:
-            client.set_upload_file_offset(server_file_length)
+            client.set_upload_file_offset(int(server_file_length))
     elif result == "FAILE":
         pass
     if not is_upload_end:
@@ -419,7 +425,8 @@ def process_upload_ing(client, account, password, args):
         upload_res_protocol["cmd"] = "upload_ing"
         rf = open(client.get_upload_file_path(), "rb")
         if rf.readable():
-            rf.seek(client.get_upload_file_offset(), 0)
-            upload_res_protocol["data"] = len(rf.read(2*1024))
+            rf.seek(int(client.get_upload_file_offset()), 0)
+            upload_res_protocol["data"] = rf.read(2*1024)
         client.set_protocol(upload_res_protocol)
-        client.get_socket().send(str(client.get_protocol()).encode("utf-8"))
+        print("upload file data:", upload_res_protocol)
+        client.get_socket().send(str(upload_res_protocol).encode("utf-8"))
