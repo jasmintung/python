@@ -172,6 +172,7 @@ class ServerDataProcess(object):
         result = self.create_file(upload_path, int(file_length))
         if result == 1:
             self.set_current_upload_path(upload_path)
+            self.count_upload_file_size = 0
             response_dict["data"] = "READY"
         elif result == -1:
             response_dict["data"] = "FILE_ALREADY_EXISTS"
@@ -185,7 +186,6 @@ class ServerDataProcess(object):
             # 文件不存在,打开文件后，进行偏移，然后写入一个字节的内容，最后的这个字节一定要写入，否则文件不会如期望的那样大
             with open(path, "wb") as f:
                 f.seek(size - 1)
-                f.write(b'\x00')
             result = 1
         else:
             # 覆盖写入
@@ -206,10 +206,17 @@ class ServerDataProcess(object):
         response_dict["account"] = account
         response_dict["password"] = password
         response_dict["cmd"] = "upload_ing"
-        with open(self.get_current_upload_path(), "ab") as af:
-            self.count_upload_file_size += af.write(str(upload_file_data).encode("utf-8"))
+        print("upload_file_path: ", self.get_current_upload_path())
+        if self.count_upload_file_size == 0:
+            fp = open(self.get_current_upload_path(), "wb")
+        else:
+            fp = open(self.get_current_upload_path(), "ab")
+        self.count_upload_file_size += int(fp.write(upload_file_data))
+        print("服务器收到的上传文件大小:", len(upload_file_data))
+        print(self.count_upload_file_size)
         response_dict["data"] = "SUCCESS" + "*" + str(self.count_upload_file_size)
         self.set_process_res_data(response_dict)
+        fp.close()
 
     # 这里有个规则,管理员创建用户目录的时候，所有用户的目录都在同一个父目录下面
 
