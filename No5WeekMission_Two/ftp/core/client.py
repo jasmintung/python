@@ -31,6 +31,7 @@ class Client(object):
 
     def init_socket(self):
         self.socket = socket.socket()
+        self.socket.settimeout(5*1000)  # 5秒的连接超时
         print("port:", self.port)
         address = "".join(self.ip)
         print("address:", address)
@@ -110,11 +111,13 @@ def run():
         client = Client(ip, port)
         result = client.init_socket()
         if result == 0:
+            # client.get_socket().bind(("127.0.0.1", 9986))
             while True:
                 data = client.get_socket().recv(1024)
                 print("client recv data:", data.decode())
                 if data:
                     break
+            print("ftp server name is:", client.get_socket().getpeername())
             user_name = input("请输入登陆名:").strip()
             password = input("请输入登陆密码:").strip()
             login_protocol = {}
@@ -122,28 +125,22 @@ def run():
             login_protocol["password"] = password
             login_protocol["cmd"] = "login"
             client.set_protocol(login_protocol)
+            send_interface(client, login_protocol)
             # 这里要加--------------------
-            print("zouzouzouzou")
-            client.get_socket().send(str(len(str(login_protocol))).encode("utf-8"))
-            print("yoyoyoyoyoyoyo")
-            server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-            print("xoxoxoxoxoxo")
-            print("server response:", server_final_ack.decode())
-            client.get_socket().sendall(str(login_protocol).encode("utf-8"))
+            # client.get_socket().send(str(len(str(login_protocol))).encode("utf-8"))
+            # server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
+            # print("server response:", server_final_ack.decode())
+            # client.get_socket().sendall(str(login_protocol).encode("utf-8"))
             while True:
-                print("client 接收到数据")
                 res_return_size = client.get_socket().recv(1024)
                 if not res_return_size:
                     continue
+                print("client 接收到数据")
                 total_rece_size = int(res_return_size)
-                # 这里要加--------------------
-                # client.get_socket().send(str(len("client ready,go ahead!")).encode("utf-8"))
-                # server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-                # print("server response:", server_final_ack.decode())
                 client.get_socket().send("client ready,go ahead!".encode("utf-8"))
                 received_size = 0
                 res_data = b''
-
+                print("totalsize is:", total_rece_size)
                 while received_size != total_rece_size:
                     cmd_res = client.get_socket().recv(10 * 1024)
                     if not cmd_res:
@@ -153,42 +150,26 @@ def run():
                     print("client revc len: ", received_size)
                     print("recv data is :", cmd_res.decode())
                     if received_size == total_rece_size:
-                        print("next")
                         recv_data = eval(str(res_data.decode()))
                         if recv_data.get("account") == user_name and recv_data.get("password") == password:
+                            print("gogogogoggooggo")
                             if client.get_login_statue() == 0:
                                 if recv_data.get("cmd") == "login":
-                                    print("登陆成功!")
-                                    client.set_login_statue(1)
-                                    instance_role = init_role(recv_data.get("data"), user_name, password)
-                                    client.set_role_instance(instance_role)
-                                    init_operation_protocol = {}
-                                    init_operation_protocol["account"] = instance_role.get_user_name()
-                                    init_operation_protocol["password"] = instance_role.get_password()
-                                    init_operation_protocol["cmd"] = "view"
-                                    init_operation_protocol["data"] = ""
-                                    client.set_protocol(init_operation_protocol)
-                                    # 这里要加--------------------
-                                    client.get_socket().send(str(len(str(init_operation_protocol))).encode("utf-8"))
-                                    server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-                                    print("server response:", server_final_ack.decode())
-                                    client.get_socket().sendall(str(client.get_protocol()).encode("utf-8"))
+                                    func_dict.get(recv_data.get("cmd"))(client, user_name,
+                                                                        password, recv_data.get("data"))
                             elif client.get_login_statue() == 1:
-                                if recv_data.get("cmd") == "view":
-                                    # 这里解析出初始默认返回登陆访问到目录及目录中的文件
-                                    process_view("view", client, user_name, password, recv_data.get("data"))
-                                elif recv_data.get("cmd") == "jump":  # 接收next指令应答
-                                    process_view("jump", client, user_name, password, recv_data.get("data"))
-                                elif recv_data.get("cmd") == "download_RES":  # 接收download_RES指令应答
-                                    process_download_res(client, user_name, password, recv_data.get("data"))
-                                elif recv_data.get("cmd") == "download_ing":  # 接收download_ing指令应答
-                                    process_download_ing(client, user_name, password, recv_data.get("data"))
-                                elif recv_data.get("cmd") == "upload_RES":  # 接收upload_RES指令应答
-                                    process_upload_res(client, user_name, password, recv_data.get("data"))
-                                elif recv_data.get("cmd") == "upload_ing":
-                                    process_upload_ing(client, user_name, password, recv_data.get("data"))
+                                print("yo0yoyoyoyoyoyoyoyyo")
+                                if recv_data.get("cmd") == "view" or recv_data.get("cmd") == "jump":
+                                    func_dict.get(recv_data.get("cmd"))(recv_data.get("cmd"), client,
+                                                                        user_name, password,
+                                                                        recv_data.get("data"))
+                                else:
+                                    print("zozozozozozozozozozozozzo")
+                                    func_dict.get(recv_data.get("cmd"))(client, user_name,
+                                                                        password,
+                                                                        recv_data.get("data"))
                         else:
-                            print("格式不对!")
+                            print("账户不对!")
                             # print("接收错误! error code is %d" % result)
                             # client.get_socket().send("error receive".encode("utf-8"))
         else:
@@ -215,6 +196,20 @@ def init_role(type, *args):
     return instance_user
 
 
+def process_login(client, account, password, args):
+    print("登陆成功!")
+    client.set_login_statue(1)
+    instance_role = init_role(args, account, password)
+    client.set_role_instance(instance_role)
+    init_operation_protocol = {}
+    init_operation_protocol["account"] = instance_role.get_user_name()
+    init_operation_protocol["password"] = instance_role.get_password()
+    init_operation_protocol["cmd"] = "view"
+    init_operation_protocol["data"] = ""
+    client.set_protocol(init_operation_protocol)
+    send_interface(client, init_operation_protocol)
+
+
 def process_view(cmd, client, account, password, args):
     if args.startswith("no_permission"):
         print("\33[33;1m没有权限访问!\33[0m")
@@ -232,7 +227,8 @@ def process_view(cmd, client, account, password, args):
         if len(file_list) < 3:
             print("子目录是空的!")
         else:
-            print("目录中的文件及子目录有:", file_list)
+            print("目录中的文件及子目录有:")
+            print(", ".join(file_list.split("&")))
         if client.get_role_instance().get_authority_level() == 9:
             admin_notice = """
                 "创建用户": 1
@@ -260,69 +256,54 @@ def process_view_func(client, account, password):
                 """
     print(notice_info)
     operation = input("请输入>>").strip()
-    check = False
     if operation == "quit":  # 退出
         client.close()
         exit()
-    for key in operation_fun:
-        if operation.startswith(operation_fun[key]):
-            check = True
-            break
-    if check:
-        operation_protocol = {}
-        operation_protocol["account"] = account
-        operation_protocol["password"] = password
-        if operation.startswith("upload"):
-            # 这里加一个正则表达式来判断输入格式的正确性
-            cmd, path_server, path_local = operation.strip().split("*")
-            print("cmd:", cmd)
-            print("path_server:", path_server)
-            print("path_local:", path_local)
-            user_default_path = client.get_role_instance().get_default_path()
-            if os.path.isfile(path_local):
-                if not path_server.startswith(user_default_path):
-                    print("上传路径有误!")
-                else:
-                    client.set_upload_file_path(path_local)
-                    file_length = os.path.getsize(path_local)
-                    client.set_upload_file_length(file_length)
-                    operation_protocol["data"] = path_server + "*" + \
-                                                 os.path.basename(path_local) + \
-                                                 "*" + str(file_length)
-                    operation_protocol["cmd"] = cmd
-                    client.set_protocol(operation_protocol)
-                    # 这里要加--------------------
-                    client.get_socket().send(str(len(str(operation_protocol))).encode("utf-8"))
-                    server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-                    print("server response:", server_final_ack.decode())
-                    client.get_socket().sendall(str(operation_protocol).encode("utf-8"))
+
+    operation_protocol = {}
+    operation_protocol["account"] = account
+    operation_protocol["password"] = password
+    if operation.startswith("upload"):
+        # 这里加一个正则表达式来判断输入格式的正确性
+        cmd, path_server, path_local = operation.strip().split("*")
+        print("cmd:", cmd)
+        print("path_server:", path_server)
+        print("path_local:", path_local)
+        user_default_path = client.get_role_instance().get_default_path()
+        if os.path.isfile(path_local):
+            if not path_server.startswith(user_default_path):
+                print("上传路径有误!")
             else:
-                print("上传的文件不存在!")
-                process_view_func(client, account, password)
-        else:
-            cmd, path = operation.strip().split("*")
-            print("cmd: %s path: %s" % (cmd, path))
-            operation_protocol["data"] = path
-            operation_protocol["cmd"] = cmd
-            if cmd == "download":
-                dir, file_name = os.path.split(path)
-                save_dir = download_file_save_base_path + "\\" + account
-                if os.path.isfile(save_dir + "\\" + file_name):
-                    print("\033[31;1m已经下载过了!\033[0m")
-                    process_view_func(client, account, password)
-                else:
-                    client.set_download_file_name(file_name)
-                    client.set_protocol(operation_protocol)
-                    client.get_socket().send(str(len(str(operation_protocol))).encode("utf-8"))
-                    server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-                    print("server response:", server_final_ack.decode())
-                    client.get_socket().sendall(str(client.get_protocol()).encode("utf-8"))
-            else:
+                client.set_upload_file_path(path_local)
+                file_length = os.path.getsize(path_local)
+                client.set_upload_file_length(file_length)
+                operation_protocol["data"] = path_server + "*" + \
+                                             os.path.basename(path_local) + \
+                                             "*" + str(file_length)
+                operation_protocol["cmd"] = cmd
                 client.set_protocol(operation_protocol)
-                client.get_socket().send(str(len(str(operation_protocol))).encode("utf-8"))
-                server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-                print("server response:", server_final_ack.decode())
-                client.get_socket().sendall(str(client.get_protocol()).encode("utf-8"))
+                send_interface(client, operation_protocol)
+        else:
+            print("上传的文件不存在!")
+            process_view_func(client, account, password)
+    else:
+        cmd, path = operation.strip().split("*")
+        print("cmd: %s path: %s" % (cmd, path))
+        operation_protocol["data"] = path
+        operation_protocol["cmd"] = cmd
+        if cmd == "download":
+            dir, file_name = os.path.split(path)
+            save_dir = download_file_save_base_path + "\\" + account
+            if os.path.isfile(save_dir + "\\" + file_name):
+                print("\033[31;1m已经下载过了!\033[0m")
+                process_view_func(client, account, password)
+            else:
+                client.set_download_file_name(file_name)
+                client.set_protocol(operation_protocol)
+                send_interface(client, operation_protocol)
+        else:
+            client.set_protocol(operation_protocol)
+            send_interface(client, operation_protocol)
 
 
 def process_download_res(client, account, password, args):
@@ -346,10 +327,7 @@ def process_download_res(client, account, password, args):
             os.makedirs(save_dir)
         client.set_download_file_save_dir(save_dir)
         client.set_protocol(operation_protocol)
-        client.get_socket().send(str(len(str(operation_protocol))).encode("utf-8"))
-        server_final_ack = client.get_socket().recv(1024)  # 等待服务器响应
-        print("server response:", server_final_ack.decode())
-        client.get_socket().sendall(str(client.get_protocol()).encode("utf-8"))
+        send_interface(client, operation_protocol)
         client.set_download_file_size(int(args))
     else:
         if args.isdigit():
@@ -388,9 +366,16 @@ def process_download_ing(client, account, password, data):
             wf = open(tmp_save_file_path, "ab")
         res = process_download_write_file(client, account, password, wf, int(count_size) + current_get_server_data_size,
                                           data)
+
         if res == 1:
             os.rename(tmp_save_file_path, save_file_path)
             process_view_func(client, account, password)
+        else:
+            print("下载进度: %2d%s" %
+                  (
+                    int(((int(count_size) + current_get_server_data_size) / client.get_download_file_size())*100),
+                    "%100")
+                  )
     else:
         print("\033[31;1m已经下载过了!\033[0m")
         process_view_func(client, account, password)
@@ -418,10 +403,7 @@ def process_download_write_file(client, account, password, fp, total_size, data)
         operation_protocol["cmd"] = "download_RES"
         operation_protocol["data"] = "READY" + "*" + str(total_size)
         client.set_protocol(operation_protocol)
-        client.get_socket().send(str(len(str(operation_protocol))).encode("utf-8"))
-        server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-        print("server response:", server_final_ack.decode())
-        client.get_socket().sendall(str(client.get_protocol()).encode("utf-8"))
+        send_interface(client, operation_protocol)
         write_result = 0
     else:
         print("\033[33;1m下载完成\033[0m")
@@ -447,10 +429,7 @@ def process_upload_res(client, account, password, args):
         upload_res_protocol["data"] = "READY"
         client.set_protocol(upload_res_protocol)
         # 这里要加--------------------
-        client.get_socket().send(str(len(str(upload_res_protocol))).encode("utf-8"))
-        server_final_ack = client.get_socket().recv(1024)  # 等待服务器响应
-        print("server response:", server_final_ack.decode())
-        client.get_socket().sendall(str(client.get_protocol()).encode("utf-8"))
+        send_interface(client, upload_res_protocol)
 
 
 def process_upload_ing(client, account, password, args):
@@ -480,11 +459,22 @@ def process_upload_ing(client, account, password, args):
                 rf.seek(int(client.get_upload_file_offset()), 0)
                 upload_res_protocol["data"] = rf.read(2 * 1024)
             client.set_protocol(upload_res_protocol)
-            # print("upload file data:", upload_res_protocol)
-            client.get_socket().send(str(len(str(upload_res_protocol))).encode("utf-8"))
-            server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
-            print("server response:", server_final_ack.decode())
-            client.get_socket().sendall(str(upload_res_protocol).encode("utf-8"))
+            send_interface(client, upload_res_protocol)
+            print("上传进度: %2d%s" %
+                  (
+                      int(((int(server_file_length)) / client.get_upload_file_length()) * 100),
+                      "%100")
+                  )
     elif result == "FAILE":
         print("\033[31;1m;上传出错\033[0m")
         process_view_func(client, account, password)
+
+func_dict = {"login": process_login, "view": process_view, "jump": process_view, "download_RES": process_download_res,
+             "download_ing": process_download_ing, "upload_RES": process_upload_res, "upload_ing": process_upload_ing}
+
+
+def send_interface(client, data):
+    client.get_socket().send(str(len(str(data))).encode("utf-8"))
+    server_final_ack = client.get_socket().recv(1024)  # 等待客户端响应
+    print("server response:", server_final_ack.decode())
+    client.get_socket().sendall(str(data).encode("utf-8"))

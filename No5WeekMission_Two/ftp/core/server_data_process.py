@@ -102,7 +102,7 @@ class ServerDataProcess(object):
         response_dict["account"] = account
         response_dict["password"] = password
         response_dict["cmd"] = "view"
-        response_dict["data"] = check_result[1] + "*" + "".join(file_list)
+        response_dict["data"] = check_result[1] + "*" + "&".join(file_list)  # 分隔符不能用*号,否则影响客户端解析
         self.set_process_res_data(response_dict)
 
     def process_next_prev(self, account, password, jump_path):
@@ -243,11 +243,11 @@ class ServerDataProcess(object):
                                     result_data = "no_permission"
                                 elif account_type == 9:  # 管理员可以访问
                                     print("可以访问拉!")
-                                    result_data = target_path + "*" + str(os.listdir(target_path))
+                                    result_data = target_path + "*" + "&".join(os.listdir(target_path))
                             else:
                                 if account_type == 2 or account_type == 9:
                                     print("可以访问拉!")
-                                    result_data = target_path + "*" + str(os.listdir(target_path))
+                                    result_data = target_path + "*" + "&".join(os.listdir(target_path))
                         else:
                             result_data = "path_error"
                     else:
@@ -260,25 +260,25 @@ class ServerDataProcess(object):
                                 print("account_type is :", account_type)
                                 if account_type == 9:  # 管理员可以访问
                                     print("可以访问拉!")
-                                    result_data = target_path + "*" + str(os.listdir(target_path))
+                                    result_data = target_path + "*" + "&".join(os.listdir(target_path))
                                 else:
                                     print("没有权限")  # Real 和 Guest用户不能访问同级目录的其它用户的目录及文件内容
                                     result_data = "no_permission"
                             else:
                                 print("可以访问拉!")
-                                result_data = target_path + "*" + str(os.listdir(target_path))
+                                result_data = target_path + "*" + "&".join(os.listdir(target_path))
                         else:
                             # F:\st\workspace
                             if account_type != 2:
                                 print("可以访问拉!")
-                                result_data = target_path + "*" + str(os.listdir(target_path))
+                                result_data = target_path + "*" + "&".join(os.listdir(target_path))
                             else:
                                 print("没有权限")
                                 result_data = "no_permission"
                 else:
                     if account_type != 2:
                         print("可以访问拉!")
-                        result_data = target_path + "*" + str(os.listdir(target_path))
+                        result_data = target_path + "*" + "&".join(os.listdir(target_path))
                     else:
                         print("没有权限")
                         result_data = "no_permission"

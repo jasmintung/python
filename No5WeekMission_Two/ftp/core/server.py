@@ -2,7 +2,7 @@ import socketserver
 from core import server_data_process
 
 host = 'localhost'
-port = 8009
+port = 9986
 
 
 class FtpServer(socketserver.BaseRequestHandler):
@@ -28,21 +28,21 @@ class FtpServer(socketserver.BaseRequestHandler):
                     continue
                 received_size += len(data.decode())
                 res_data += data
-                print("111 received_size is:", received_size)
-                print("111 total_rece_size is:", total_rece_size)
+                print("received_size is:", received_size)
+                print("total_rece_size is:", total_rece_size)
                 if received_size == total_rece_size:
                     instance_process.analyse_client_data(res_data)
                     send_data = str(instance_process.get_process_res_data())
-                    print("server send length is:", len(send_data))
-                    print("server send: ", send_data)
                     try:
+                        print("server send length is:", len(send_data))
                         conn.send(str(len(send_data)).encode("utf-8"))  # 发送之前先告诉客户端要发送多少数据给它,这里确实少不了,最开始没有这样做,发现客户端实际接收到的数据总是比服务端实际发的要小
                     except Exception as e:
                         print("异常了:")
                         print(e)
                     client_final_ack = conn.recv(1024)  # 等待客户端响应
-                    print("客户端应答:", client_final_ack.decode())
+                    print("client response:", client_final_ack.decode())
                     try:
+                        print("server send: ", send_data)
                         conn.sendall(send_data.encode("utf-8"))
                     except Exception as e:
                         print("异常错误信息:")
