@@ -3,9 +3,9 @@ import os,sys
 from core import admin_role
 from core import real_role
 from core import guest_role
-
-operation_fun = {0: "login", 1: "view", 2: "jump", 3: "download", 4: "upload"}
-download_file_save_base_path = "C:\\Users\Public"  # 下载文件存放在本地的根路径
+from conf import settings
+# operation_fun = {0: "login", 1: "view", 2: "jump", 3: "download", 4: "upload"}
+# download_file_save_base_path = "C:\\Users\Public"  # 下载文件存放在本地的根路径
 
 
 class Client(object):
@@ -152,19 +152,16 @@ def run():
                     if received_size == total_rece_size:
                         recv_data = eval(str(res_data.decode()))
                         if recv_data.get("account") == user_name and recv_data.get("password") == password:
-                            print("gogogogoggooggo")
                             if client.get_login_statue() == 0:
                                 if recv_data.get("cmd") == "login":
                                     func_dict.get(recv_data.get("cmd"))(client, user_name,
                                                                         password, recv_data.get("data"))
                             elif client.get_login_statue() == 1:
-                                print("yo0yoyoyoyoyoyoyoyyo")
                                 if recv_data.get("cmd") == "view" or recv_data.get("cmd") == "jump":
                                     func_dict.get(recv_data.get("cmd"))(recv_data.get("cmd"), client,
                                                                         user_name, password,
                                                                         recv_data.get("data"))
                                 else:
-                                    print("zozozozozozozozozozozozzo")
                                     func_dict.get(recv_data.get("cmd"))(client, user_name,
                                                                         password,
                                                                         recv_data.get("data"))
@@ -293,7 +290,7 @@ def process_view_func(client, account, password):
         operation_protocol["cmd"] = cmd
         if cmd == "download":
             dir, file_name = os.path.split(path)
-            save_dir = download_file_save_base_path + "\\" + account
+            save_dir = settings.download_file_save_base_path + "\\" + account
             if os.path.isfile(save_dir + "\\" + file_name):
                 print("\033[31;1m已经下载过了!\033[0m")
                 process_view_func(client, account, password)
@@ -322,7 +319,7 @@ def process_download_res(client, account, password, args):
         operation_protocol["password"] = password
         operation_protocol["cmd"] = "download_RES"
         operation_protocol["data"] = "READY" + "*" + str(0)
-        save_dir = download_file_save_base_path + "\\" + account
+        save_dir = settings.LOCAL_DOWNLOAD_DRI.get(download_file_save_base_path) + "\\" + account
         if not os.path.isdir(save_dir):
             os.makedirs(save_dir)
         client.set_download_file_save_dir(save_dir)

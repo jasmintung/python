@@ -6,37 +6,24 @@
 4. 查看当前目录下文件
 5. 充分使用面向对象知识
 
-## 为了客户端和服务器端数据方便解析，特简单定义一个协议规范:
-## protocol = {"account":"", "password":"", "cmd": "", "data": ""}
-## "cmd":["login","upload","download"] 支持的指令有：登陆，上传，下载
+
+
+## "cmd":["login","upload","download"] 支持的指令有：登陆，上传，下载等
 ## 服务器返回：cmd == login
                 data == 1: Real用户
                 data == 2: Guest用户
                 data == 9: Admin用户
                 data == 0: 登陆失败
 ## 客户端，服务器端按照上述字典格式对bytes数据进行转换，以解析其数据内容
-## FTP服务器端：普通用户自己的初始目录结构为：F:\XXX\XXXXXX\XXXX\用户名
-## 所有用户在同一个目录层级
+## FTP服务器端：手动配置目录：
+        普通用户登陆的初始目录结构为：F:\XXX\XXXXXX\XXXX\用户名,管理员登陆的初始目录是：F:\
+        这些初始目录，及服务器端Ftp的根目录就是F:\。
+## 所有用户自己的目录在同一个目录层级中
 ## 后续的代码编写,路径的解析也将严格根据上述描述的特征进行解析
-## 下载保存的路径为:   C:\Users\Public\用户名\download文件夹下  可根据自己的使用情况在conf/settings里面进行配置
-# bytes object
-b = b"example"
+## 下载保存的路径为:   自测试为:C:\Users\Public\用户名\download文件夹下,  可根据自己的使用情况在conf/settings里面对LOCAL_DOWNLOAD_DRI字典的值进行配置
 
-# str object
-s = "example"
-
-# str to bytes
-bytes(s, encoding = "utf8")
-
-# bytes to str
-str(b, encoding = "utf-8")
-
-# an alternative method
-# str to bytes
-str.encode(s)
-
-# bytes to str
-bytes.decode(b)
+## 为了客户端和服务器端数据方便解析，特简单定义一个协议规范:
+# protocol = {"account":"", "password":"", "cmd": "", "data": ""}
 1、登陆
 客户端--------------------------------------------->服务器
 account = xxx

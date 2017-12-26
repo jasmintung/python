@@ -1,8 +1,6 @@
 import socketserver
 from core import server_data_process
-
-host = 'localhost'
-port = 9986
+from conf import settings
 
 
 class FtpServer(socketserver.BaseRequestHandler):
@@ -50,5 +48,8 @@ class FtpServer(socketserver.BaseRequestHandler):
 
 
 def run():
+    host = settings.SERVER_CONFIG.get("host")
+    port = int(settings.SERVER_CONFIG.get("port"))
+    # 这里可以加个正则校验来判断配置的合法性，时间原因后续完善，不影响本次作业功能，请手动配置的时候注意下。
     server = socketserver.ThreadingTCPServer((host, port), FtpServer)
     server.serve_forever()
