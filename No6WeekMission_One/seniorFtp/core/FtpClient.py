@@ -16,12 +16,17 @@ class FtpClient(object):
         self.conn = s
 
     def request(self):
-        """客户端接收服务器应答"""
+
         while True:
             msg = input("想给服务器说点什么:")
             self.conn.sendall(str(msg).encode("utf-8"))
             data = self.conn.recv(settings.size_control.get("level1"))
             print("recv datas:", data.decode())
+    def get_response(self):
+        """客户端接收服务器应答"""
+        data = self.conn.recv(settings.size_control.get("level1"))
+        print("recv datas:", data.decode())
+        return data
 
     def close_socket(self):
         """关闭socket连接"""

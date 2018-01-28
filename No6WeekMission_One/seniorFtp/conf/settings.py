@@ -12,6 +12,8 @@ elif os.name == "posix":  # Linux
     SYS_BASE_DISK_DIR = re.match(r"\D:/", PROJ_BASE_DIR).group()
 
 source_dist = {"account_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "accounts",
+               "admin_pack_name": "admins",
+               "user_pack_name": "users",
                "server_ip": server_ip,
                "server_port": port,
                "base_disk_path": SYS_BASE_DISK_DIR,

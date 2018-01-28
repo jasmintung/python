@@ -13,3 +13,4 @@ class Admin(RoleBase):
     def allocate_disk_space(self):
         """分配磁盘配额"""
         pass
+
