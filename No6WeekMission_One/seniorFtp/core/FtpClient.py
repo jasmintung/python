@@ -22,11 +22,15 @@ class FtpClient(object):
             self.conn.sendall(str(msg).encode("utf-8"))
             data = self.conn.recv(settings.size_control.get("level1"))
             print("recv datas:", data.decode())
+
     def get_response(self):
         """客户端接收服务器应答"""
         data = self.conn.recv(settings.size_control.get("level1"))
-        print("recv datas:", data.decode())
         return data
+
+    def send_request(self, args):
+        """客户端请求服务器"""
+        self.conn.sendall(str(args).encode("utf-8"))
 
     def close_socket(self):
         """关闭socket连接"""

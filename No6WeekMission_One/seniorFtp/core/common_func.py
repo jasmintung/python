@@ -15,3 +15,6 @@ def auth_code(self):
             temp = random.randint(0, 9)
         checkcode += str(temp)
     return checkcode
+
+
+
