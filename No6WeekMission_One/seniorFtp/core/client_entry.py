@@ -16,8 +16,7 @@ def main():
         instance_role = None
         login_notice = """
         请选择您的登录角色:
-        1、普通用户登录
-        0、管理员登录
+        1、登录
         8、退出
         """
         print(login_notice)
@@ -25,9 +24,6 @@ def main():
         if choice == '1':
             instance_role = User.User(instance_client)
             instance_role.request_auth('user')
-        elif choice == '0':
-            instance_role = Admin.Admin(instance_client)
-            instance_role.request_auth('admin')
         elif choice == '8':
             exit()
         if instance_role.get_login_statue():
@@ -49,40 +45,45 @@ def main():
                     """
                     print(func_notice)
                     func_choice = input(">>").strip()
-                    if func_notice == '1':
-                        instance_role.view_files_request()
-                    elif func_notice == '2':
-                        instance_role.download_file()
-                    elif func_notice == '3':
-                        ready_get_datas = instance_role.upload_file_request()
-                    elif func_notice == '4':
-                        instance_role.download_multi_files()
-                    elif func_notice == '5':
-                        instance_role.upload_multi_files()
-                    elif func_notice == '6':
-                        instance_role.resume_tasks()
-                    elif func_notice == '8':
-                        exit()
+                    if func_notice == '1' or func_notice == '8':
+                        if func_notice == '1':
+                            instance_role.view_files_request()
+                        if func_notice == '8':
+                            exit()
                     else:
-                        print("选择错误!")
-                    if ready_get_datas is False:
-                        continue
-                elif choice == '0':
-                    func_notice = """
-                        请根据 编号(1~2)选择功能操作:
-                        1、创建用户
-                        2、分配磁盘空间
-                        8、退出
-                        """
-                    print(func_notice)
-                    func_choice = input(">>").strip()
-                    if func_notice == '1':
-                        instance_role.create_role()
-                    elif func_notice == '2':
-                        instance_role.allocate_disk_space()
-                    elif func_notice == '8':
-                        exit()
-                    else:
-                        print("选择错误!")
+                        if func_notice == '2':
+                            instance_role.download_file()
+                        elif func_notice == '3':
+                            ready_get_datas = instance_role.upload_file_request()
+                        elif func_notice == '4':
+                            instance_role.download_multi_files()
+                        elif func_notice == '5':
+                            instance_role.upload_multi_files()
+                        elif func_notice == '6':
+                            instance_role.resume_tasks()
+                        else:
+                            print("选择错误!")
+                            continue
+                        if ready_get_datas is False:
+                            continue
+                        t = threading.Thread(target=instance_role.deal_server_response_datas())
+                        t.start()
+                # elif choice == '0':
+                #     func_notice = """
+                #         请根据 编号(1~2)选择功能操作:
+                #         1、创建用户
+                #         2、分配磁盘空间
+                #         8、退出
+                #         """
+                #     print(func_notice)
+                #     func_choice = input(">>").strip()
+                #     if func_notice == '1':
+                #         instance_role.create_role()
+                #     elif func_notice == '2':
+                #         instance_role.allocate_disk_space()
+                #     elif func_notice == '8':
+                #         exit()
+                #     else:
+                #         print("选择错误!")
                 recv_datas = eval(str(instance_client.get_response().decode()))
                 instance_role.process_server_response(recv_datas)

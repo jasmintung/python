@@ -78,6 +78,7 @@ class RoleBase(object):
     account_id = ""  # 用户ID
     account_pwd = ""  # 用户密码
     home_dir = ""  # 默认用户home目录绝对路径
+    login_statue = 0  # 登陆状态
 
     def __init__(self, conn):
         self.is_login = False

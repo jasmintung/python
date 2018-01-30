@@ -78,15 +78,10 @@ data = "READY" or "NOT_READY" or "FILE_ALREADY_EXISTS"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
-cmd = "upload_RES"
-data = "READY" or "NOT_READY"
+cmd = "uploading"
+data = 文件数据
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
-cmd = "upload_ing"
+cmd = "uploading"
 data = 结果("SUCCESS")or"(FAILE)*累积收到的文件大小
-客户端--------------------------------------------->服务器
-account = xxx
-password = xxx
-cmd = "upload_ing"
-data = 上传的文件数据

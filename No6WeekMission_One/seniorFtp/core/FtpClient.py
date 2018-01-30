@@ -32,6 +32,10 @@ class FtpClient(object):
         """客户端请求服务器"""
         self.conn.sendall(str(args).encode("utf-8"))
 
+    def send_request_length(self, args):
+        """客户端请求数据长度"""
+        self.conn.sendall(str(len(str(args))).encode("utf-8"))
+
     def close_socket(self):
         """关闭socket连接"""
         self.conn.close()
