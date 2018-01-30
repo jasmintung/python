@@ -35,7 +35,7 @@ def login(auth_type):
                     if auth_type == 'request':
                         self.set_account(account, password)
                         func(*args, **kwargs)
-                        recv_data = self.conn.get_response()
+                        # recv_data = self.conn.get_response()
                         cmd, value = self.analysis_protocol(recv_data)
                         if cmd == "login":
                             home_dir = ""
@@ -86,15 +86,15 @@ class RoleBase(object):
         self.cur_dir = ""  # 当前用户访问的目录绝对路径,根据需求要求的权限设定: 一定是以home目录开始的字符串
         self.dir_files = ""  # 路径下的文件及文件夹及子目录名集合,通过','号隔开
 
-    @login('request')
-    def request_auth(self, role_type):
+    # @login('request')
+    def request_auth(self, role_type, conn):
         protocol["account"] = RoleBase.account_id
         protocol["password"] = RoleBase.account_pwd
         protocol["cmd"] = "login"
         protocol["data"] = role_type
-        self.conn.send_request(protocol)
+        self.tell_server_length(protocol, conn)
 
-    @login('admin')
+    # @login('admin')
     def a_auth(self):
         admin_dir = ""
         admin_dir = RoleBase.account_dir + settings.source_dist.get("admin_pack_name")
@@ -102,7 +102,7 @@ class RoleBase(object):
         admin_path = admin_dir + self.account_id
         return self.account_check(admin_path)
 
-    @login('user')
+    # @login('user')
     def u_auth(self):
         user_dir = ""
         user_dir = RoleBase.account_dir + settings.source_dist.get("user_pack_name")
@@ -154,3 +154,10 @@ class RoleBase(object):
     def set_account(self, uid, password):
         RoleBase.account_id = uid
         RoleBase.account_pwd = password
+
+    def tell_server_length(self, args, conn):
+        """告知服务器发送数据长度角色类发送接口"""
+        conn.send_request_length(args)  # 先告诉将要发送数据的长度
+        server_final_ack = conn.get_response()  # 等待响应
+        print("server response:", server_final_ack.decode())
+        conn.send_request(args)  # 发送数据
