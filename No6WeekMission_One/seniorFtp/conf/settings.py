@@ -10,8 +10,12 @@ if os.name == "nt":  # windows
     SYS_BASE_DISK_DIR = re.match(r"\D:\\", PROJ_BASE_DIR).group()
 elif os.name == "posix":  # Linux
     SYS_BASE_DISK_DIR = re.match(r"\D:/", PROJ_BASE_DIR).group()
+DOWNLOAD_RC_FILE_NAME = "dwnrc.txt"
+UPLOAD_RC_FILE_NAME = "uprc.txt"
 
 source_dist = {"account_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "accounts",
+               "download_record_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "download_record",
+               "upload_record_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "upload_record",
                "admin_pack_name": "admins",
                "user_pack_name": "users",
                "server_ip": server_ip,

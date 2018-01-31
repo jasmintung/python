@@ -51,18 +51,14 @@ data = 下载的文件的总大小 or "file_not_exists"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
-cmd = "download_RES"
-data = "READY" or "NOT_READY" * 累计收到的文件数据量
+cmd = "downloading"
+data = "SUCCESS"*累计收到的文件大小 or "FAILE*0
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
-cmd = "download_ing"
-data = 当前传送的文件
-客户端--------------------------------------------->服务器
-account = xxx
-password = xxx
-cmd = "download_RES"
-data = "READY" or "NOT_READY" * 累计收到的文件数据量       # 采用send发送,一应一答机制,为将来做补传机制做好基础
+cmd = "downloading"
+data = "SUCCESS" or "FAILE*文件数据
+
 
 4、上传
 客户端--------------------------------------------->服务器

@@ -4,72 +4,73 @@ import os
 protocol = {"account": "", "password": "", "cmd": "", "data": ""}
 
 
-def login(auth_type):
-    def auth(func):
-        def inner(self, *args, **kwargs):
-            go_next = False
-            if auth_type == 'admin':
-                pass
-            elif auth_type == 'user':
-                pass
-            elif auth_type == 'request':
-                pass
-            else:
-                print("not support this login type")
-            if go_next:
-                retry_count = 0
-                is_login_statue = -1
-                account = ""
-                while retry_count < 5:
-                    account = input("\033[32;1m用户名:\033[0m").strip(">>")
-                    password = input("\033[32;1m密码:\033[0m").strip(">>")
-                    if account == 'b' or password == 'b':
-                        exit()
-                    if retry_count > 2:
-                        print("验证码:\033[35;1m %s \033[0m" % common_func.auth_code())
-                        enter_auth_code = input("请输入验证码").strip(">>")
-                        if enter_auth_code != common_func.auth_code().strip():
-                            print("输入错误!")
-                            retry_count += 1
-                            continue
-                    if auth_type == 'request':
-                        self.set_account(account, password)
-                        func(*args, **kwargs)
-                        # recv_data = self.conn.get_response()
-                        cmd, value = self.analysis_protocol(recv_data)
-                        if cmd == "login":
-                            home_dir = ""
-                            files_list = ""
-                            if len(value) > 1:
-                                is_login_statue, home_dir, files_list = value.strip().split("*")
-                            else:
-                                is_login_statue = value
-                            if is_login_statue == '1':
-                                print("\033[32;1m登陆成功\033[0m")
-                                self.update_login_statue(True)
-                                self.set_default_home_path(home_dir)
-                                self.set_dir_files(",".join(files_list.split("&")))
-                                break
-                            elif is_login_statue == '0':
-                                print("\033[35;1m账户不存在!\033[0m")
-                                self.update_login_statue(False)
-                                break
-                            elif is_login_statue == '9':
-                                print("\033[35;1m账户异常,无法登录,请联系管理员!\033[0m")
-                                self.update_login_statue(False)
-                                break
-                            elif is_login_statue == '2':
-                                print("\033[35;1m用户名或密码错误!\033[0m")
-                                retry_count += 1
-                    else:
-                        """服务器端处理"""
-                        pass
-                else:
-                    # 日志记录,并强制退出
-                    exit("\033[32;1m您尝试登陆次数过多,被强制踢出!\033[0m")
-                    self.update_login_statue(False)
-        return inner
-    return auth
+# def login(auth_type):
+#     def auth(func):
+#         def inner(self, *args, **kwargs):
+#             go_next = False
+#             if auth_type == 'admin':
+#                 pass
+#             elif auth_type == 'user':
+#                 pass
+#             elif auth_type == 'request':
+#                 pass
+#             else:
+#                 print("not support this login type")
+#             if go_next:
+#                 retry_count = 0
+#                 is_login_statue = -1
+#                 account = ""
+#                 while retry_count < 5:
+#                     account = input("\033[32;1m用户名:\033[0m").strip(">>")
+#                     password = input("\033[32;1m密码:\033[0m").strip(">>")
+#                     if account == 'b' or password == 'b':
+#                         exit()
+#                     if retry_count > 2:
+#                         print("验证码:\033[35;1m %s \033[0m" % common_func.auth_code())
+#                         enter_auth_code = input("请输入验证码").strip(">>")
+#                         if enter_auth_code != common_func.auth_code().strip():
+#                             print("输入错误!")
+#                             retry_count += 1
+#                             continue
+#                     if auth_type == 'request':
+#                         self.set_account(account, password)
+#                         func(*args, **kwargs)
+#                         # recv_data = self.conn.get_response()
+#                         cmd, value = self.analysis_protocol(recv_data)
+#                         if cmd == "login":
+#                             home_dir = ""
+#                             files_list = ""
+#                             if len(value) > 1:
+#                                 is_login_statue, home_dir, files_list = value.strip().split("*")
+#                             else:
+#                                 is_login_statue = value
+#                             if is_login_statue == '1':
+#                                 print("\033[32;1m登陆成功\033[0m")
+#                                 self.update_login_statue(True)
+#                                 self.set_default_home_path(home_dir)
+#                                 self.set_cur_view_path(home_dir)
+#                                 self.set_dir_files(",".join(files_list.split("&")))
+#                                 break
+#                             elif is_login_statue == '0':
+#                                 print("\033[35;1m账户不存在!\033[0m")
+#                                 self.update_login_statue(False)
+#                                 break
+#                             elif is_login_statue == '9':
+#                                 print("\033[35;1m账户异常,无法登录,请联系管理员!\033[0m")
+#                                 self.update_login_statue(False)
+#                                 break
+#                             elif is_login_statue == '2':
+#                                 print("\033[35;1m用户名或密码错误!\033[0m")
+#                                 retry_count += 1
+#                     else:
+#                         """服务器端处理"""
+#                         pass
+#                 else:
+#                     # 日志记录,并强制退出
+#                     exit("\033[32;1m您尝试登陆次数过多,被强制踢出!\033[0m")
+#                     self.update_login_statue(False)
+#         return inner
+#     return auth
 
 
 class RoleBase(object):
@@ -78,12 +79,11 @@ class RoleBase(object):
     account_id = ""  # 用户ID
     account_pwd = ""  # 用户密码
     home_dir = ""  # 默认用户home目录绝对路径
-    login_statue = 0  # 登陆状态
+    is_login = False  # 登陆状态
 
-    def __init__(self, conn):
+    def __init__(self):
         self.is_login = False
-        self.conn = conn
-        self.cur_dir = ""  # 当前用户访问的目录绝对路径,根据需求要求的权限设定: 一定是以home目录开始的字符串
+        self.view_path = ""  # 当前用户访问的目录绝对路径,根据需求要求的权限设定: 一定是以home目录开始的字符串
         self.dir_files = ""  # 路径下的文件及文件夹及子目录名集合,通过','号隔开
 
     # @login('request')
@@ -129,11 +129,7 @@ class RoleBase(object):
 
     def update_login_statue(self, args):
         """更新用户登陆状态"""
-        self.is_login = args
-
-    def get_login_statue(self):
-        """获取用户登陆状态"""
-        return self.is_login
+        RoleBase.is_login = args
 
     def set_default_home_path(self, args):
         """设置用户默认home路径"""
@@ -142,6 +138,14 @@ class RoleBase(object):
     def get_default_home_path(self):
         """获取用户默认home路径"""
         return RoleBase.home_dir
+
+    def set_cur_view_path(self, args):
+        """设置当前访问路径"""
+        self.view_path = args
+
+    def get_cur_view_path(self):
+        """获取当前访问路径"""
+        return self.view_path
 
     def set_dir_files(self, args):
         """保存当前路径下的所有子目录及文件名"""
@@ -155,7 +159,8 @@ class RoleBase(object):
         RoleBase.account_id = uid
         RoleBase.account_pwd = password
 
-    def tell_server_length(self, args, conn):
+    @staticmethod
+    def tell_server_length(args, conn):
         """告知服务器发送数据长度角色类发送接口"""
         conn.send_request_length(args)  # 先告诉将要发送数据的长度
         server_final_ack = conn.get_response()  # 等待响应
