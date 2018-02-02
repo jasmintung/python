@@ -160,7 +160,7 @@ class RoleBase(object):
         RoleBase.account_pwd = password
 
     @staticmethod
-    def tell_server_length(args, conn):
+    def request_server(args, conn):
         """告知服务器发送数据长度角色类发送接口"""
         conn.send_request_length(args)  # 先告诉将要发送数据的长度
         server_final_ack = conn.get_response()  # 等待响应

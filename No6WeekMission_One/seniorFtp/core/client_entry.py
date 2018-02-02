@@ -6,13 +6,6 @@ from core import common_func
 protocol = {"account": "", "password": "", "cmd": "", "data": ""}
 
 
-def new_socket(host, port):
-    """创建一个socket"""
-    instance_client = FtpClient.FtpClient(host, port)
-    instance_client.client_init()
-    return instance_client.conn
-
-
 def new_thread(choice, conn, role):
     """创建线程"""
     ready_get_server = True
@@ -58,8 +51,9 @@ def main():
         print(login_notice)
         choice = input(">>").strip()
         if choice == '1':
-            sk = new_socket(host, port)
-            instance_role = User.User()
+            client = FtpClient(host, port)
+            sk = client.new_socket()
+            instance_role = User.User(client)
             instance_role.request_auth('user', sk)
             instance_role.deal_server_response_datas(sk)
             while True:
@@ -73,22 +67,22 @@ def main():
                     2. 下载文件
                     3. 上传文件
                     4. 多文件下载
-                    5. 多文件上传
                     6. 续传文件
+                    5. 多文件上传
                     8. 退出
                     """
                     print(func_notice)
                     func_choice = input(">>").strip()
                     if func_notice == '1' or func_notice == '8':
                         if func_notice == '1':
-                            instance_role.view_files_request(sk)
-                            instance_role.deal_server_response_datas(sk)
+                            instance_role.view_files_request()
+                            instance_role.deal_server_response_datas()
                         if func_notice == '8':
                             exit()
                     else:
-                        t = threading.Thread(target=new_thread,
-                                             args=(func_choice, new_socket(host, port), instance_role,))
-                        t.start()
+                        # t = threading.Thread(target=new_thread,
+                        #                      args=(func_choice, new_socket(host, port), instance_role,))
+                        # t.start()
         elif choice == '8':
             exit()
         else:

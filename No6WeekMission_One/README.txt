@@ -74,10 +74,10 @@ data = "READY" or "NOT_READY" or "FILE_ALREADY_EXISTS"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
-cmd = "uploading"
+cmd = "uploading"*起始上传位置*大小
 data = 文件数据
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
 cmd = "uploading"
-data = 结果("SUCCESS")or"(FAILE)*累积收到的文件大小
+data = 结果"SUCCESS"or"FAILE*收到的文件大小
