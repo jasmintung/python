@@ -52,7 +52,7 @@ data = 下载的文件的总大小 or "file_not_exists"
 account = xxx
 password = xxx
 cmd = "downloading"
-data = "SUCCESS"*累计收到的文件大小 or "FAILE*0
+data = "服务器下载文件路径"*请求读取文件起始位置*请求大小 or "FAILE*0
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
@@ -74,8 +74,8 @@ data = "READY" or "NOT_READY" or "FILE_ALREADY_EXISTS"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
-cmd = "uploading"*起始上传位置*大小
-data = 文件数据
+cmd = "uploading"
+data = *文件读起始位置*大小*文件数据
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx

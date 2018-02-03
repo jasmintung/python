@@ -112,7 +112,7 @@ class User(RoleBase):
                 self.request_server(protocol, conn)  # 发送请求给服务器
                 # return local_download_save_path + download_file_name
                 local_download_save_path = local_download_save_dir + download_file_name
-                self.deal_server_response_datas(conn, local_download_save_path)  # 接收服务器的应答
+                self.deal_server_response_datas(conn, download_remote_file_path, local_download_save_path)  # 接收服务器的应答
             else:
                 print("输入下载路径有误")
         else:
@@ -123,7 +123,7 @@ class User(RoleBase):
         单任务下载请求服务器应答数据处理
         :param data: 下载文件的总大小 or "file_not_exists"
         :param conn: socket
-        :param args: 下载文件 de 本地存储路径
+        :param args: 服务器文件存储路径, 下载文件 de 本地存储路径
         :return:
         """
         if data == "file_not_exists":
@@ -234,29 +234,13 @@ class User(RoleBase):
         创建多线程用于下载文件, 生产者
         :param data: 下载文件的总大小
         :param conn: socket
-        :param args: 本地存储下载文件的路径
+        :param args: 服务器存储文件路径, 本地存储下载文件的路径
         :return:
         """
-
-        protocol["account"] = RoleBase.account_id
-        protocol["password"] = RoleBase.account_pwd
-        protocol["cmd"] = "downloading"
-        if data.isdigit():  # 全数字 创建本地存储文件
-            local_path = ""
-            local_path = str(args[0]).strip()
-            if os.path.exists(local_path):
-                os.remove(local_path)
-            else:
-                os.mknod(local_path)
-            protocol["data"] = "SUCCESS" + "0"
-            self.request_server(protocol, conn)
-        else:
-            conn.close()
-            return
         # 创建多线程下载
         q = init_queue(data)
         for i in range(0, _MAX_THREAD_NUMBER):
-            t = threading.Thread(target=self.download_thread_body, args=(self.client.new_socket(), local_path, q, ))
+            t = threading.Thread(target=self.download_thread_body, args=(self.client.new_socket(), args, q, ))
             t.setDaemon(True)
             t.start()
         q.join()
@@ -277,11 +261,11 @@ class User(RoleBase):
             self.thread_upload_file(None, conn, tuple_param)
             q.task_done()
 
-    def download_thread_body(self, conn, save_path, q):
+    def download_thread_body(self, conn, args, q):
         """
         消费者
         :param conn: socket
-        :param save_path: 下载文件 本地 存储路径
+        :param args: 服务器文件存储路径, 下载文件 本地 存储路径
         :param q :  Section的实例
         :return:
         """
@@ -289,14 +273,15 @@ class User(RoleBase):
             section = q.get()
             offset = section.offset
             size = section.size
-            tuple_params = (save_path, offset, size, 0, )
-            self.deal_server_response_datas(conn, tuple_params)
+            tuple_params = (str(args[0]), str(args[1]), offset, size,)
+            self.thread_down_file(None, conn, tuple_params)
             q.task_done()
+        conn.close()
 
     def thread_upload_file(self, data, conn, args):
         """
-        文件上传
-        :param args: 上传文件的 本地 存储路径, 读取起始地址, 每次读取大小
+        本地文件上传
+        :param args: 上传文件的 本地 存储路径, 读取起始地址, 待上传大小
         :param data: None(第一次读) 或者 结果("SUCCESS")or"(FAILE)*收到的文件大小
         :return:
         """
@@ -314,11 +299,12 @@ class User(RoleBase):
                 protocol["password"] = RoleBase.account_pwd
                 protocol["cmd"] = "uploading"
                 if size > 2 * 1024:
-                    protocol["data"] = uf.read(2 * 1024)  # 一次读2K
+                    data = uf.read(2 * 1024)  # 一次读2K
                 else:
-                    protocol["data"] = uf.read(size)  # 一次读 size
-                tuple_params = (file_save_path, offset, size, )
+                    data = uf.read(size)  # 一次读 size
+                protocol["data"] = str(offset) + "*" + str(len(data)) + data
                 self.request_server(protocol, conn)
+                tuple_params = (file_save_path, offset, size,)
                 self.deal_server_response_datas(conn, tuple_params)
             uf.close()
         else:
@@ -326,7 +312,7 @@ class User(RoleBase):
                 result, server_get_length = data.strip().split("*")
                 print("累计上传的文件大小:", int(server_get_length))
                 if result == "SUCCESS":
-                    if int(server_get_length) == os.path.getsize(file_save_path):
+                    if int(server_get_length) == size:
                         print("\033[33;1m上传完成\033[0m")
                     else:
                         uf = open(file_save_path, "rb")
@@ -337,10 +323,11 @@ class User(RoleBase):
                             protocol["password"] = RoleBase.account_pwd
                             protocol["cmd"] = "uploading"
                             if size > 2 * 1024:
-                                protocol["data"] = uf.read(2 * 1024)  # 一次读2K
+                                data = uf.read(2 * 1024)  # 一次读2K
                             else:
-                                protocol["data"] = uf.read(size)  # 一次读 size
-
+                                data = uf.read(size)  # 一次读 size
+                            protocol["data"] = str(offset) + "*" + str(len(data)) + data
+                            self.request_server(protocol, conn)
                             tuple_params = (file_save_path, offset + server_get_length, size - server_get_length)
                             self.deal_server_response_datas(conn, tuple_params)
                         uf.close()
@@ -353,38 +340,65 @@ class User(RoleBase):
 
     def thread_down_file(self, data, conn, args):
         """
-        本地下载写文件
+        远程服务器文件本地下载写
         :param data: 表示已经接收到服务器发来的下载文件数据"SUCCESS" or "FAILE*文件数据
         :param conn: socket
-        :param args: 本地存储下载文件的路径, 下载起始偏移量, 下载大小, 已接收到文件数据长度
+        :param args: 服务器文件路径, 本地存储下载文件的路径, 下载起始偏移量, 待下载文件大小
         :return:
         """
+        file_remote_save_path = args[0]
+        local_path = args[1]
+        offset = args[2]
+        remain_size = args[3] # 剩余下载大小
 
         protocol["account"] = RoleBase.account_id
         protocol["password"] = RoleBase.account_pwd
         protocol["cmd"] = "downloading"
-        local_path = args[0]
-        offset = int(args[1])
-        size = int(args[2])
-        had_got_size = int(args[3])
-        if data.startswith("SUCCESS"):
-            result, recv_data = data.strip().split("*")
-            now_size = had_got_size + len(recv_data)
-            if now_size < size:
-                with open(local_path, "ab") as f:  # 写本地存储文件
-                    f.seek(offset, 0)
-                    f.write(recv_data)
-                protocol["data"] = "SUCCESS" + str(now_size)
+        if not data:
+            # "SUCCESS" * 请求读取文件起始位置 * 请求大小 or "FAILE*0
+            if data.isdigit():  # 全数字 创建本地存储文件
+                request_size = 0
+                if os.path.exists(local_path):
+                    os.remove(local_path)
+                else:
+                    os.mknod(local_path)
+                if remain_size > 2 * 1024:
+                    request_size = 2 * 1024
+                else:
+                    request_size = remain_size
+                protocol["data"] = file_remote_save_path + "*" + str(offset) + request_size
                 self.request_server(protocol, conn)
-                tuple_params = (local_path, offset, size, now_size, )
+                tuple_params = (file_remote_save_path, local_path, offset, remain_size,)
                 self.deal_server_response_datas(conn, tuple_params)
             else:
-                print("下载完成了!")
                 conn.close()
+                return
         else:
-            protocol["data"] = "FAILE" + "0"
-            print("下载失败")
-            conn.close()
+            if data.startswith("SUCCESS"):
+                result, recv_data = data.strip().split("*")
+                recv_data_size = len(recv_data)
+                remain_size -= recv_data_size
+
+                if remain_size == 0:
+                    print("下载完成了!")
+                    conn.close()
+                else:
+                    with open(local_path, "ab") as f:  # 写本地存储文件
+                        f.seek(offset, 0)
+                        f.write(recv_data)
+                    request_size = 0
+                    if remain_size > 2 * 1024:
+                        request_size = 2 * 1024
+                    else:
+                        request_size = remain_size
+                    protocol["data"] = file_remote_save_path + "*" + str(offset) + request_size
+                    self.request_server(protocol, conn)
+                    tuple_params = (file_remote_save_path, local_path, offset + recv_data_size, remain_size,)
+                    self.deal_server_response_datas(conn, tuple_params)
+            else:
+                protocol["data"] = "FAILE" + "0"
+                print("下载失败")
+                conn.close()
             # 将下载未完成用于断点续传的信息保存下来
 
 
