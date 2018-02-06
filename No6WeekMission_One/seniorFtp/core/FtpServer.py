@@ -2,6 +2,7 @@ import gevent
 import socket
 from gevent import socket, monkey
 from conf import settings
+from core import DataCenter
 monkey.patch_all()
 
 
@@ -39,7 +40,8 @@ class FtpServer(object):
             print("received_size is:", received_size)
             print("total_rece_size is:", total_rece_size)
             if received_size == total_rece_size:
-                instance_process.analyse_client_data(res_data)
+                dc = DataCenter(conn, res_data)
+                dc.analyse_client_data()
                 send_data = str(instance_process.get_process_res_data())
                 try:
                     print("server send length is:", len(send_data))
