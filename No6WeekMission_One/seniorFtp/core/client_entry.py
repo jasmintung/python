@@ -67,7 +67,6 @@ def main():
                     2. 下载文件
                     3. 上传文件
                     4. 多文件下载
-                    6. 续传文件
                     5. 多文件上传
                     8. 退出
                     """
@@ -80,6 +79,17 @@ def main():
                         if func_notice == '8':
                             exit()
                     else:
+                        pass
+                        if choice == '2':
+                            instance_role.download_file_request()  # 下载文件流程
+                        elif choice == '3':
+                            instance_role.upload_file_request()  # 上传文件流程
+                        elif choice == '4':
+                            instance_role.download_multi_files()  # 多文件下载流程
+                        elif choice == '5':
+                            instance_role.upload_multi_files()  # 多文件上传流程
+                        else:
+                            print("选择错误")
                         # t = threading.Thread(target=new_thread,
                         #                      args=(func_choice, new_socket(host, port), instance_role,))
                         # t.start()

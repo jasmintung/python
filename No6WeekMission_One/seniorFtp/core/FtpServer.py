@@ -42,7 +42,7 @@ class FtpServer(object):
             if received_size == total_rece_size:
                 dc = DataCenter(conn, res_data)
                 dc.analyse_client_data()
-                send_data = str(instance_process.get_process_res_data())
+                send_data = str(dc.get_response_data())
                 try:
                     print("server send length is:", len(send_data))
                     conn.send(str(len(send_data)).encode(

@@ -22,7 +22,7 @@ class RoleBase(object):
         protocol["password"] = RoleBase.account_pwd
         protocol["cmd"] = "login"
         protocol["data"] = role_type
-        self.tell_server_length(protocol, conn)
+        self.request_server(protocol, conn)
 
     # @login('admin')
     def a_auth(self):

@@ -42,12 +42,12 @@ data = 客户端请求访问目录路径下的子目录及所有文件(列表转
 account = xxx
 password = xxx
 cmd = "download"
-data = 要下载文件的绝对路径
+data = 服务器下载文件路径
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
 cmd = "download"
-data = 下载的文件的总大小 or "file_not_exists"
+data = 下载的文件的总大小 or "文件不存在"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
@@ -70,12 +70,12 @@ data = 要上传到服务器上的绝对目录路径(根据本项目路径权限
 account = xxx
 password = xxx
 cmd = "upload"
-data = "READY" or "NOT_READY" or "FILE_ALREADY_EXISTS"
+data = "READY" or "参数有误" or "文件已经存在"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
 cmd = "uploading"
-data = *文件读起始位置*大小*文件数据
+data = 要上传到服务器上的绝对目录路径*文件名*文件读起始位置*大小*文件数据
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx

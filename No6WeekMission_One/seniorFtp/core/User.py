@@ -2,11 +2,14 @@ import os
 import threading
 import math
 import queue
+import shelve
 from core import RoleBase
 from conf import settings
+
 protocol = {"account": "", "password": "", "cmd": "", "data": ""}
 _MAX_THREAD_NUMBER = 4
 _MAX_UPLOAD_THREAD_NUMBER = 2
+
 
 class Section(object):
     offset = 0
@@ -144,15 +147,15 @@ class User(RoleBase):
                 upload_file_path = upload_file_path
                 upload_file_size = os.path.getsize(upload_file_path)
                 file_name = ""
-                remote_file_save_path = input("请输入服务器存储上传文件的目录路径:").strip()
-                if remote_file_save_path.startswith(RoleBase.home_dir):
+                remote_file_save_dir = input("请输入服务器存储上传文件的目录路径:").strip()
+                if remote_file_save_dir.startswith(RoleBase.home_dir):
                     conn = self.client.new_socket()
                     protocol["account"] = RoleBase.account_id
                     protocol["password"] = RoleBase.account_pwd
                     protocol["cmd"] = "upload"
-                    protocol["data"] = remote_file_save_path + "*" + file_name + "*" + str(upload_file_size)
+                    protocol["data"] = remote_file_save_dir + "*" + file_name + "*" + str(upload_file_size)
                     self.tell_server_length(protocol, conn)
-                    tuple_params = (upload_file_path, )
+                    tuple_params = (upload_file_path, remote_file_save_dir, )
                     self.request_server(protocol, conn)  # 发送请求给服务器
                     self.deal_server_response_datas(conn, tuple_params)  # 接收服务器的应答
                 else:
@@ -164,7 +167,7 @@ class User(RoleBase):
 
     def upload_file_response(self, data, conn, args):
         """单任务上传请求服务器应答数据处理
-        :param args: 上传文件的本地存储路径
+        :param args: 上传文件的本地存储路径, 服务器上文件存储目录路径
         """
         if data.startswith("READY"):
             """可以开始上传文件了"""
@@ -211,7 +214,7 @@ class User(RoleBase):
         """
         创建多线程用于上传文件, 生产者
         :param conn: socket
-        :param args: 待上传文件的路径
+        :param args: 待上传文件的本地路径 要上传到服务器上的目录路径
         :return:
         """
         if os.path.exists(args):
@@ -245,11 +248,11 @@ class User(RoleBase):
             t.start()
         q.join()
 
-    def upload_thread_body(self, conn, save_path, q):
+    def upload_thread_body(self, conn, args, q):
         """
         消费者
         :param conn: socket
-        :param save_path: 上传文件 本地 存储路径
+        :param args: 上传文件 本地 存储路径,  要上传到服务器上的目录路径
         :param q: Section的实例
         :return:
         """
@@ -257,7 +260,7 @@ class User(RoleBase):
             section = q.get()
             offset = section.offset
             size = section.size
-            tuple_param = (save_path, offset, size, )
+            tuple_param = (args[0], args[1], offset, size, )
             self.thread_upload_file(None, conn, tuple_param)
             q.task_done()
 
@@ -281,13 +284,14 @@ class User(RoleBase):
     def thread_upload_file(self, data, conn, args):
         """
         本地文件上传
-        :param args: 上传文件的 本地 存储路径, 读取起始地址, 待上传大小
+        :param args: 上传文件的 本地 存储路径, 要上传到服务器上的路径, 读取起始地址, 待上传大小
         :param data: None(第一次读) 或者 结果("SUCCESS")or"(FAILE)*收到的文件大小
         :return:
         """
         file_save_path = str(args[0])
-        offset = int(args[1])
-        size = int(args[2])
+        remote_save_path = str(args[1])
+        offset = int(args[2])
+        size = int(args[3])
         if not data:
             protocol["account"] = RoleBase.account_id
             protocol["password"] = RoleBase.account_pwd
@@ -302,7 +306,7 @@ class User(RoleBase):
                     data = uf.read(2 * 1024)  # 一次读2K
                 else:
                     data = uf.read(size)  # 一次读 size
-                protocol["data"] = str(offset) + "*" + str(len(data)) + data
+                protocol["data"] = remote_save_path + "*" + os.path.split(file_save_path)[1] + "*" + str(offset) + "*" + str(len(data)) + "*" + data  # 数据放最后 免得每次+重新分配内存导致的效率低
                 self.request_server(protocol, conn)
                 tuple_params = (file_save_path, offset, size,)
                 self.deal_server_response_datas(conn, tuple_params)
@@ -317,7 +321,6 @@ class User(RoleBase):
                     else:
                         uf = open(file_save_path, "rb")
                         if uf.readable():
-                            response_protocol = {}
                             uf.seek(offset, 0)
                             protocol["account"] = RoleBase.account_id
                             protocol["password"] = RoleBase.account_pwd
@@ -326,7 +329,7 @@ class User(RoleBase):
                                 data = uf.read(2 * 1024)  # 一次读2K
                             else:
                                 data = uf.read(size)  # 一次读 size
-                            protocol["data"] = str(offset) + "*" + str(len(data)) + data
+                            protocol["data"] = str(offset) + "*" + str(len(data)) + str(data)
                             self.request_server(protocol, conn)
                             tuple_params = (file_save_path, offset + server_get_length, size - server_get_length)
                             self.deal_server_response_datas(conn, tuple_params)

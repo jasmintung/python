@@ -16,8 +16,6 @@ UPLOAD_RC_FILE_NAME = "uprc.txt"
 source_dist = {"account_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "accounts",
                "download_record_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "download_record",
                "upload_record_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "upload_record",
-               "admin_pack_name": "admins",
-               "user_pack_name": "users",
                "server_ip": server_ip,
                "server_port": port,
                "base_disk_path": SYS_BASE_DISK_DIR,
