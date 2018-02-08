@@ -13,6 +13,7 @@ class FtpClient(object):
         """创建一个socket"""
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((self.host, self.port))
+        self.conn = s
         return s
 
     def request(self):

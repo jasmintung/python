@@ -11,18 +11,21 @@ class RoleBase(object):
     home_dir = ""  # 默认用户home目录绝对路径
     is_login = False  # 登陆状态
 
-    def __init__(self):
+    def __init__(self, client, name, pwd):
         self.is_login = False
         self.view_path = ""  # 当前用户访问的目录绝对路径,根据需求要求的权限设定: 一定是以home目录开始的字符串
         self.dir_files = ""  # 路径下的文件及文件夹及子目录名集合,通过','号隔开
+        self.client = client
+        RoleBase.account_id = name
+        RoleBase.account_pwd = pwd
 
     # @login('request')
-    def request_auth(self, role_type, conn):
+    def request_auth(self, role_type):
         protocol["account"] = RoleBase.account_id
         protocol["password"] = RoleBase.account_pwd
         protocol["cmd"] = "login"
         protocol["data"] = role_type
-        self.request_server(protocol, conn)
+        self.request_server(protocol, self.client)
 
     # @login('admin')
     def a_auth(self):
@@ -90,9 +93,13 @@ class RoleBase(object):
         RoleBase.account_pwd = password
 
     @staticmethod
-    def request_server(args, conn):
+    def request_server(args, client):
         """告知服务器发送数据长度角色类发送接口"""
-        conn.send_request_length(args)  # 先告诉将要发送数据的长度
-        server_final_ack = conn.get_response()  # 等待响应
+        print("发送请求开始")
+        print("发送请求长度")
+        client.send_request_length(args)  # 先告诉将要发送数据的长度
+        print("接收长度应答")
+        server_final_ack = client.get_response()  # 等待响应
         print("server response:", server_final_ack.decode())
-        conn.send_request(args)  # 发送数据
+        print("发送请求数据")
+        client.send_request(args)  # 发送数据

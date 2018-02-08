@@ -35,7 +35,7 @@ data = "要访问目录的绝对路径"  # 为什么是绝对路径,因为没有
 account = xxx
 password = xxx
 cmd = "view"
-data = 客户端请求访问目录路径下的子目录及所有文件(列表转字符串) or "没有访问权限!" or "路径不存在!"
+data = 要访问目录的绝对路径*客户端请求访问目录路径下的子目录及所有文件(列表转字符串) or "没有访问权限!" or "路径不存在!"
 
 3、下载
 客户端--------------------------------------------->服务器
@@ -57,7 +57,7 @@ data = "服务器下载文件路径"*请求读取文件起始位置*请求大小
 account = xxx
 password = xxx
 cmd = "downloading"
-data = "SUCCESS" or "FAILE*文件数据
+data = 文件数据 or "FAILE*
 
 
 4、上传
@@ -70,7 +70,7 @@ data = 要上传到服务器上的绝对目录路径(根据本项目路径权限
 account = xxx
 password = xxx
 cmd = "upload"
-data = "READY" or "参数有误" or "文件已经存在"
+data = "READY" or "参数有误" or "文件已经存在" or "磁盘已满"
 客户端--------------------------------------------->服务器
 account = xxx
 password = xxx
@@ -81,3 +81,19 @@ account = xxx
 password = xxx
 cmd = "uploading"
 data = 结果"SUCCESS"or"FAILE*收到的文件大小
+
+5、退出
+客户端--------------------------------------------->服务器
+account = xxx
+password = xxx
+cmd = "logout"
+data = NULL
+服务器--------------------------------------------->客户端
+account = xxx
+password = xxx
+cmd = "logout"
+data = 退出结果: 0: 失败 1: 成功
+
+
+F:\ftp\test.mp4
+F:\download

@@ -1,6 +1,7 @@
 import os
 import re
 import pickle
+import json
 import shelve
 
 from core import common_func
@@ -21,7 +22,7 @@ def auth_check_deco(func):
     """登陆状态监测"""
     def wrapper(self, *args, **kwargs):
         if self.login_statue:
-            return func(*args, **kwargs)
+            return func(self, *args, **kwargs)
         else:
             print("已经离线通知客户端登陆状态为离线")
     return wrapper
@@ -38,23 +39,23 @@ class ShelveUploadRec(object):
 class DataCenter(object):
     protocol = ("account", "password", "cmd", "data")
 
-    def __init__(self, conn, data):
-        self.__login_statue = False
+    def __init__(self, conn):
+        self.__login_statue = True
         self.upload_file_size = 0
         self.default_path = ""
-        self.data = data
         self.account = ""
         self.password = ""
         self.conn = conn
         self.retry_login_fail_count = 0  # 后续完善吧
         self.response_data = ""
 
-    def analyse_client_data(self):
+    def analyse_client_data(self, data):
         # print("服务器收到的数据:")
-        recv_data = eval(self.data.decode())
+        recv_data = eval(data.decode())
         if isinstance(recv_data, dict):
             cmd = recv_data.get("cmd")
-            DataCenter.func_dict[cmd](recv_data)
+            print("cmd is :", cmd)
+            DataCenter.func_dict.get(cmd)(self, recv_data)
 
     def account_check(self, data):
         """登陆账户验证"""
@@ -62,14 +63,14 @@ class DataCenter(object):
         password = data.get("password")
         print("登陆请求用户名: %s, 登陆密码: %s", account_id, password)
         login_statue = 1
-        db_dst = "%s/%s" % (settings.source_dist.get("account_path"), account_id)
+        db_dst = "%s%s" % (settings.source_dist.get("account_path") + os.sep, account_id)
 
         default_path = ""  # 用户在服务器上的home路径
         file_list = ""  # 用户home路径下的文件列表
-
+        print("账户地址:", db_dst)
         if os.path.exists(db_dst):
-            with open(db_dst, "r", encoding="utf-8") as rf:
-                account_data = pickle.load(rf)
+            with open(db_dst, "rb") as rf:
+                account_data = json.load(rf)
                 if account_id == account_data.get("id") and password == account_data.get("password"):
                     print("验证通过")
                     default_path = account_data.get("defaultPath")
@@ -79,11 +80,12 @@ class DataCenter(object):
                     self.account = account_id
                     self.password = password
                 else:
-                    login_statue = 2
-                if account_data.get("id") != account_data:
-                    print("账户异常")  # 文件名跟内部id不一致
-                    login_statue = 9
-
+                    if account_data.get("id") != account_id:
+                        print("账户异常")  # 文件名跟内部id不一致
+                        login_statue = 9
+                    else:
+                        print("用户名或者密码错误")
+                        login_statue = 2
         else:
             login_statue = 0
             print("账户不存在!")
@@ -91,23 +93,24 @@ class DataCenter(object):
             rs_data = dict(zip(DataCenter.protocol, (account_id, password, data.get("cmd"), login_statue)))
         else:
             rs_data = dict(zip(DataCenter.protocol, (account_id, password, data.get("cmd"), str(login_statue) + "*" +
-                                                     default_path + "&".join(file_list))))
+                                                     default_path + "*" + "&".join(file_list))))
         self.set_response_data(rs_data)
 
     @auth_check_deco
     def view_files(self, data):
         result = ""
         request_view_path = data.get("data")  # 客户端请求访问的路径
-        if request_view_path.startswith(request_view_path):  # 路径或者文件存在
+        print("客户端请求访问路径", request_view_path)
+        print("默认home路径:", self.default_path)
+        if request_view_path.startswith(self.default_path):  # 路径或者文件存在
             if os.path.exists(request_view_path):
                 if os.path.isfile(request_view_path): # 路径是文件
                     result = "路径不存在"
                 else:
                     file_list = os.listdir(request_view_path)
-                    result = "&".join(file_list)
+                    result = request_view_path + "*" + "&".join(file_list)
             else:
                 result = "路径不存在"
-
         else:
             result = "没有访问权限"
             print("没有访问权限")
@@ -208,12 +211,14 @@ class DataCenter(object):
     def process_downloading_file(self, data):
         """"服务器下载文件路径"*请求读取文件起始位置*请求大小 or "FAILE*0"""
         result = ""
-        request_download_path, offset, download_size = data.get("data").strip().split("*")
+        print("下载请求收到的数据:", data)
+        request_download_path, offset, download_size = data.get("data").split("*")
+        download_size = int(download_size)
         if os.path.exists(request_download_path):
             if os.path.isfile(request_download_path):
                 with open(request_download_path, "rb") as f:
                     file_data = f.read(download_size)
-                    result = "SUCCESS" + "*" + str(file_data)
+                    result = str(file_data)
             else:
                 result = "FAILE"
         else:
