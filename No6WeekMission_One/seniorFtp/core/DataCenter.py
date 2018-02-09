@@ -211,14 +211,18 @@ class DataCenter(object):
     def process_downloading_file(self, data):
         """"服务器下载文件路径"*请求读取文件起始位置*请求大小 or "FAILE*0"""
         result = ""
-        print("下载请求收到的数据:", data)
         request_download_path, offset, download_size = data.get("data").split("*")
+        print("请求下载的文件:", request_download_path)
+        print("读取文件偏移量:", int(offset))
+        print("请求下载大小:", int(download_size))
         download_size = int(download_size)
         if os.path.exists(request_download_path):
             if os.path.isfile(request_download_path):
                 with open(request_download_path, "rb") as f:
+                    offset = int(offset)
+                    f.seek(offset)
                     file_data = f.read(download_size)
-                    result = str(file_data)
+                    result = file_data
             else:
                 result = "FAILE"
         else:

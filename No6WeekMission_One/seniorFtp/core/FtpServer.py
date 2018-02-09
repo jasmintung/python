@@ -25,7 +25,7 @@ class FtpServer(object):
 
     def handle_request(self, conn):
         """处理连接实例请求"""
-        print("来了一个连接...")
+        print("来了一个连接...:", conn)
         dc = DataCenter.DataCenter(conn)
         while True:
             print("等待客户端数据...")
@@ -43,18 +43,19 @@ class FtpServer(object):
                 data = conn.recv(settings.size_control.get("level5"))
                 if not data:
                     # conn.shutdown(socket.SHUT_WR)
-                    time.sleep(1000)
+                    time.sleep(500)
                     continue
                 received_size += len(data.decode())
                 res_data += data
-                print("received_size is:", received_size)
-                print("total_rece_size is:", total_rece_size)
+                # print("received_size is:", received_size)
+                # print("total_rece_size is:", total_rece_size)
                 if received_size == total_rece_size:
-                    print("接收客户端请求数据完成")
+                    print("total_rece_size is:", total_rece_size)
+                    print("接收客户端 数据完成")
                     dc.analyse_client_data(res_data)
                     send_data = str(dc.get_response_data())
                     try:
-                        print("应答数据长度:", len(send_data))
+                        # print("应答数据长度:", len(send_data))
                         conn.send(str(len(send_data)).encode(
                             "utf-8"))  # 发送之前先告诉客户端要发送多少数据给它,这里确实少不了,最开始没有这样做,发现客户端实际接收到的数据总是比服务端实际发的要小
                     except Exception as e:
@@ -63,7 +64,7 @@ class FtpServer(object):
                     client_final_ack = conn.recv(settings.size_control.get("level1"))  # 等待客户端响应
                     print("接收客户端长度应答:", client_final_ack.decode())
                     try:
-                        print("开始发数据给客户端: ", send_data)
+                        # print("开始发数据给客户端: ", send_data)
                         conn.sendall(send_data.encode("utf-8"))
                     except Exception as e:
                         print("异常错误信息:")

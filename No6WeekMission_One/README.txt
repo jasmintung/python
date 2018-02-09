@@ -95,5 +95,7 @@ cmd = "logout"
 data = 退出结果: 0: 失败 1: 成功
 
 
-F:\ftp\test.mp4
+F:\leetcode账号.txt
 F:\download
+
+启发：发一个线程，收一个线程，通过队列控制生产消费，及收发线程的数据交互

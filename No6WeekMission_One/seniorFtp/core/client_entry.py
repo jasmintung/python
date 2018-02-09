@@ -36,9 +36,9 @@ protocol = {"account": "", "password": "", "cmd": "", "data": ""}
 
 
 def main():
-    print("******登陆FTP服务器******")
-    host = input("请输入IP: ")
-    port = int(input("请输入端口: "))
+    # print("******登陆FTP服务器******")
+    # host = input("请输入IP: ")
+    # port = int(input("请输入端口: "))
 
     while True:
         login_notice = """
@@ -49,8 +49,12 @@ def main():
         print(login_notice)
         choice = input(">>").strip()
         if choice == '1':
-            user_id = input("输入用户名:")
-            user_pwd = input("输入密码")
+            # user_id = input("输入用户名:")
+            # user_pwd = input("输入密码")
+            user_id = "jack"
+            user_pwd = "123456"
+            host = "127.0.0.1"
+            port = 9986
             client = FtpClient.FtpClient(host, port)
             client.new_socket()
             instance_role = User.User(client, user_id, user_pwd)

@@ -95,11 +95,7 @@ class RoleBase(object):
     @staticmethod
     def request_server(args, client):
         """告知服务器发送数据长度角色类发送接口"""
-        print("发送请求开始")
-        print("发送请求长度")
         client.send_request_length(args)  # 先告诉将要发送数据的长度
-        print("接收长度应答")
         server_final_ack = client.get_response()  # 等待响应
         print("server response:", server_final_ack.decode())
-        print("发送请求数据")
         client.send_request(args)  # 发送数据
