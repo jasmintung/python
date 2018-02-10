@@ -1,4 +1,5 @@
 import os
+import stat
 import threading
 import math
 import queue
@@ -293,11 +294,13 @@ class User(RoleBase.RoleBase):
             section = q.get()
             offset = section.offset
             size = section.size
-            print("offset = %d" % offset)
-            print("size = %d" % size)
+            # print("初始offset = %d" % offset)
+            # print("初始size = %d" % size)
             tuple_params = (str(args[0]), str(args[1]), offset, size,)
             args = self.begin_request_file_data(client, tuple_params)
-            self.deal_server_response_datas(client, args)
+            t = threading.Thread(target=self.deal_server_response_datas, args=(client, args))
+            t.setDaemon(True)
+            t.start()
             # self.thread_down_file(None, client, tuple_params)
             q.task_done()
             if not section:
@@ -311,7 +314,6 @@ class User(RoleBase.RoleBase):
             time.sleep(500)
 
     def begin_request_file_data(self, client, args):
-        print("first write")
         down_result = 0
         file_remote_save_path = args[0]
         local_path = args[1]
@@ -321,10 +323,14 @@ class User(RoleBase.RoleBase):
         protocol["password"] = RoleBase.RoleBase.account_pwd
         protocol["cmd"] = "downloading"
         # "SUCCESS" * 请求读取文件起始位置 * 请求大小 or "FAILE*0
-        if os.path.exists(local_path):
-            os.remove(local_path)
-        with open(local_path, "wb") as f:
-            pass
+
+        if offset == 0:
+            if os.path.exists(local_path) is False:
+                print(local_path)
+                print("第一次写文件需要判断原来是否已经存在文件,存在则删除原来的新建")
+                # os.chmod(local_path, stat.S_IRWXG)
+                with open(local_path, "wb") as f:
+                    pass
 
         request_size = 0
         if remain_size > 2 * 1024:
@@ -332,11 +338,11 @@ class User(RoleBase.RoleBase):
         else:
             request_size = remain_size
         print("下载路径:", file_remote_save_path)
-        print("偏移量:", offset)
-        print("剩余下载大小:------------------", remain_size)
+        print("初始偏移量:", offset)
+        print("下载总大小:------------------", remain_size)
         print("请求下载大小", request_size)
         protocol["data"] = file_remote_save_path + "*" + str(offset) + "*" + str(request_size)
-        self.request_server(protocol, client)
+        self.request_server(protocol, client)  # 不加锁的话,很容易出现多线程共用数据导致某一线程的数据被覆盖掉
         tuple_params = (file_remote_save_path, local_path, offset, remain_size,)
         return tuple_params
 
@@ -423,12 +429,15 @@ class User(RoleBase.RoleBase):
                 recv_data = data
                 recv_data_size = len(recv_data)
                 print("下载路径:", file_remote_save_path)
-                print("写文件的数据是:", recv_data)
-                print("接收到的数据大小:---------------", recv_data_size)
-                print("偏移量:", offset)
                 print("写入%s" % local_path)
+                print("接收到的数据大小:---------------", recv_data_size)
+                # os.chmod(local_path, stat.S_IRWXG)  # 写之前更改写入权限
                 with open(local_path, "ab") as f:  # 写本地存储文件,这里有有个坑，最好以管理员身份运行，要不然可能会报错：提示没有权限写
+                    print("写文件的数据是:", recv_data)
+                    print("写入起始位置:", offset)
+                    print(f.tell())
                     f.seek(offset, 0)
+                    print(f.tell())
                     f.write(recv_data)
 
                 if remain_size >= recv_data_size:
@@ -450,9 +459,11 @@ class User(RoleBase.RoleBase):
                     request_size = remain_size
                 print("请求下载大小", request_size)
                 protocol["data"] = file_remote_save_path + "*" + str(offset) + "*" + str(request_size)
+                # L.acquire()  # 加锁
                 self.request_server(protocol, client)
                 tuple_params = (file_remote_save_path, local_path, offset + recv_data_size, remain_size,)
                 self.deal_server_response_datas(client, tuple_params)
+                # L.release()  # 解锁
             else:
                 protocol["data"] = "FAILE" + "0"
                 print("下载失败")
