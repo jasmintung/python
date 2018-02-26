@@ -51,7 +51,7 @@ class DataCenter(object):
 
     def analyse_client_data(self, data):
         # print("服务器收到的数据:")
-        recv_data = eval(data.decode())
+        recv_data = eval(str(data.decode()))
         if isinstance(recv_data, dict):
             cmd = recv_data.get("cmd")
             print("cmd is :", cmd)
@@ -122,43 +122,48 @@ class DataCenter(object):
         result = ""
         account_id = data.get("account")
         request_upload_info = data.get("data")
+        print("上传请求消息:", request_upload_info)
         h = re.match("^[A-Za-z](':\'{1}\D+)*(.+)*(\d+)", request_upload_info).group()
         if not h:
+            result = "参数有误"
+            print("参数有误")
+        else:
             if h == request_upload_info:
                 save_dir, file_name, file_size = request_upload_info.strip().split("*")
-                if os.path.exists(save_dir):
-                    if os.path.exists(save_dir + os.sep + file_name):
-                        result = "文件已经存在"
-                        print("文件已经存在")
-                    else:
-                        save_path = save_dir + os.sep + file_name
-                        with open(save_path, 'wb') as f:  # 创建指定大小的文件
-                            f.seek(file_size - 1)
-                            f.write(b'\x00')
-                        result = "READY"
-                        shelve_dir = settings.source_dist.get("upload_record_path") + os.sep + account_id
-                        os.mkdir(shelve_dir)
-                        up_shv = shelve.open(shelve_dir + os.sep + file_name)  # 持久化序列用于记录上传记录
-                        d = ShelveUploadRec(file_name, file_size, 0)
-                        up_shv["account"] = account_id
-                        up_shv["uprecord"] = d  # 持久化类
-                        up_shv.close()
-                else:
+                save_path = save_dir + os.sep + file_name
+                if os.path.exists(save_dir + os.sep + file_name):
+                    result = "文件已经存在"
+                    print("文件已经存在")
+                if not os.path.exists(save_dir):
                     if save_dir.startswith(self.default_path):
+                        print("初始化服务端存储路径")
                         make_dir(save_dir)
-                        save_path = save_dir + os.sep + file_name
                         with open(save_path, 'wb') as f:  # 创建指定大小的文件
-                            f.seek(file_size - 1)
-                            f.write(b'\x00')
+                            pass
+                            # f.seek(file_size - 1)
+                            # f.write(b'\x00')
+                            # f.seek(0, 0)
+                        result = "READY"
                     else:
                         result = "参数有误"
+                else:
+                    with open(save_path, 'wb') as f:  # 创建指定大小的文件
+                        pass
+                        # f.seek(int(file_size) - 1)
+                        # f.write(b'\x00')
+                        # f.seek(0, 0)
+                        result = "READY"
+
+                    # shelve_dir = settings.source_dist.get("upload_record_path") + os.sep + account_id
+                    # os.mkdir(shelve_dir)
+                    # up_shv = shelve.open(shelve_dir + os.sep + file_name)  # 持久化序列用于记录上传记录
+                    # d = ShelveUploadRec(file_name, file_size, 0)
+                    # up_shv["account"] = account_id
+                    # up_shv["uprecord"] = d  # 持久化类
+                    # up_shv.close()
             else:
                 result = "参数有误"
                 print("参数有误")
-        else:
-            result = "参数有误"
-            print("参数有误")
-
         rs_data = dict(zip(DataCenter.protocol, (self.account, self.password, "upload", result)))
         self.set_response_data(rs_data)
 
@@ -168,25 +173,32 @@ class DataCenter(object):
         write_offset = 0
         account_id = data.get("account")
         write_dir, file_name, offset, write_size, write_data = data.get("data").strip().split("*")
-        file_path = write_dir + "*" + file_name
+        file_path = write_dir + os.sep + file_name
+        print("write_dir: ", write_dir)
         if os.path.isdir(write_dir):
+            print("file_path: ", file_path)
             if os.path.isfile(file_path):
+                print("服务端写入文件偏移量:", offset)
+                print("服务端写入文件数据:", write_data)
+                write_data = write_data.encode("utf-8")
+                print(type(write_data))
                 with open(file_path, "ab") as f: # 上传文件写文件
-                    f.seek(offset)
+                    f.seek(int(offset), 0)
                     f.write(write_data)
-                write_offset += write_size
+                write_offset = write_size
+                # shelve_dir = settings.source_dist.get("upload_record_path") + os.sep + account_id
+                # os.mkdir(shelve_dir)
+                # up_shv = shelve.open(shelve_dir + os.sep + file_name, writeback=True)  # 持久化序列用于记录上传记录
+                # print(up_shv["account"])
+                # print(up_shv["uprecord"])
+                # if up_shv["uprecord"].offset <= up_shv["uprecord"].size:
+                #     up_shv["uprecord"].offset = write_offset
+                # else:
+                #     pass
+                # up_shv.close()
                 result = "SUCCESS" + "*" + str(write_offset)
-
-                shelve_dir = settings.source_dist.get("upload_record_path") + os.sep + account_id
-                os.mkdir(shelve_dir)
-                up_shv = shelve.open(shelve_dir + os.sep + file_name, writeback=True)  # 持久化序列用于记录上传记录
-                print(up_shv["account"])
-                print(up_shv["uprecord"])
-                if up_shv["uprecord"].offset <= up_shv["uprecord"].size:
-                    up_shv["uprecord"].offset = write_offset
-                else:
-                    pass
-                up_shv.close()
+            else:
+                result = "FAILE" + "*" + str(write_offset)
         else:
             result = "FAILE" + "*" + str(write_offset)
 

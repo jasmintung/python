@@ -64,7 +64,7 @@ class FtpServer(object):
                     client_final_ack = conn.recv(settings.size_control.get("level1"))  # 等待客户端响应
                     print("接收客户端长度应答:", client_final_ack.decode())
                     try:
-                        # print("开始发数据给客户端: ", send_data)
+                        print("开始发数据给客户端: ", send_data)
                         conn.sendall(send_data.encode("utf-8"))
                     except Exception as e:
                         print("异常错误信息:")

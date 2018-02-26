@@ -1,9 +1,11 @@
 import threading
+import sys
 from core import FtpClient
 from core import User
 from core import RoleBase
-protocol = {"account": "", "password": "", "cmd": "", "data": ""}
 
+protocol = {"account": "", "password": "", "cmd": "", "data": ""}
+sys.setrecursionlimit(1000000)  # 设置递归深度
 
 # def new_thread(choice, conn, role):
 #     """创建线程"""

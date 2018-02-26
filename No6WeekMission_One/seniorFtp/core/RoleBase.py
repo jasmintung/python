@@ -1,11 +1,9 @@
 from conf import settings
 import os
 import threading
+import queue
 
 protocol = {"account": "", "password": "", "cmd": "", "data": ""}
-
-L = threading.Lock()
-print("锁创建了")
 
 
 class RoleBase(object):
@@ -30,7 +28,7 @@ class RoleBase(object):
         protocol["password"] = RoleBase.account_pwd
         protocol["cmd"] = "login"
         protocol["data"] = role_type
-        self.request_server(protocol, self.client)
+        self.request_server(self.client, protocol)
 
     # @login('admin')
     def a_auth(self):
@@ -98,12 +96,11 @@ class RoleBase(object):
         RoleBase.account_pwd = password
 
     @staticmethod
-    def request_server(args, client):
-        """告知服务器发送数据长度角色类发送接口"""
-        L.acquire()  # 加锁
-        client.send_request_length(args)  # 先告诉将要发送数据的长度
+    def request_server(client, data):
+        """不要放在多线程里面调用!!!告知服务器发送数据长度角色类发送接口"""
+        print("send message:", data)
+        client.send_request_length(data)  # 先告诉将要发送数据的长度
         client.get_response()  # 等待响应
-        # print("server response:", server_final_ack.decode())
-        print("client send datas:", args)
-        client.send_request(args)  # 发送数据
-        L.release()  # 解锁
+        # print(threading.current_thread().name)
+        print("client send datas:", data)
+        client.send_request(data)  # 发送数据
