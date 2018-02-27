@@ -8,8 +8,10 @@ import time
 from core import RoleBase
 from conf import settings
 from core import FtpClient
+from core import common_func
 
 protocol = {"account": "", "password": "", "cmd": "", "data": ""}
+protocol_up = {"account": "", "password": "", "cmd": "", "data": {"head": "", "content": ""}}
 _MAX_THREAD_NUMBER = 4   # 由于GIL的关系，多线程的做法实在不好掌控放弃
 _MAX_UPLOAD_THREAD_NUMBER = 2
 
@@ -305,7 +307,7 @@ class User(RoleBase.RoleBase):
             self.thread_upload_file(None, conn, tuple_param)
             q.task_done()
 
-    def download_thread_body(self, client, args, q, lock):
+    def download_thread_body(self, client, args, q):
         """
         消费者
         :param client: client
@@ -372,6 +374,7 @@ class User(RoleBase.RoleBase):
         :param data: None(第一次读) 或者 结果("SUCCESS")or"(FAILE)*收到的文件大小
         :return:
         """
+        code_format = ""  # 编码格式
         file_save_path = str(args[0])
         print("要上传文件的名称:", file_save_path)
         remote_save_path = str(args[1])
@@ -380,27 +383,37 @@ class User(RoleBase.RoleBase):
         size = int(args[3])
         print("偏移量: %d 待传大小 %d" % (offset, size))
         if not data:
-            protocol["account"] = RoleBase.RoleBase.account_id
-            protocol["password"] = RoleBase.RoleBase.account_pwd
-            protocol["cmd"] = "uploading"
+            protocol_up["account"] = RoleBase.RoleBase.account_id
+            protocol_up["password"] = RoleBase.RoleBase.account_pwd
+            protocol_up["cmd"] = "uploading"
             uf = open(file_save_path, "rb")
             if uf.readable():
                 uf.seek(offset, 0)
                 if size > 2 * 1024:
-                    data = uf.read(2 * 1024)  # 一次读2K
+                    file_data = uf.read(2 * 1024)  # 一次读2K
                 else:
-                    data = uf.read(size)  # 一次读 size
-                protocol["data"] = remote_save_path + "*" + os.path.split(file_save_path)[1] + "*" + str(offset) + "*" \
-                                   + str(len(data)) + "*" + str(data)  # 数据放最后 免得每次+重新分配内存导致的效率低
-                self.request_server(client, protocol)
-                tuple_params = (file_save_path, remote_save_path, offset, size,)
+                    file_data = uf.read(size)  # 一次读 size
+                code_format = common_func.string_encoding(file_data)
+                # print("文件编码格式: ", code_format)
+                # print(file_data)
+                # length = len(file_data)
+                # file_data = file_data.decode("utf-8")  # 这个方法并不稳定,建议少用!
+                # print(type(file_data))
+                # print(file_data)
+                head = remote_save_path + "*" + os.path.split(file_save_path)[1] + "*" + str(offset) + "*" + str(len(file_data)) # 数据放最后 免得每次+重新分配内存导致的效率低
+                protocol_up["data"]["head"] = head
+                protocol_up["data"]["content"] = file_data
+
+                self.request_server(client, protocol_up)
+                tuple_params = (file_save_path, remote_save_path, offset, size)
                 self.deal_server_response_datas(client, tuple_params)
             uf.close()
         else:
             if data.startswith("SUCCESS"):
+                # print("目前的编码格式:", code_format)
                 result, server_get_length = data.strip().split("*")
-                print("累计上传的文件大小:", int(server_get_length))
-                offset = server_get_length
+                print("上传的文件大小:", int(server_get_length))
+                offset = int(server_get_length)
                 if result == "SUCCESS":
                     if int(server_get_length) == size:
                         print("\033[33;1m上传完成\033[0m")
@@ -408,16 +421,23 @@ class User(RoleBase.RoleBase):
                         uf = open(file_save_path, "rb")
                         if uf.readable():
                             uf.seek(offset, 0)
-                            protocol["account"] = RoleBase.account_id
-                            protocol["password"] = RoleBase.account_pwd
-                            protocol["cmd"] = "uploading"
+                            protocol_up["account"] = RoleBase.RoleBase.account_id
+                            protocol_up["password"] = RoleBase.RoleBase.account_pwd
+                            protocol_up["cmd"] = "uploading"
+                            size -= int(server_get_length)
                             if size > 2 * 1024:
-                                data = uf.read(2 * 1024)  # 一次读2K
+                                file_data = uf.read(2 * 1024)  # 一次读2K
                             else:
-                                data = uf.read(size)  # 一次读 size
-                            protocol["data"] = str(offset) + "*" + str(len(data)) + data
+                                file_data = uf.read(size)  # 一次读 size
+                            # length = len(file_data)
+                            # file_data = file_data.decode("utf-8")
+                            # print(type(file_data))
+                            print(file_data)
+                            head = remote_save_path + "*" + os.path.split(file_save_path)[1] + "*" + str(offset) + "*" + str(len(file_data))
+                            protocol_up["data"]["head"] = head
+                            protocol_up["data"]["content"] = file_data
                             self.request_server(client, protocol)
-                            file_params = (file_save_path, remote_save_path, offset, size - server_get_length)
+                            file_params = (file_save_path, remote_save_path, offset, size)
                             tuple_params = (client, file_params,)
                             return tuple_params
                             # self.deal_server_response_datas(client, tuple_params)
@@ -457,7 +477,8 @@ class User(RoleBase.RoleBase):
                 # os.chmod(local_path, stat.S_IRWXG)  # 写之前更改写入权限
 
                 with open(local_path, "ab") as f:  # 写本地存储文件,这里有有个坑，最好以管理员身份运行，要不然可能会报错：提示没有权限写
-                    # print("写文件的数据是:", recv_data)
+                    print(type(recv_data))
+                    print("写文件的数据是:", recv_data)
                     # print("写入起始位置:", offset)
                     # print(f.tell())
                     f.seek(offset, 0)

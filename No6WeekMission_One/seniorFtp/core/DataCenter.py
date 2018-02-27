@@ -172,35 +172,50 @@ class DataCenter(object):
         result = ""
         write_offset = 0
         account_id = data.get("account")
-        write_dir, file_name, offset, write_size, write_data = data.get("data").strip().split("*")
-        file_path = write_dir + os.sep + file_name
-        print("write_dir: ", write_dir)
-        if os.path.isdir(write_dir):
-            print("file_path: ", file_path)
-            if os.path.isfile(file_path):
-                print("服务端写入文件偏移量:", offset)
-                print("服务端写入文件数据:", write_data)
-                write_data = write_data.encode("utf-8")
-                print(type(write_data))
-                with open(file_path, "ab") as f: # 上传文件写文件
-                    f.seek(int(offset), 0)
-                    f.write(write_data)
-                write_offset = write_size
-                # shelve_dir = settings.source_dist.get("upload_record_path") + os.sep + account_id
-                # os.mkdir(shelve_dir)
-                # up_shv = shelve.open(shelve_dir + os.sep + file_name, writeback=True)  # 持久化序列用于记录上传记录
-                # print(up_shv["account"])
-                # print(up_shv["uprecord"])
-                # if up_shv["uprecord"].offset <= up_shv["uprecord"].size:
-                #     up_shv["uprecord"].offset = write_offset
-                # else:
-                #     pass
-                # up_shv.close()
-                result = "SUCCESS" + "*" + str(write_offset)
+        # print(data.get("data"))
+        upload_info = data["data"]["head"]
+        write_data = data["data"]["content"]
+        print("upload_info:", upload_info)
+        print("write_data:", write_data)
+        # 这里用正则表达式去解析最好，以区分文件数据里面可能出现的分隔符
+        if not re.match("(.+\*{1}){3}", upload_info):
+            result = "FAILE" + "*" + str(write_offset)
+        else:
+            # write_data = re.match("(.+\*{1})(.+\*{1})(.+\*{1})(.+\*{1})([\s\S]+)", upload_info).group(5)  # 注意正则\s\S表示匹配任意字符
+            # info = re.match("(.+\*{1}){4}", upload_info).group()
+            # print(info)
+            # new_write_data = write_data.encode("utf-8")
+            # print(type(new_write_data))
+            # print(new_write_data)
+            write_dir, file_name, offset, write_size = upload_info.strip().split("*")
+            file_path = write_dir + os.sep + file_name
+            print("write_dir: ", write_dir)
+            if os.path.isdir(write_dir):
+                print("file_path: ", file_path)
+                if os.path.isfile(file_path):
+                    print("服务端写入文件偏移量:", offset)
+                    # write_data = bytes(write_data, encoding="utf-8")
+                    print("服务端写入文件数据:", write_data)
+                    print(type(write_data))
+                    with open(file_path, "ab") as f: # 上传文件写文件
+                        f.seek(int(offset), 0)
+                        f.write(write_data)
+                    write_offset = write_size
+                    # shelve_dir = settings.source_dist.get("upload_record_path") + os.sep + account_id
+                    # os.mkdir(shelve_dir)
+                    # up_shv = shelve.open(shelve_dir + os.sep + file_name, writeback=True)  # 持久化序列用于记录上传记录
+                    # print(up_shv["account"])
+                    # print(up_shv["uprecord"])
+                    # if up_shv["uprecord"].offset <= up_shv["uprecord"].size:
+                    #     up_shv["uprecord"].offset = write_offset
+                    # else:
+                    #     pass
+                    # up_shv.close()
+                    result = "SUCCESS" + "*" + str(write_offset)
+                else:
+                    result = "FAILE" + "*" + str(write_offset)
             else:
                 result = "FAILE" + "*" + str(write_offset)
-        else:
-            result = "FAILE" + "*" + str(write_offset)
 
         rs_data = dict(zip(DataCenter.protocol, (self.account, self.password, "uploading", result)))
         self.set_response_data(rs_data)

@@ -13,6 +13,7 @@
 
 ## 为了客户端和服务器端数据方便解析，自定义一个协议规范:
 # protocol = {"account":"", "password":"", "cmd": "", "data": ""}
+# protocol = {"account":"", "password":"", "cmd": "", "data": {"head: "", "content:""}}
 1、登陆
 客户端--------------------------------------------->服务器
 account = xxx
@@ -75,7 +76,7 @@ data = "READY" or "参数有误" or "文件已经存在" or "磁盘已满"
 account = xxx
 password = xxx
 cmd = "uploading"
-data = 要上传到服务器上的绝对目录路径*文件名*文件读起始位置*大小*文件数据
+data = 文件数据 or "FAILE"
 服务器--------------------------------------------->客户端
 account = xxx
 password = xxx
