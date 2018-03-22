@@ -1,36 +1,26 @@
+# -*- coding:utf-8 -*-
 import socket
-from conf import settings
+
+MAX_LENGTH = 5*1024
 
 
-class FtpClient(object):
+class Client(object):
     """FTP 客户端类主要处理网络数据传输"""
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.conn = None
-
-    def new_socket(self):
         """创建一个socket"""
         try:
+            print("new socket...")
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self.host, self.port))
             self.conn = s
         except ConnectionError as ex:
             print(ex)
-        finally:
-            return self.conn
-
-    def request(self):
-
-        while True:
-            msg = input("想给服务器说点什么:")
-            self.conn.sendall(str(msg).encode("utf-8"))
-            data = self.conn.recv(settings.size_control.get("leveE"))
-            print("recv datas:", data.decode())
 
     def get_response(self):
         """客户端接收服务器应答"""
-        data = self.conn.recv(settings.size_control.get("leveE"))
+        data = self.conn.recv(MAX_LENGTH)
         return data
 
     def send_request(self, args):
@@ -45,9 +35,3 @@ class FtpClient(object):
         """关闭socket连接"""
         self.conn.close()
 
-    def test_bingfa(self):
-        """测试用:协程并发功能"""
-        while True:
-            self.conn.sendall(str(self.conn.getsockname()).encode("utf-8"))
-            data = self.conn.recv(settings.size_control.get("leveE"))
-            print("recv datas:", data.decode())

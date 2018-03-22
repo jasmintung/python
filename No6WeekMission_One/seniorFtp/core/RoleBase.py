@@ -98,9 +98,9 @@ class RoleBase(object):
     @staticmethod
     def request_server(client, data):
         """不要放在多线程里面调用!!!告知服务器发送数据长度角色类发送接口"""
-        print("send message:", data)
+        # print("send message:", data)
         client.send_request_length(data)  # 先告诉将要发送数据的长度
         client.get_response()  # 等待响应
         # print(threading.current_thread().name)
-        print("client send datas:", data)
+        # print("client send datas:", data)
         client.send_request(data)  # 发送数据

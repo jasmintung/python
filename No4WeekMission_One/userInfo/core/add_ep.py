@@ -24,7 +24,7 @@ def process():
         key = sql_insert.split("VALUES")[0]
         print(bracket.search(sql_insert).group())
         input_employ_info = strip.search(bracket.search(sql_insert).group()).group()
-        tuple_employ_info = tuple(eval(input_employ_info))
+        tuple_employ_info = tuple(eval(input_employ_info))  # 转换成元组
         id = int(tuple_employ_info[0])
         name = tuple_employ_info[1]
         age = int(tuple_employ_info[2])

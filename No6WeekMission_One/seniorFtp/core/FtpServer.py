@@ -29,10 +29,10 @@ class FtpServer(object):
         dc = DataCenter.DataCenter(conn)
         while True:
             print("等待客户端数据...")
-            res_return_size = conn.recv(settings.size_control.get("level1"))
+            res_return_size = conn.recv(settings.size_control.get("leveF"))
             if not res_return_size:
                 # conn.shutdown(socket.SHUT_WR)
-                time.sleep(1000)
+                time.sleep(1)
                 continue
             total_rece_size = int(res_return_size)
             print("接收到客户端请求长度,应答客户端:", total_rece_size)
@@ -40,18 +40,18 @@ class FtpServer(object):
             received_size = 0
             res_data = b''
             while received_size != total_rece_size:
-                data = conn.recv(settings.size_control.get("level5"))
+                data = conn.recv(settings.size_control.get("leveF"))
                 if not data:
                     # conn.shutdown(socket.SHUT_WR)
-                    time.sleep(500)
+                    time.sleep(0.5)
                     continue
                 received_size += len(data.decode())
                 res_data += data
                 # print("received_size is:", received_size)
                 # print("total_rece_size is:", total_rece_size)
                 if received_size == total_rece_size:
-                    print("total_rece_size is:", total_rece_size)
-                    print("接收客户端 数据完成")
+                    # print("total_rece_size is:", total_rece_size)
+                    # print("接收客户端 数据完成")
                     dc.analyse_client_data(res_data)
                     send_data = str(dc.get_response_data())
                     try:
@@ -61,7 +61,7 @@ class FtpServer(object):
                     except Exception as e:
                         print("异常了:")
                         print(e)
-                    client_final_ack = conn.recv(settings.size_control.get("level1"))  # 等待客户端响应
+                    client_final_ack = conn.recv(settings.size_control.get("leveF"))  # 等待客户端响应
                     print("接收客户端长度应答:", client_final_ack.decode())
                     try:
                         print("开始发数据给客户端: ", send_data)

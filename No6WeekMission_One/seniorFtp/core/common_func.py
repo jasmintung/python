@@ -1,4 +1,6 @@
 import random
+import time
+import sys
 # 说明：UTF兼容ISO8859-1和ASCII，GB18030兼容GBK，GBK兼容GB2312，GB2312兼容ASCII
 CODES = ["utf-8", "gbk", "gb2312", "ASCII", "Unicode"]
 # UTF-8 BOM前缀字节
@@ -52,3 +54,23 @@ def string_encoding(b: bytes):
         except Exception:
             continue
     return '未知的字符编码类型'
+
+
+def progress_bar(section, all, current, total):
+    """
+    进度条打印
+    :param section:当前文件的段号
+    :param all: 文件总共分段数
+    :param current: 已经计算的值
+    :param total: 总计值
+    :return:
+    """
+    # while current != total:
+    # sys.stdout.write('\r')
+    # sys.stdout.write("暂停:%s%%[%s][%s]" % (int(current * 100 / total), section, all))
+    sys.stdout.write('\r')
+    sys.stdout.write("进度:%s%%[%s][%s]" % (int(current*100 / total), section, all))
+    sys.stdout.flush()
+    time.sleep(0.5)
+    if current == total:
+        sys.stdout.write('\n')

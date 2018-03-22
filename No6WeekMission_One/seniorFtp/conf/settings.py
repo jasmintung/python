@@ -14,10 +14,10 @@ DOWNLOAD_RC_FILE_NAME = "dwnrc.txt"
 UPLOAD_RC_FILE_NAME = "uprc.txt"
 
 source_dist = {"account_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "accounts",
-               "download_record_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "download_record",
-               "upload_record_path": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "upload_record",
+               "download_record_dir": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "download_record",
+               "upload_record_dir": "%s" % PROJ_BASE_DIR + os.sep + "db" + os.sep + "upload_record",
                "server_ip": server_ip,
                "server_port": port,
                "base_disk_path": SYS_BASE_DISK_DIR,
                "proj_base_path": PROJ_BASE_DIR}
-size_control = {"level1": 1024, "level2": 2048, "level3": 4096, "level4": 5120, "level5": 8192}
+size_control = {"leveA": 1024, "leveB": 2048, "leveC": 4096, "leveD": 5120, "leveE": 10*1204, "leveF": 20*1024}

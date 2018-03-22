@@ -132,27 +132,33 @@ class DataCenter(object):
                 save_dir, file_name, file_size = request_upload_info.strip().split("*")
                 save_path = save_dir + os.sep + file_name
                 if os.path.exists(save_dir + os.sep + file_name):
-                    result = "文件已经存在"
-                    print("文件已经存在")
-                if not os.path.exists(save_dir):
-                    if save_dir.startswith(self.default_path):
-                        print("初始化服务端存储路径")
-                        make_dir(save_dir)
+                    size = os.path.getsize(save_dir + os.sep + file_name)
+                    print(size)
+                    if size == int(file_size):
+                        result = "文件已经存在"
+                        print("文件已经存在")
+                    else:
+                        result = "READY" + "*" + str(size)
+                else:
+                    if not os.path.exists(save_dir):
+                        if save_dir.startswith(self.default_path):
+                            print("初始化服务端存储路径")
+                            make_dir(save_dir)
+                            with open(save_path, 'wb') as f:  # 创建指定大小的文件
+                                pass
+                                # f.seek(file_size - 1)
+                                # f.write(b'\x00')
+                                # f.seek(0, 0)
+                            result = "READY" + "*" + str(0)
+                        else:
+                            result = "参数有误"
+                    else:
                         with open(save_path, 'wb') as f:  # 创建指定大小的文件
                             pass
-                            # f.seek(file_size - 1)
+                            # f.seek(int(file_size) - 1)
                             # f.write(b'\x00')
                             # f.seek(0, 0)
-                        result = "READY"
-                    else:
-                        result = "参数有误"
-                else:
-                    with open(save_path, 'wb') as f:  # 创建指定大小的文件
-                        pass
-                        # f.seek(int(file_size) - 1)
-                        # f.write(b'\x00')
-                        # f.seek(0, 0)
-                        result = "READY"
+                            result = "READY" + "*" + str(0)
 
                     # shelve_dir = settings.source_dist.get("upload_record_path") + os.sep + account_id
                     # os.mkdir(shelve_dir)
@@ -172,11 +178,10 @@ class DataCenter(object):
         result = ""
         write_offset = 0
         account_id = data.get("account")
-        # print(data.get("data"))
         upload_info = data["data"]["head"]
         write_data = data["data"]["content"]
-        print("upload_info:", upload_info)
-        print("write_data:", write_data)
+        # print("upload_info:", upload_info)
+        # print("write_data:", write_data)
         # 这里用正则表达式去解析最好，以区分文件数据里面可能出现的分隔符
         if not re.match("(.+\*{1}){3}", upload_info):
             result = "FAILE" + "*" + str(write_offset)
@@ -189,14 +194,14 @@ class DataCenter(object):
             # print(new_write_data)
             write_dir, file_name, offset, write_size = upload_info.strip().split("*")
             file_path = write_dir + os.sep + file_name
-            print("write_dir: ", write_dir)
+            # print("write_dir: ", write_dir)
             if os.path.isdir(write_dir):
-                print("file_path: ", file_path)
+                # print("file_path: ", file_path)
                 if os.path.isfile(file_path):
-                    print("服务端写入文件偏移量:", offset)
+                    # print("服务端写入文件偏移量:", offset)
                     # write_data = bytes(write_data, encoding="utf-8")
-                    print("服务端写入文件数据:", write_data)
-                    print(type(write_data))
+                    # print("服务端写入文件数据:", write_data)
+                    # print(type(write_data))
                     with open(file_path, "ab") as f: # 上传文件写文件
                         f.seek(int(offset), 0)
                         f.write(write_data)
@@ -239,9 +244,9 @@ class DataCenter(object):
         """"服务器下载文件路径"*请求读取文件起始位置*请求大小 or "FAILE*0"""
         result = ""
         request_download_path, offset, download_size = data.get("data").split("*")
-        print("请求下载的文件:", request_download_path)
-        print("读取文件偏移量:", int(offset))
-        print("请求下载大小:", int(download_size))
+        # print("请求下载的文件:", request_download_path)
+        # print("读取文件偏移量:", int(offset))
+        # print("请求下载大小:", int(download_size))
         download_size = int(download_size)
         if os.path.exists(request_download_path):
             if os.path.isfile(request_download_path):

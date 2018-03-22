@@ -1,4 +1,4 @@
-# __author__:"zhangtong"
+# __author__:"Tony Cheung"
 import os
 import sys
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -2,7 +2,7 @@ import os
 import json
 import getpass
 import datetime
-
+import os
 consumerBarcode = 1141880000    # 交易单号每一笔必须不一致,涉及到字典的操作,从文件读取
 purcharsedgoods = []
 goods = []
@@ -10,11 +10,13 @@ dictAccount = {}
 choiceNum = 0
 userName = None
 retryGoodNumber = False
-userfileDst = "F:\pycharmProj\shopcar\\users.txt"
-recordFileDst = "F:\pycharmProj\shopcar\\buyRecords.txt"
-goodsFileDst = "F:\pycharmProj\shopcar\goods.txt"
-accountFileDst = "F:\pycharmProj\shopcar\\accountManager.txt"
-consumerBarcodeFileDst = "F:\pycharmProj\shopcar\consumerBarcode.txt"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+userfileDst = "%s\%s" % (base_dir, "users.txt")
+recordFileDst = "%s\%s" % (base_dir, "buyRecords.txt")
+goodsFileDst = "%s\%s" % (base_dir, "goods.txt")
+accountFileDst = "%s\%s" % (base_dir, "accountManager.txt")
+consumerBarcodeFileDst = "%s\%s" % (base_dir, "consumerBarcode.txt")
+print(os.path.dirname(os.path.abspath(__file__)))
 
 
 def login_func(user_name, passwd):
@@ -158,6 +160,8 @@ def shopping_receipt_show():
     print("------------------------------")
     print("您的余额是: %d RMB" % customer_cash)
     print("请输入: 继续选购(B), 结算(C),放弃退出(Q)")
+    # 这里调用ATM模块的接口进行信用卡消费
+
 while True:
     print("**********欢迎**********")
     loginRole = input("普通用户请输入: 1\n管理员请输入: 2\n退出请输入: 0\n--->")

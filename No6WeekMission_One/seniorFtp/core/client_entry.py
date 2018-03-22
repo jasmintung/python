@@ -1,5 +1,6 @@
 import threading
-import sys
+import sys, signal
+import os
 from core import FtpClient
 from core import User
 from core import RoleBase
@@ -7,40 +8,29 @@ from core import RoleBase
 protocol = {"account": "", "password": "", "cmd": "", "data": ""}
 sys.setrecursionlimit(1000000)  # 设置递归深度
 
-# def new_thread(choice, conn, role):
-#     """创建线程"""
-#     ready_get_server = True
-#     tup_params = ()
-#     if choice == '2':
-#         local_save_path = role.download_file_request(conn)  # 下载文件流程
-#         if not local_save_path:
-#             ready_get_server = False
-#         else:
-#             tup_params = (local_save_path, )
-#     elif choice == '3':
-#         path, size = role.upload_file_request(conn)  # 上传文件流程
-#         if not path:
-#             ready_get_server = False
-#         else:
-#             tup_params = (path, size, )
-#
-#     elif choice == '4':
-#         role.download_multi_files(conn)  # 多文件下载流程
-#     elif choice == '5':
-#         role.upload_multi_files(conn)  # 多文件上传流程
-#     elif choice == '6':
-#         role.resume_tasks(conn)  # 断电续传流程
-#     else:
-#         print("选择错误!")
-#         ready_get_server = False
-#     if ready_get_server:
-#         role.deal_server_response_datas(conn, tup_params)
+
+def shutdown_task(signum, frame):
+    print("taks shutdown!")
+
+print(threading.current_thread().getName())
+print(os.getpid())
+print(os.getppid())
+
+def create_signal():
+    """pycharm下不适用"""
+    try:
+        signal.signal(signal.SIGINT, shutdown_task)
+        signal.signal(signal.SIGTERM, shutdown_task)
+        while True:
+            pass
+    except Exception as exc:
+        print(exc)
 
 
 def main():
-    # print("******登陆FTP服务器******")
-    # host = input("请输入IP: ")
-    # port = int(input("请输入端口: "))
+    print("******登陆FTP服务器******")
+    host = input("请输入IP: ")
+    port = int(input("请输入端口: "))
 
     while True:
         login_notice = """
@@ -51,17 +41,22 @@ def main():
         print(login_notice)
         choice = input(">>").strip()
         if choice == '1':
-            # user_id = input("输入用户名:")
-            # user_pwd = input("输入密码")
-            user_id = "jack"
-            user_pwd = "123456"
-            host = "127.0.0.1"
-            port = 9986
+            user_id = input("输入用户名:")
+            user_pwd = input("输入密码:")
+            # user_id = "jack"
+            # user_pwd = "123456"
+            # host = "127.0.0.1"
+            # port = 9986
             client = FtpClient.FtpClient(host, port)
-            client.new_socket()
+            rs = client.new_socket()
+            if not rs:
+                print("\033[34;1m链接服务器异常\033[0m")
+                break
             instance_role = User.User(client, user_id, user_pwd)
             instance_role.request_auth('user')
             instance_role.deal_server_response_datas(client, None)
+            # s = threading.Thread(target=create_signal) # 用于ctrl+C退出程序使用
+            # s.start()
             while True:
                 if RoleBase.RoleBase.is_login:
                     instance_role.show_cur_files()
@@ -73,8 +68,6 @@ def main():
                     1. 访问其它目录
                     2. 下载文件
                     3. 上传文件
-                    4. 多文件下载
-                    5. 多文件上传
                     8. 退出
                     """
                     print(func_notice)
@@ -92,10 +85,10 @@ def main():
                             instance_role.download_file_request()  # 下载文件流程
                         elif func_choice == '3':
                             instance_role.upload_file_request()  # 上传文件流程
-                        elif func_choice == '4':
-                            instance_role.download_multi_files()  # 多文件下载流程
-                        elif func_choice == '5':
-                            instance_role.upload_multi_files()  # 多文件上传流程
+                        # elif func_choice == '4':
+                        #     instance_role.download_multi_files()  # 多文件下载流程
+                        # elif func_choice == '5':
+                        #     instance_role.upload_multi_files()  # 多文件上传流程
                         else:
                             print("选择错误")
                         # t = threading.Thread(target=new_thread,
