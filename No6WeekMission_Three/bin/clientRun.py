@@ -1,3 +1,7 @@
+#!usr/bin/env python
+# -*- coding:utf-8 -*-
+# auther:Tony Cheung
+# 描述：window 环境下测试通过.
 import os
 import sys
 

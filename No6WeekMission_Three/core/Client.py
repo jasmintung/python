@@ -1,4 +1,7 @@
+#!usr/bin/env python
 # -*- coding:utf-8 -*-
+# auther:Tony Cheung
+# 描述：window 环境下测试通过.
 import socket
 
 MAX_LENGTH = 5*1024
@@ -11,7 +14,7 @@ class Client(object):
         self.port = port
         """创建一个socket"""
         try:
-            print("new socket...")
+            # print("new socket...")
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self.host, self.port))
             self.conn = s
