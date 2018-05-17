@@ -56,7 +56,7 @@
         </entry>
       </file>
       <file leaf-file-name="send_pika.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/send_pika.py">
+        <entry file="file://$PROJECT_DIR$/../Rabbitmq/send_pika.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="20" />
@@ -76,7 +76,7 @@
         </entry>
       </file>
       <file leaf-file-name="recv_pika.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/recv_pika.py">
+        <entry file="file://$PROJECT_DIR$/../Rabbitmq/recv_pika.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="209">
               <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
@@ -86,7 +86,7 @@
         </entry>
       </file>
       <file leaf-file-name="gaoji_recv_pika.py" pinned="false" current-in-tab="true">
-        <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_recv_pika.py">
+        <entry file="file://$PROJECT_DIR$/../Rabbitmq/gaoji_recv_pika.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="133">
               <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
@@ -106,7 +106,7 @@
         </entry>
       </file>
       <file leaf-file-name="gaoji_send_pika.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_send_pika.py">
+        <entry file="file://$PROJECT_DIR$/../Rabbitmq/gaoji_send_pika.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="259">
               <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
@@ -144,9 +144,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$USER_HOME$/PycharmProjects/io/iomutiplex.py" />
-        <option value="$USER_HOME$/PycharmProjects/io/iomutiplex/server.py" />
-        <option value="$USER_HOME$/PycharmProjects/io/iomutiplex/client.py" />
+        <option value="$PROJECT_DIR$/../io/iomutiplex.py" />
+        <option value="$PROJECT_DIR$/../io/iomutiplex/server.py" />
+        <option value="$PROJECT_DIR$/../io/iomutiplex/client.py" />
         <option value="$PROJECT_DIR$/No6WeekMission_Three/bin/__init__.py" />
         <option value="$PROJECT_DIR$/No6WeekMission_One/seniorFtp/core/FtpServer.py" />
         <option value="$PROJECT_DIR$/No6WeekMission_Three/core/Data_Process_Center.py" />
@@ -159,19 +159,19 @@
         <option value="$PROJECT_DIR$/No6WeekMission_Three/core/UserControl.py" />
         <option value="$PROJECT_DIR$/No6WeekMission_Three/core/FtpServer.py" />
         <option value="$PROJECT_DIR$/No6WeekMission_Three/README.txt" />
-        <option value="$USER_HOME$/PycharmProjects/Rabbitmq/pika.py" />
-        <option value="$USER_HOME$/PycharmProjects/Rabbitmq/rambit_pika.py" />
-        <option value="$USER_HOME$/PycharmProjects/Rabbitmq/send_pika.py" />
-        <option value="$USER_HOME$/PycharmProjects/Rabbitmq/recv_pika.py" />
-        <option value="$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_send_pika.py" />
-        <option value="$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_recv_pika.py" />
+        <option value="$PROJECT_DIR$/../Rabbitmq/pika.py" />
+        <option value="$PROJECT_DIR$/../Rabbitmq/rambit_pika.py" />
+        <option value="$PROJECT_DIR$/../Rabbitmq/send_pika.py" />
+        <option value="$PROJECT_DIR$/../Rabbitmq/recv_pika.py" />
+        <option value="$PROJECT_DIR$/../Rabbitmq/gaoji_send_pika.py" />
+        <option value="$PROJECT_DIR$/../Rabbitmq/gaoji_recv_pika.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="169" />
     <option name="y" value="228" />
-    <option name="width" value="1382" />
+    <option name="width" value="1380" />
     <option name="height" value="772" />
   </component>
   <component name="ProjectView">
@@ -234,7 +234,8 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.gaoji_send_pika">
-    <configuration default="false" name="clientRun" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="clientRun" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -245,84 +246,83 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="python" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/No6WeekMission_Three/bin/clientRun.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration default="false" name="recv_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="gaoji_recv_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Rabbitmq" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/PycharmProjects/Rabbitmq" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../Rabbitmq" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Rabbitmq" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/PycharmProjects/Rabbitmq/recv_pika.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../Rabbitmq/gaoji_recv_pika.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration default="false" name="send_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="gaoji_send_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Rabbitmq" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/PycharmProjects/Rabbitmq" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../Rabbitmq" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Rabbitmq" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/PycharmProjects/Rabbitmq/send_pika.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../Rabbitmq/gaoji_send_pika.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration default="false" name="gaoji_send_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="recv_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Rabbitmq" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/PycharmProjects/Rabbitmq" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../Rabbitmq" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Rabbitmq" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_send_pika.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../Rabbitmq/recv_pika.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration default="false" name="gaoji_recv_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="send_pika" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Rabbitmq" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/PycharmProjects/Rabbitmq" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../Rabbitmq" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Rabbitmq" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_recv_pika.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../Rabbitmq/send_pika.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -374,39 +374,34 @@
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="python" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;.&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.clientRun" />
-      <item index="1" class="java.lang.String" itemvalue="Python.recv_pika" />
-      <item index="2" class="java.lang.String" itemvalue="Python.send_pika" />
-      <item index="3" class="java.lang.String" itemvalue="Python.gaoji_send_pika" />
-      <item index="4" class="java.lang.String" itemvalue="Python.gaoji_recv_pika" />
+    <list>
+      <item itemvalue="Python.clientRun" />
+      <item itemvalue="Python.recv_pika" />
+      <item itemvalue="Python.send_pika" />
+      <item itemvalue="Python.gaoji_send_pika" />
+      <item itemvalue="Python.gaoji_recv_pika" />
     </list>
     <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.gaoji_send_pika" />
-        <item index="1" class="java.lang.String" itemvalue="Python.gaoji_recv_pika" />
-        <item index="2" class="java.lang.String" itemvalue="Python.send_pika" />
-        <item index="3" class="java.lang.String" itemvalue="Python.recv_pika" />
-        <item index="4" class="java.lang.String" itemvalue="Python.clientRun" />
+      <list>
+        <item itemvalue="Python.gaoji_send_pika" />
+        <item itemvalue="Python.gaoji_recv_pika" />
+        <item itemvalue="Python.send_pika" />
+        <item itemvalue="Python.recv_pika" />
+        <item itemvalue="Python.clientRun" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -452,7 +447,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/PycharmProjects/io/iomutiplex/client.py">
+    <entry file="file://$PROJECT_DIR$/../io/iomutiplex/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
           <caret line="28" column="49" lean-forward="false" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
@@ -487,22 +482,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/io/iomutiplex.py" />
-    <entry file="file://$USER_HOME$/PycharmProjects/io/iomutiplex/__init__.py">
+    <entry file="file://$PROJECT_DIR$/../io/iomutiplex.py" />
+    <entry file="file://$PROJECT_DIR$/../io/iomutiplex/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/io/iomutiplex/server.py">
+    <entry file="file://$PROJECT_DIR$/../io/iomutiplex/server.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1064">
           <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/io/iomutiplex/client.py">
+    <entry file="file://$PROJECT_DIR$/../io/iomutiplex/client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
           <caret line="28" column="49" lean-forward="false" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
@@ -730,8 +725,8 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/pika.py" />
-    <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/rambit_pika.py" />
+    <entry file="file://$PROJECT_DIR$/../Rabbitmq/pika.py" />
+    <entry file="file://$PROJECT_DIR$/../Rabbitmq/rambit_pika.py" />
     <entry file="file://$PROJECT_DIR$/No6WeekMission_Three/README.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -748,7 +743,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/send_pika.py">
+    <entry file="file://$PROJECT_DIR$/../Rabbitmq/send_pika.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="20" />
@@ -756,7 +751,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/recv_pika.py">
+    <entry file="file://$PROJECT_DIR$/../Rabbitmq/recv_pika.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
@@ -772,7 +767,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_send_pika.py">
+    <entry file="file://$PROJECT_DIR$/../Rabbitmq/gaoji_send_pika.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
           <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
@@ -782,7 +777,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/PycharmProjects/Rabbitmq/gaoji_recv_pika.py">
+    <entry file="file://$PROJECT_DIR$/../Rabbitmq/gaoji_recv_pika.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
