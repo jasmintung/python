@@ -8,9 +8,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from bin import database_config
 
-print("初始化数据库")
-print(database_config.USER_NAME)
-print(database_config.PASSWORD)
+print("初始化数据库连接")
+
 # engine = create_engine("mysql+pymysql://root:sql2296990@localhost/world", encoding='utf-8', echo=True)
 engine = create_engine("mysql+pymysql://%s:%s@localhost:%d/%s?charset=utf8" % (database_config.USER_NAME,
                                                                                database_config.PASSWORD,
@@ -82,7 +81,6 @@ class MissionRecords(Base):
 Base.metadata.create_all(engine)  # 创建表结构
 Session_class = sessionmaker(bind=engine)  # 创建与数据库的会话
 Session = Session_class()  # 生成session实例
-print(Session)
 
 
 def getSQLDBHandler():
