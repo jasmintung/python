@@ -22,22 +22,23 @@ class DBControle(object):
         return NO_PASS, None
 
     def add(self, type, **kwargs):
+        result = None
         if type == 0:  # 学员表插入
-            student_obj = TablesInit.Student(name=kwargs.get('name'), password=kwargs.get('password'), qq_number=kwargs.get('qq'))
-            self.db.add(student_obj)
+            result = TablesInit.Student(name=kwargs.get('name'), password=kwargs.get('password'), qq_number=kwargs.get('qq'))
+            self.db.add(result)
         elif type == 1:  # 讲师表插入
-            teacher_obj = TablesInit.Teacher(name=kwargs.get('name'), password=kwargs.get('password'))
-            self.db.add(teacher_obj)
-        elif type == 2:
+            result = TablesInit.Teacher(name=kwargs.get('name'), password=kwargs.get('password'))
+            self.db.add(result)
+        elif type == 2:  # 创建班级
+            self.db.add_all(kwargs.get('cl') + kwargs.get('sl'))
             pass
-        elif type == 3:
+        elif type == 3:  # 创建上课记录
             pass
-        elif type == 4:
-            pass
-        elif type == 5:
+        elif type == 5:  # 提交作业
             pass
         try:
             self.db.commit()
+            return result
         except Exception as ex:
             print(ex)
             self.db.rollback()
@@ -45,8 +46,51 @@ class DBControle(object):
     def delete(self):
         pass
 
-    def search(self):
-        pass
+    def search(self, type, **kwargs):
+        result = None
+        if type == 0:  # 查询成绩
+            pass
+        elif type == 1:  # 查询学员表信息
+            result = self.db.query(TablesInit.Student).all()
+        elif type == 2:  # 查询班级表信息
+            result = self.db.query(TablesInit.Class).all()
+        elif type == 3:  # 查询讲师表信息
+            result = self.db.query(TablesInit.Teacher).all()
+        try:
+            self.db.commit()
+            return result
+        except Exception as ex:
+            print(ex)
+            self.db.rollback()
+
+    def search_condition(self, type, **kwargs):
+        """
+        条件搜索
+        :param type:
+        :param kwargs:
+        :return:
+        """
+        result = None
+        if type == 0:  # 查询成绩
+            pass
+        elif type == 1:  # 查询学员表信息,根据QQ号
+            result = self.db.query(TablesInit.Student).filter_by(qq_number=kwargs.get('qq')).first()
+        elif type == 2:  # 查询班级表信息
+            result = self.db.query(TablesInit.Class).all()
+        elif type == 3:  # 查询讲师表信息
+            result = self.db.query(TablesInit.Teacher).all()
+        try:
+            self.db.commit()
+            return result
+        except Exception as ex:
+            print(ex)
+            self.db.rollback()
 
     def modify(self):
-        pass
+        if type == 0:  # 修改上课记录
+            pass
+        try:
+            self.db.commit()
+        except Exception as ex:
+            print(ex)
+            self.db.rollback()

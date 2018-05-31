@@ -3,9 +3,9 @@
 # email: puzexiong@163.com
 # instruction: 用sqlalchemy建表每个表必须有主键,规定!
 import sqlalchemy
-from sqlalchemy import Column, Integer, String, ForeignKey, create_engine, Boolean
+from sqlalchemy import Table, Column, Integer, String, ForeignKey, create_engine, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 from bin import database_config
 
 print("初始化数据库连接")
@@ -28,6 +28,12 @@ class Teacher(Base):
     name = Column(String(32))
     password = Column(String(32))
 
+# 班级-学员表 多对多关系
+class_m2m_student = Table('class_m2m_student', Base.metadata,
+                          Column('class_id', Integer, ForeignKey('class.id')),
+                          Column('student_id', Integer, ForeignKey('student.id')))
+
+
 # 班级表
 
 
@@ -36,7 +42,10 @@ class Class(Base):
     id = Column(Integer, unique=True, primary_key=True)
     name = Column(String(64))
     teacher_id = Column(Integer, ForeignKey('teacher.id'))
-    qq_number = Column(String(16))
+    students = relationship('Student', secondary=class_m2m_student, backref='class')
+
+    def __repr__(self):
+        return "<Class(name='%s')>" % self.name
 
 # 学员表
 
@@ -44,9 +53,12 @@ class Class(Base):
 class Student(Base):
     __tablename__ = 'student'
     id = Column(Integer, unique=True, primary_key=True)
-    name = Column(String(32))
-    password = Column(String(64))
-    qq_number = Column(String(16))
+    name = Column(String(32))  # 登陆用户名
+    password = Column(String(64))  # 登陆密码
+    qq_number = Column(String(16))  # QQ号
+
+    def __repr__(self):
+        return "<Student(name='%s', qq='%s')>" % (self.name, self.qq_number)
 
 # 上课记录表
 
@@ -64,6 +76,7 @@ class ClassRecords(Base):
 class StudentRecords(Base):
     __tablename__ = 'student_records'
     id = Column(Integer, primary_key=True)
+    qq_number = Column(String(16))  # QQ号
     statue = Column(Boolean)  # 0: 未完成 1: 完成
     score = Column(Integer)  # 作业得分
     class_record_id = Column(Integer, ForeignKey('class_records.id'))
