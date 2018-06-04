@@ -42,7 +42,7 @@ class Class(Base):
     id = Column(Integer, unique=True, primary_key=True)
     name = Column(String(64))
     teacher_id = Column(Integer, ForeignKey('teacher.id'))
-    students = relationship('Student', secondary=class_m2m_student, backref='class')
+    students = relationship('Student', secondary=class_m2m_student, backref='Class')
 
     def __repr__(self):
         return "<Class(name='%s')>" % self.name
