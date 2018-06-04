@@ -55,32 +55,29 @@ class Teacher(Role):
         """创建班级"""
         print("创建班级")
         class_list = []  # 保存班级对象
-        student_list = []  # 保存学员对象
         class_exists = False
         while True:
+            student_list = []  # 保存学员对象
             class_name = input("请输入要创建的班级名称(输入 Q 退出):").strip()
             if class_name == 'Q':
                 break
             class_info = self.db_handle.search(2, name=class_name)
-            print(class_info)
-            if class_info is not None:
-                class_exists = True
-                print("\033[35;1m班级存在\033[0m")
-            else:
-                print("\033[35;1m新增班级\033[0m")
             teacher_info = self.db_handle.search(3, name=self.name)
             if teacher_info is not None:
+                if class_info is not None:
+                    # print("id=class_info.teacher_id: ", class_info.teacher_id)
+                    if class_info.teacher_id != teacher_info.id:
+                        print("\033[34;1m班级已指定其它讲师,无法创建\033[0m")
+                        continue
+                    class_exists = True
+                    print("\033[35;1m班级已经存在,当前可进行更新修改\033[0m")
+                else:
+                    print("\033[35;1m新增班级\033[0m")
                 if not class_exists:
-                    print("aaa")
                     class_info = TablesInit.Class(name=class_name, teacher_id=teacher_info.id)
                     # class_list.append(class_info)
                 else:
-                    print("bbb")
-                class_list.append(class_info)
-                # if not class_exists:
-                # class_list.append(cx)
-                # else:
-                #     print("class info None")
+                    pass
                 while True:
                     import_now = input("是否导入新学员? Y/N: ").strip()
                     if import_now == 'Y':
@@ -94,39 +91,59 @@ class Teacher(Role):
                                 if student_qq == 'Q':
                                     break
                                 result = self.db_handle.search_condition(1, qq=student_qq)
-                                print("aaa:", result)
+
                                 if result is not None:
-                                    print("bbb:", result.Class)
                                     if len(result.Class) == 0:
-                                        student_list.append(result)
+                                        if result not in student_list:
+                                            student_list.append(result)
                                     else:
+                                        print("result.Class:", result.Class)
                                         for name in result.Class:
                                             if class_name == name.name:
                                                 print("\033[42;1m学员已经在这个班里了\033[0m")
                                             else:
-                                                student_list.append(result)
+                                                if result not in student_list:
+                                                    student_list.append(result)
                                 else:
                                     print("\033[31;1m导入失败,没有这个学员\033[0m")
                             class_info.students = student_list
+                            if class_info not in class_list:
+                                print("插入的class:", class_info)
+                                class_list.append(class_info)
                     else:
                         break
                 else:
                     pass
             else:
                 print("\033[31;1m没有讲师可以导入!\033[0m")
-
-        self.db_handle.add(2, cl=class_list, sl=student_list)
+                return
         print("\033[31;1m创建...\033[0m")
-        print("\033[33;1m创建完成\033[0m")
-        print("\033[35;1m创建失败\033[0m")
+        self.db_handle.add(2, cl=class_list, sl=student_list)
 
     def create_class_records(self):
         """创建上课记录"""
         print("创建上课记录")
+        chose_class_list = []
 
+        class_info = self.db_handle.search(2)
+        teacher_info = self.db_handle.search(3, name=self.name)
+        if teacher_info is not None:
+            if class_info is not None:
+                # print("id=class_info.teacher_id: ", class_info.teacher_id)
+                for cl_info in class_info:
+                    if cl_info.teacher_id == teacher_info.id:
+                        print(cl_info.name)
+                        chose_class_list.append(cl_info.name)
+                cl_name = input("请选择要创建上课记录的班级:").strip()
+                if cl_name in chose_class_list:
+                    print("可以创建上课记录")
+                    result = self.db_handle.search(4, t_id=teacher_info.id, c_id=cl_info.id)
+                    if result is None:
+                        pass
     def modify_class_records(self):
         """修改上课记录"""
         print("修改上课记录")
+
 
     def delete_class_records(self):
         """删除上课记录"""

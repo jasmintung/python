@@ -1,4 +1,5 @@
 from db import TablesInit
+from sqlalchemy import func
 T_PASS = 1  # 是讲师登陆并通过
 S_PASS = 2  # 是学员登陆并通过
 NO_PASS = 0  # 登陆不通过
@@ -32,10 +33,13 @@ class DBControle(object):
         elif type == 2:  # 创建班级
             cl = kwargs.get('cl')
             sl = kwargs.get('sl')
-            print("class obj:", cl)
-            print("student obj:", sl)
+            for Class in cl:
+                print("class obj:", Class)
+            for Student in sl:
+                print("student obj:", Student)
             if len(cl) == 0 and len(sl) == 0:
                 print("没有数据不用操作数据库")
+                return
             else:
                 if len(cl) == 0 and len(sl) != 0:
                     print("插入S")
@@ -52,10 +56,12 @@ class DBControle(object):
             pass
         try:
             self.db.commit()
+            print("\033[33;1m创建完成\033[0m")
             return result
         except Exception as ex:
             print(ex)
             self.db.rollback()
+            print("\033[35;1m创建失败\033[0m")
 
     def delete(self):
         pass
@@ -70,6 +76,7 @@ class DBControle(object):
             elif type == 2:  # 查询班级表信息
                 if kwargs is None:
                     result = self.db.query(TablesInit.Class).all()
+                    # result = self.db.query(TablesInit.Teacher).filter_by(id=result.teacher_id).first()
                 else:
                     for key in kwargs:
                         print(key, kwargs[key])
@@ -89,6 +96,24 @@ class DBControle(object):
                         print(result.id)
                 print("查询结果:", result)
                 # self.db.commit()
+            elif type == 4:  # 查询上课记录表
+                cl_count = self.db.query(func.count('*')).filter(TablesInit.ClassRecords.class_id
+                                                                 == kwargs.get('c_id')).scalar()
+                print("记录数:", cl_count)
+                result = self.db.query(TablesInit.ClassRecords).filter_by(course_id=cl_count,
+                                                                          teacher_id=kwargs.get('t_id'),
+                                                                          class_id=kwargs.get('c_id')).first()
+
+                # print
+                # query4.count()
+                # print
+                # session.query(func.count('*')).select_from(User).scalar()
+                # print
+                # session.query(func.count('1')).select_from(User).scalar()
+                # print
+                # session.query(func.count(User.id)).scalar()
+                # print
+                # session.query(func.count('*')).filter(User.id > 0).scalar()  # filter() 中包含 User，因此不需要指定表
             return result
         except Exception as ex:
             print(ex)

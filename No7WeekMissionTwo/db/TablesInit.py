@@ -3,7 +3,7 @@
 # email: puzexiong@163.com
 # instruction: 用sqlalchemy建表每个表必须有主键,规定!
 import sqlalchemy
-from sqlalchemy import Table, Column, Integer, String, ForeignKey, create_engine, Boolean
+from sqlalchemy import Table, Column, Integer, String, ForeignKey, create_engine, Boolean, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from bin import database_config
@@ -65,7 +65,8 @@ class Student(Base):
 
 class ClassRecords(Base):
     __tablename__ = 'class_records'
-    id = Column(Integer, unique=True, primary_key=True)  # 第几节课
+    id = Column(Integer, unique=True, primary_key=True)
+    course_id = Column(Integer)  # 第几节课
     teacher_id = Column(Integer, ForeignKey('teacher.id'))  # 讲师
     class_id = Column(Integer, ForeignKey('class.id'))  # 哪个班级
     course_time = Column(String(64))  # 上课起止时间
