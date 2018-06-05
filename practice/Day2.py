@@ -10,3 +10,7 @@ print(msg.swapcase())
 print(msg.zfill(40))
 b = "ddeefafaf_哈哈"
 print(b.isidentifier())  # 判断是否符合命名规则
+
+s1 = [1,2,3]
+s2 = [4,5,6]
+print(s1 + s2)

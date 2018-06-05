@@ -15,7 +15,7 @@ engine = create_engine("mysql+pymysql://%s:%s@localhost:%d/%s?charset=utf8" % (d
                                                                                database_config.PASSWORD,
                                                                                database_config.PORT,
                                                                                database_config.DATABASE_NAME
-                                                                               ), encoding='utf-8', echo=True)
+                                                                               ), encoding='utf-8')
 
 Base = declarative_base()  # 生成orm基类
 
@@ -70,6 +70,7 @@ class ClassRecords(Base):
     teacher_id = Column(Integer, ForeignKey('teacher.id'))  # 讲师
     class_id = Column(Integer, ForeignKey('class.id'))  # 哪个班级
     course_time = Column(String(64))  # 上课起止时间
+    children = relationship("StudentRecords", backref="ClassRecords")
 
 # 学员上课记录表
 

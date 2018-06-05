@@ -51,7 +51,10 @@ class DBControle(object):
                     self.db.add_all(sl + cl)
             pass
         elif type == 3:  # 创建上课记录
-            pass
+            if kwargs.get('class_rc') is not None:
+                self.db.add(kwargs.get('class_rc'))
+            if kwargs.get('students_rc') is not None:
+                self.db.add_all(kwargs.get('students_rc'))
         elif type == 5:  # 提交作业
             pass
         try:
@@ -74,10 +77,13 @@ class DBControle(object):
             elif type == 1:  # 查询学员表信息
                 result = self.db.query(TablesInit.Student).all()
             elif type == 2:  # 查询班级表信息
-                if kwargs is None:
+                print(kwargs)
+                if len(kwargs) == 0:
                     result = self.db.query(TablesInit.Class).all()
+                    print("1111:", result)
                     # result = self.db.query(TablesInit.Teacher).filter_by(id=result.teacher_id).first()
                 else:
+                    print("2222:", result)
                     for key in kwargs:
                         print(key, kwargs[key])
                         if key == 'name':
@@ -99,11 +105,16 @@ class DBControle(object):
             elif type == 4:  # 查询上课记录表
                 cl_count = self.db.query(func.count('*')).filter(TablesInit.ClassRecords.class_id
                                                                  == kwargs.get('c_id')).scalar()
-                print("记录数:", cl_count)
-                result = self.db.query(TablesInit.ClassRecords).filter_by(course_id=cl_count,
+                print("cl_count: ", cl_count)
+                result = self.db.query(TablesInit.ClassRecords).filter_by(course_id=cl_count+1,
                                                                           teacher_id=kwargs.get('t_id'),
                                                                           class_id=kwargs.get('c_id')).first()
-
+                print("zvcvzvzvz: ", result)
+                if result is None:
+                    print("记录数:", cl_count)
+                    return int(cl_count + 1)
+                else:
+                    return 0
                 # print
                 # query4.count()
                 # print
@@ -136,7 +147,24 @@ class DBControle(object):
                 result = self.db.query(TablesInit.Class).all()
             elif type == 3:  # 查询讲师表信息
                 result = self.db.query(TablesInit.Teacher).all()
-                # self.db.commit()
+                # self.db.commit
+            elif type == 4:  # 根据讲师ID,班级名称查询
+                result = self.db.query(TablesInit.Class).filter_by(name=kwargs.get('cl_name'),
+                                                                   teacher_id=kwargs.get('tc_id')).all()
+            elif type == 5:  # 根据QQ号去查询学员参加的班级
+                result = self.db.query(TablesInit.Student).filter_by(qq_number=kwargs.get('qq')).all()
+            elif type == 6:  # 根据QQ号去查询学员记录
+                # 获得学员上课记录表中的class record id
+                course_id = []
+                result = self.db.query(TablesInit.StudentRecords).filter(
+                    TablesInit.StudentRecords.qq_number == kwargs.get('qq'),
+                    TablesInit.StudentRecords.statue == 0).all()
+                for class_rc_id in result:
+                    result = self.db.query(TablesInit.ClassRecords).filter_by(id=class_rc_id.class_record_id).first()
+                    if kwargs.get('cl_id') == result.class_id:
+                        course_id.append(result.class_id)
+                result = course_id
+                print(result)
             return result
         except Exception as ex:
             print(ex)
