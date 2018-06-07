@@ -56,7 +56,9 @@ class DBControle(object):
             if kwargs.get('students_rc') is not None:
                 self.db.add_all(kwargs.get('students_rc'))
         elif type == 5:  # 提交作业
-            pass
+            result = TablesInit.MissionRecords(name=kwargs.get('name'), statue=kwargs.get('statue'),
+                                               class_record_id=kwargs.get('class_rc_id'))
+            self.db.add(result)
         try:
             self.db.commit()
             print("\033[33;1m创建完成\033[0m")
@@ -102,20 +104,25 @@ class DBControle(object):
                         print(result.id)
                 print("查询结果:", result)
                 # self.db.commit()
-            elif type == 4:  # 查询上课记录表
+            elif type == 4:  # 查询上课记录表返回记录总数
                 cl_count = self.db.query(func.count('*')).filter(TablesInit.ClassRecords.class_id
                                                                  == kwargs.get('c_id')).scalar()
                 print("cl_count: ", cl_count)
                 result = self.db.query(TablesInit.ClassRecords).filter_by(course_id=cl_count+1,
                                                                           teacher_id=kwargs.get('t_id'),
                                                                           class_id=kwargs.get('c_id')).first()
-                print("zvcvzvzvz: ", result)
                 if result is None:
                     print("记录数:", cl_count)
                     return int(cl_count + 1)
                 else:
                     return 0
+            elif type == 5:  # 查询上课记录表中的学员QQ号
+                qq_list = []
+                ret = self.db.query(TablesInit.StudentRecords.qq_number).all()  # 返回的是元组对象
                 # print
+                for qq in ret:
+                    qq_list.append(qq[0])
+                result = set(qq_list)
                 # query4.count()
                 # print
                 # session.query(func.count('*')).select_from(User).scalar()
@@ -155,16 +162,20 @@ class DBControle(object):
                 result = self.db.query(TablesInit.Student).filter_by(qq_number=kwargs.get('qq')).all()
             elif type == 6:  # 根据QQ号去查询学员记录
                 # 获得学员上课记录表中的class record id
-                course_id = []
-                result = self.db.query(TablesInit.StudentRecords).filter(
-                    TablesInit.StudentRecords.qq_number == kwargs.get('qq'),
-                    TablesInit.StudentRecords.statue == 0).all()
-                for class_rc_id in result:
-                    result = self.db.query(TablesInit.ClassRecords).filter_by(id=class_rc_id.class_record_id).first()
-                    if kwargs.get('cl_id') == result.class_id:
-                        course_id.append(result.class_id)
+                course_id = {}
+                result_st = self.db.query(TablesInit.StudentRecords).filter(
+                    TablesInit.StudentRecords.qq_number == kwargs.get('qq')).filter(TablesInit.StudentRecords.statue == 0).all()
+                for class_rc_id in result_st:
+                    result_st = self.db.query(TablesInit.ClassRecords).filter_by(id=class_rc_id.class_record_id).first()
+                    if kwargs.get('cl_id') == result_st.class_id:
+                        mission_rc = self.db.query(TablesInit.MissionRecords).filter_by(name=kwargs.get('st_name'),
+                                                                                        class_record_id=result_st.id).first()  # 作业提交表里看是否已经提交了作业
+                        if mission_rc is not None:
+                            if mission_rc.statue == 0:  # 没有提交
+                                course_id[result_st.id] = result_st.course_id  # 符合条件的班级的那节课id
+                        else:
+                            course_id[result_st.id] = result_st.course_id  # 符合条件的班级的那节课id
                 result = course_id
-                print(result)
             return result
         except Exception as ex:
             print(ex)

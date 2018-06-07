@@ -90,6 +90,7 @@ class StudentRecords(Base):
 class MissionRecords(Base):
     __tablename__ = 'mission_records'
     id = Column(Integer, primary_key=True)
+    name = Column(String(16))
     statue = Column(Boolean)  # 是否提交作业0:未提交, 1:提交
     class_record_id = Column(Integer, ForeignKey('class_records.id'))
 

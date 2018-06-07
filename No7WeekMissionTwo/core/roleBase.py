@@ -34,27 +34,29 @@ class Student(Role):
     def commit_mission(self):
         """提交作业"""
         print("提交作业")
-        course_id_list = []
         result = self.db_handle.search_condition(5, qq=self.qq)
 
         cl_name_list = (cl_name for index in result for cl_name in index.Class)
         print("请选择班级:")
         for index in result:
             for cl_name in index.Class:
-                print("|%s" % cl_name.name, end=' ')
-        print(">>".strip(), end=' ')
+                print("|%s|" % cl_name.name, end=' ')
+        print(":".strip(), end=' ')
         class_name = input().strip()
         for x in cl_name_list:
             if class_name == x.name:
-                result = self.db_handle.search_condition(6, qq=self.qq, cl_id=x.id, cl_name=x.name)  # 将班级ID,学员QQ传递下去
-                # for cl_id in result:
-                #     print("对应的上课记录表ID: ", cl_id.class_record_id)
-                #     rc = self.db_handle.search_condition(7, cl_id=cl_id.class_record_id, cl_name=x.name)
-                #     print("第%d节课" % rc.course_id)
-                #     course_id_list.append(rc.course_id)
-        class_index = input("提交哪节课的作业:").strip()
-        if class_index in course_id_list:
-            print("ok")
+                result = self.db_handle.search_condition(6, st_name=self.name, qq=self.qq, cl_id=x.id, cl_name=x.name)  # 将班级ID,学员QQ传递下去
+                if len(result) == 0:
+                    print("\033[35;1m您还没有上课记录 或 已经提交了该堂课作业!\033[0m")
+                    return
+                else:
+                    print("可以选择提交作业的课程节号:")
+                    for key in result:
+                        print("第%d节课 " % result[key])
+                    class_index = int(input("请输入数字提交哪节课的作业:").strip())
+                    for key in result:
+                        if class_index == result[key]:
+                            self.db_handle.add(5, name=self.name, statue=1, class_rc_id=key)
 
     def view_score(self):
         """查看成绩"""
@@ -189,7 +191,10 @@ class Teacher(Role):
     def modify_class_records(self):
         """修改上课记录"""
         print("修改上课记录")
-
+        print("\033[45;1m请根据下列学员QQ号进行作业批改并打分!\033[0m")
+        result = self.db_handle.search(5)  # 返回可修改学员的QQ号
+        for qq in result:
+            print("|%s|" % qq, end=' ')
 
     def delete_class_records(self):
         """删除上课记录"""
