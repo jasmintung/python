@@ -98,7 +98,7 @@ class Teacher(Role):
                     print("\033[35;1m新增班级\033[0m")
                 if not class_exists:
                     class_info = TablesInit.Class(name=class_name, teacher_id=teacher_info.id)
-                    # class_list.append(class_info)
+                    class_list.append(class_info)
                 else:
                     pass
                 while True:
@@ -141,7 +141,11 @@ class Teacher(Role):
                 print("\033[31;1m没有讲师可以导入!\033[0m")
                 return
         print("\033[31;1m创建...\033[0m")
-        self.db_handle.add(2, cl=class_list, sl=student_list)
+        if len(class_list) == 0:
+            print("\033[32;1m没有可创建的班级!\033[0m")
+        else:
+            # 只创建班级不导入学员的情况也允许创建班级表的原因是,允许当前老师先占个位置,以免其它老师创建相同的班级
+            self.db_handle.add(2, cl=class_list, sl=student_list)
 
     def create_class_records(self):
         """创建上课记录"""
@@ -151,50 +155,78 @@ class Teacher(Role):
         chose_class_list = []
 
         class_info = self.db_handle.search(2)  # 获取所有班级
-        print("class info:", class_info)
+        # print("class info:", class_info)
         teacher_info = self.db_handle.search(3, name=self.name)  # 获取登陆讲师的信息
-        print("teacher info:", teacher_info)
+        # print("teacher info:", teacher_info)
         if teacher_info is not None:
-            if class_info is not None:
+            if len(class_info) != 0:
                 # print("id=class_info.teacher_id: ", class_info.teacher_id)
                 for cl_info in class_info:
                     if cl_info.teacher_id == teacher_info.id:  # 找到讲师执教的班级
                         print(cl_info.name)
                         chose_class_list.append(cl_info)
-                cl_name = input("请选择要创建上课记录的班级:").strip()
-                for itc in chose_class_list:
-                    if cl_name == itc.name:
-                        print("可以创建上课记录")
-                        print("teacher id: %d class id: %d" % (teacher_info.id, itc.id))
-                        result = self.db_handle.search(4, t_id=teacher_info.id, c_id=itc.id)
-                        if result != 0:
-                            print(type(result))
-                            print(result)
-                            class_rc_instance = TablesInit.ClassRecords(course_id=result, teacher_id=teacher_info.id,
-                                                                        class_id=itc.id, course_time="2012-08-18")
-                            print("上课记录表对象:", class_rc_instance)
-                            result_cl = self.db_handle.search_condition(4, cl_name=cl_name, tc_id=teacher_info.id)  # 查找所有符合条件的班级
-                            #  根据result去获得对应学员信息
-                            print("导入记录的学员有:")
-                            for cl_it in result_cl:
-                                for stu_info in cl_it.students:
-                                    print(stu_info.qq_number)
-                                    st_cl_rc = TablesInit.StudentRecords(qq_number=stu_info.qq_number,
-                                                                         statue=0, score=0, class_record_id=itc.id)
-                                    student_cl_list.append(st_cl_rc)
-                            class_rc_instance.children = student_cl_list
+                if len(chose_class_list) != 0:
+                    cl_name = input("请选择要创建上课记录的班级:").strip()
+                    for itc in chose_class_list:
+                        if cl_name == itc.name:
+                            print("可以创建上课记录")
+                            print("teacher id: %d class id: %d" % (teacher_info.id, itc.id))
+                            result = self.db_handle.search(4, t_id=teacher_info.id, c_id=itc.id)
+                            if result != 0:
+                                print(type(result))
+                                print(result)
+                                class_rc_instance = TablesInit.ClassRecords(course_id=result, teacher_id=teacher_info.id,
+                                                                            class_id=itc.id, course_time="2012-08-18")
+                                print("上课记录表对象:", class_rc_instance)
+                                result_cl = self.db_handle.search_condition(4, cl_name=cl_name, tc_id=teacher_info.id)  # 查找所有符合条件的班级
+                                #  根据result去获得对应学员信息
+                                print("导入记录的学员有:")
+                                for cl_it in result_cl:
+                                    for stu_info in cl_it.students:
+                                        print(stu_info.qq_number)
+                                        st_cl_rc = TablesInit.StudentRecords(qq_number=stu_info.qq_number,
+                                                                             statue=0, score=0, class_record_id=itc.id)
+                                        student_cl_list.append(st_cl_rc)
+                                class_rc_instance.children = student_cl_list
+                else:
+                    print("\033[36;1m您目前还没有创建班级,请先创建班级!\033[0m")
                 if class_rc_instance is None or len(student_cl_list) == 0:
                     return
 
                 self.db_handle.add(3, class_rc=class_rc_instance, students_rc=student_cl_list)
+            else:
+                print("\033[36;1m您目前还没有创建班级,请先创建班级!\033[0m")
 
     def modify_class_records(self):
         """修改上课记录"""
         print("修改上课记录")
-        print("\033[45;1m请根据下列学员QQ号进行作业批改并打分!\033[0m")
-        result = self.db_handle.search(5)  # 返回可修改学员的QQ号
-        for qq in result:
-            print("|%s|" % qq, end=' ')
+        class_id_list = []
+        result = self.db_handle.search(5, tc_name=self.name)  # 返回可修改学员的QQ号列表
+        if len(result) == 0:
+            print("\033[34;1m您目前还没有可修改的上课记录!\033[0m")
+        else:
+            print("\033[45;1m请根据下列学员QQ号进行作业批改并打分!\033[0m")
+            for qq in result:
+                print("|%s|" % qq, end=' ')
+            qq_input = input("请选择:").strip()
+            if qq_input in result:
+                print("可以进行批改")
+                class_record_info = self.db_handle.search_condition(7, tc_name=self.name, qq=qq_input)  # 返回可以修改的上课记录表信息
+                print("上课记录ID | 课程名称 | 第几节课")
+                if len(class_record_info) == 0:
+                    print("\033[34;1m该学员尚未提交作业记录!\033[0m")
+                else:
+                    for info in class_record_info:
+                        print('{:5d}{:>12s}{:>12d}'.format(info.id, info.cs.name, info.course_id))
+                        class_id_list.append(info.id)
+                    class_id = int(input("请根据上课记录ID进行修改>>").strip())
+                    if class_id in class_id_list:
+                        score = input("给该堂课打分:").strip()
+                        result = self.db_handle.modify(1, qq=qq_input, cl_id=class_id, score=score)
+                        if result == 1:
+                            print("\033[32;1m修改成功\033[0m")
+                    else:
+                        print("\033[33;1m输入错误\033[0m")
 
     def delete_class_records(self):
         """删除上课记录"""

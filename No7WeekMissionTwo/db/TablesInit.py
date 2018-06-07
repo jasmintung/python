@@ -71,7 +71,7 @@ class ClassRecords(Base):
     class_id = Column(Integer, ForeignKey('class.id'))  # 哪个班级
     course_time = Column(String(64))  # 上课起止时间
     children = relationship("StudentRecords", backref="ClassRecords")
-
+    cs = relationship("Class", backref="ClassRecords")
 # 学员上课记录表
 
 

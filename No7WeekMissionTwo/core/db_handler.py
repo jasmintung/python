@@ -118,11 +118,26 @@ class DBControle(object):
                     return 0
             elif type == 5:  # 查询上课记录表中的学员QQ号
                 qq_list = []
-                ret = self.db.query(TablesInit.StudentRecords.qq_number).all()  # 返回的是元组对象
-                # print
-                for qq in ret:
-                    qq_list.append(qq[0])
-                result = set(qq_list)
+                tc_id = self.db.query(TablesInit.Teacher.id).filter_by(name=kwargs.get('tc_name')).first()[0]
+                print("讲师ID:", tc_id)
+                ret = self.db.query(TablesInit.ClassRecords).filter_by(teacher_id=tc_id).all()
+                print(ret)
+                for stu in ret:
+                    for qq in stu.children:
+                        qq_list.append(qq.qq_number)
+                # cl_id = self.db.query(TablesInit.ClassRecords.id).filter_by(teacher_id=tc_id).all()  # 找到讲师上课记录ID
+                #
+                # cl_id_list = [x[0] for x in cl_id]
+                # print("上课记录ID:", cl_id_list)
+                # ret = self.db.query(TablesInit.StudentRecords.qq_number).\
+                #     filter(TablesInit.StudentRecords.class_record_id.in_(cl_id_list)).all()  # 返回的是元组对象
+                # print("ret: ", ret)
+                # # ret = self.db
+                # qq_list = []
+                # for qq in ret:
+                #     qq_list.append(qq[0])
+                # result = set(qq_list)
+                result = qq_list
                 # query4.count()
                 # print
                 # session.query(func.count('*')).select_from(User).scalar()
@@ -176,18 +191,47 @@ class DBControle(object):
                         else:
                             course_id[result_st.id] = result_st.course_id  # 符合条件的班级的那节课id
                 result = course_id
+            elif type == 7:
+                # 学员上课记录表里找上课记录
+                s_cls_rc = []
+                m_cls_rc = []
+                tc_id = self.db.query(TablesInit.Teacher.id).filter_by(name=kwargs.get('tc_name')).first()[0]  # 获取讲师ID
+                result = self.db.query(TablesInit.StudentRecords.class_record_id).filter(
+                    TablesInit.StudentRecords.qq_number == kwargs.get('qq')).all()
+                print(result)
+                for cl_id in result:
+                    s_cls_rc.append(cl_id[0])
+                # 提交作业表里符合批改作业条件的上课记录ID
+                name = self.db.query(TablesInit.Student.name).filter(TablesInit.Student.qq_number
+                                                                     == kwargs.get('qq')).first()[0]
+                print(name)
+                result = self.db.query(TablesInit.MissionRecords.class_record_id).filter(
+                    TablesInit.MissionRecords.name == name,
+                    TablesInit.MissionRecords.statue == 1).all()
+                for cl_id in result:
+                    m_cls_rc.append(cl_id[0])
+                print(s_cls_rc, m_cls_rc)
+                # 根据两个记录的交集得出满足条件的上课记录
+                result = self.db.query(TablesInit.ClassRecords).filter(TablesInit.ClassRecords.id.in_(
+                    list(set(s_cls_rc).intersection(set(m_cls_rc)))),
+                    TablesInit.ClassRecords.teacher_id == tc_id).all()
+                print(result)
             return result
         except Exception as ex:
             print(ex)
             self.db.rollback()
 
-    def modify(self, type):
+    def modify(self, type, **kwargs):
         if type == 0:  # 修改上课记录
             pass
-        elif type == 1:  # 修改班级信息
-            pass
+        elif type == 1:  # 修改学员成绩
+            result = self.db.query(TablesInit.StudentRecords).filter_by(qq_number=kwargs.get('qq'),
+                                                                        class_record_id=kwargs.get('cl_id')).first()
+            result.statue = 1
+            result.score = kwargs.get('score')
         try:
             self.db.commit()
+            return 1
         except Exception as ex:
             print(ex)
             self.db.rollback()
