@@ -61,6 +61,32 @@ class Student(Role):
     def view_score(self):
         """查看成绩"""
         print("查看成绩")
+        print("请选择班级:")
+        course_index_list = []
+        result = self.db_handle.search_condition(0, name=self.name)
+        print(result)
+        chose = input(">>").strip()
+        if chose in result:
+            result = self.db_handle.search_condition(8, cl_name=chose, st_name=self.name)
+            if len(result) != 0:
+                print("******可查询的具体记录如下******")
+                for cl_rc_obj in result:
+                    print("第 %d 节课" % cl_rc_obj.course_id)
+                    course_index_list.append(cl_rc_obj.course_id)
+                chose = int(input("请根据数字选择查询哪节课的成绩: ").strip())
+                if chose in course_index_list:
+                    score = self.db_handle.search_condition(9, st_name=self.name, cl_rc_id=chose)
+                    print("\033[36;1m分数是\033[0m: ", score)
+                    need_rank = input("是否要查看排名? Y/N :").strip()
+                    if need_rank == 'Y':
+                        rank = self.db_handle.search(6, st_name=self.name, cl_rc_id=chose)
+                        print("\033[33;1m排名是第 %d 名!\033[0m" % rank)
+                else:
+                    print("输入不正确!")
+            else:
+                print("没有可查询的记录!")
+        else:
+            print("输入不正确!")
 
 
 class Teacher(Role):
@@ -229,5 +255,16 @@ class Teacher(Role):
                         print("\033[33;1m输入错误\033[0m")
 
     def delete_class_records(self):
-        """删除上课记录"""
+        """删除上课记录(暂未实现)"""
         print("删除上课记录")
+        class_record_id_list = []
+        result = self.db_handle.search_condition(10, tc_name=self.name)
+        print("上课记录ID:")
+        for cl_rc in result:
+            print(cl_rc.id)
+            class_record_id_list.append(cl_rc.id)
+        chose = int(input("请根据ID号进行删除>>").strip())
+        if chose in class_record_id_list:
+            self.db_handle.delete(id=chose)
+        else:
+            print("输入错误!")
