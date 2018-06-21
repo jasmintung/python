@@ -25,11 +25,14 @@ def ssh_login(user_obj, bind_host_obj, mysql_engine, log_recording):
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.WarningPolicy())
         print("*** Connecting...")
+        print(bind_host_obj.remoteuser.username, bind_host_obj.remoteuser.password)
         client.connect(bind_host_obj.host.ip_addr,
                        bind_host_obj.host.port,
-                       bind_host_obj.remoteuser.username,
-                       bind_host_obj.remoteuser.password,
+                       "root",
+                       "z8781205",
                        timeout=30)
+        # bind_host_obj.remoteuser.username,
+        # bind_host_obj.remoteuser.password,
         cmd_caches = []
         chan = client.invoke_shell()
         print(repr(client.get_transport()))

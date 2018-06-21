@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 from conf import settings
 
-engine = create_engine(settings.DB_CONN)
+engine = create_engine(settings.DB_CONN, encoding='utf-8')
+print("create_engine:", engine)
 SessionCls = sessionmaker(bind=engine)
 session = SessionCls()

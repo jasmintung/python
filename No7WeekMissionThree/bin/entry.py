@@ -11,3 +11,4 @@ if __name__ == '__main__':
     """堡垒机管理程序入口地址"""
     from modules.actions import excute_from_command_line
     excute_from_command_line(sys.argv)
+

@@ -1,0 +1,17 @@
+
+
+bind1:
+   hostname: ubuntu test
+   remote_users:
+     - user0:
+       username: zhangtong
+       auth_type: ssh-passwd
+       password: z8781025
+     - user1:
+       username: zhangtong
+       auth_type: ssh-passwd
+       password: zhangtong
+   groups:
+     - sh_group
+   user_profiles:
+     - zhangtong

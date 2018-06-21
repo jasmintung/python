@@ -18,4 +18,5 @@ def excute_from_command_line(argvs):
         exit()
     if argvs[1] not in action_registers.actions:
         pass
+    print(argvs[0], argvs[1])
     action_registers.actions[argvs[1]](argvs[1:])

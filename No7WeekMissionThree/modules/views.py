@@ -1,14 +1,18 @@
 import sys
+import os
+from conf import settings
 from modules import models
 from modules.db_conn import engine, session
 from modules.utils import print_err, yaml_parse
 from modules import ssh_login
 from modules import common_filters
 
+logger_instance = None
+
 
 def auth():
     count = 0
-    while count > 3:
+    while count < 3:
         username = input("\033[32;1mUsername:\033[0m").strip()
         if len(username) == 0:
             continue
@@ -19,9 +23,15 @@ def auth():
         user_obj = session.query(models.UserProfile).filter(models.UserProfile.username == username,
                                                             models.UserProfile.password == password).first()
         if user_obj:
+            from modules import logger
+            global logger_instance
+            if logger_instance is None:
+                pass
+            else:
+                logger_instance = logger.logger_manager(user_obj.username)
             return user_obj
         else:
-            print("wrong username or password, you have %s more chances." % (3-count-1))
+            print("wrong username or password, you have %s more chances." % (3 - count - 1))
             count += 1
     else:
         print_err("too many attempts.")
@@ -34,7 +44,19 @@ def welcome_msg(user):
 
 
 def log_recording(user_obj, bind_host_obj, logs):
-    pass
+    """
+    用户操作记录日志
+    :param user_obj: 操作的用户对象
+    :param bind_host_obj: 绑定主机对象
+    :param logs: 用户输入的指令的存储列表
+    :return:
+    """
+    if logger_instance is None:
+        print_err("\033[31;1m###log manager not init!\033[0m")
+    else:
+        logger_instance.info("operation host name is:%s ip is: %s\nActions are:%s" %
+                             (bind_host_obj.host.hostname, bind_host_obj.host.ip_addr,
+                              ",".join('%s' % cmd for cmd in logs)))
 
 
 def start_session(args):
@@ -43,13 +65,13 @@ def start_session(args):
     if user:
         welcome_msg(user)
         print(user.bind_hosts)  # 绑定表
-        print(user.groups)  # 用户所在的组
+        print("user.Groups:", user.Groups)  # 用户所在的组
         exit_flag = False
         while not exit_flag:
             # 获取组表信息, 打印组表信息
             if user.bind_hosts:
                 print("\033[32;1mz.\tungroupped hosts (%s)\033[0m" % len(user.bind_hosts))
-            for index, group in enumerate(user.groups):
+            for index, group in enumerate(user.Groups):
                 print("\033[32;1m%s.\t%s (%s)\033[0m" % (index, group.name, len(group.bind_hosts)))
 
             choice = input("[%s]:" % user.username).strip()
@@ -59,9 +81,9 @@ def start_session(args):
                 pass
             elif choice.isdigit():
                 choice = int(choice)  # 选择分组
-                if choice < len(user.groups):
-                    print("------ Group: %s ------" % user.groups[choice].name)
-                    for index, bind_host in enumerate(user.groups[choice].bind_hosts):
+                if choice < len(user.Groups):
+                    print("------ Group: %s ------" % user.Groups[choice].name)
+                    for index, bind_host in enumerate(user.Groups[choice].bind_hosts):
                         print("   %s.\t%s@%s(%s)" % (index,
                                                      bind_host.remoteuser.username,
                                                      bind_host.host.hostname,
@@ -79,12 +101,12 @@ def start_session(args):
                             exit_flag = True
                         if user_option.isdigit():
                             user_option = int(user_option)
-                            if user_option < len(user.groups[choice].bind_hosts):
-                                print('host:', user.groups[choice].bind_hosts[user_option])
-                                print('audit log:', user.groups[choice].bind_hosts[user_option].audit_logs)
+                            if user_option < len(user.Groups[choice].bind_hosts):
+                                print('host:', user.Groups[choice].bind_hosts[user_option])
+                                print('audit log:', user.Groups[choice].bind_hosts[user_option].audit_logs)
                                 #  开始发起paramiko ssh远程登录主机
                                 ssh_login.ssh_login(user,
-                                                    user.groups[choice].bind_hosts[user_option],
+                                                    user.Groups[choice].bind_hosts[user_option],
                                                     session,
                                                     log_recording)
                             else:
@@ -104,8 +126,8 @@ def create_users(argvs):
         user_file = argvs[argvs.index("-f") + 1]
     else:
         print_err("invalid usage, should be\ncreateusers -f <the new users file>", quit=True)
-
-    source = yaml_parse(user_file)
+    print(settings.YML_DIR + os.sep + user_file)
+    source = yaml_parse(settings.YML_DIR + os.sep + user_file)
     if source:
         for key, val in source.items():
             print(key, val)
@@ -134,11 +156,12 @@ def create_groups(argvs):
         group_file = argvs[argvs.index("-f") + 1]
     else:
         print_err("invalid usage, should be\ncreategroups -f <the new groups file>", quit=True)
-    source = yaml_parse(group_file)
+    print(settings.YML_DIR + os.sep + group_file)
+    source = yaml_parse(settings.YML_DIR + os.sep + group_file)
     if source:
         for key, val in source.items():
             print(key, val)
-            obj = models.Group(name=key)
+            obj = models.Groups(name=key)
             if val.get('bind_hosts'):
                 bind_hosts = common_filters.bind_hosts_filter(val)
                 obj.bind_hosts = bind_hosts
@@ -147,6 +170,7 @@ def create_groups(argvs):
                 user_profiles = common_filters.user_profiles_filter(val)
                 obj.user_profiles = user_profiles
             session.add(obj)
+        session.commit()
 
 
 def create_hosts(argvs):
@@ -158,7 +182,8 @@ def create_hosts(argvs):
         hosts_file = argvs[argvs.index("-f") + 1]
     else:
         print_err("invalid usage, should be:\ncreate_hosts -f < the new hosts file >", quit=True)
-    source = yaml_parse(hosts_file)
+    print(settings.YML_DIR + os.sep + hosts_file)
+    source = yaml_parse(settings.YML_DIR + os.sep + hosts_file)
     if source:
         for key, val in source.items():
             print(key, val)
@@ -176,15 +201,15 @@ def create_bindhosts(argvs):
         bindhosts_file = argvs[argvs.index("-f") + 1]
     else:
         print_err("invalid usage, should be:\ncreate_bindhosts -f <the new bindhosts file>", quit=True)
-    source = yaml_parse(bindhosts_file)
+    print(settings.YML_DIR + os.sep + bindhosts_file)
+    source = yaml_parse(settings.YML_DIR + os.sep + bindhosts_file)
     if source:
         for key, val in source.items():
             host_obj = session.query(models.Host).filter(models.Host.hostname == val.get('hostname')).first()
             assert host_obj
             for item in val['remote_users']:
-                print(item)
                 assert item.get('auth_type')
-                if item.get('auth_obj') == 'ssh-passwd':
+                if item.get('auth_type') == 'ssh-passwd':
                     remoteuser_obj = session.query(models.RemoteUser).filter(
                         models.RemoteUser.username == item.get('username'),
                         models.RemoteUser.password == item.get('password')
@@ -194,21 +219,22 @@ def create_bindhosts(argvs):
                         models.RemoteUser.username == item.get('username'),
                         models.RemoteUser.auth_type == item.get('auth_type')
                     )
-                if not remoteuser_obj:
+                if remoteuser_obj is None:
                     print_err("RemoteUser obj %s dose not exist." % item, quit=True)
-                bindhost_obj = models.BindHost(host_id=host_obj.id, remoteuser_id=remoteuser_obj.id)
-                session.add(bindhost_obj)
-                if source[key].get('groups'):
-                    group_objs = session.query(models.Group).fileter(models.Group.name.in_(source[key].get('groups'))).all()
-                    assert group_objs
-                    print('groups:', group_objs)
-                    bindhost_obj.groups = group_objs
-                if source[key].get('user_profiles'):
-                    userprofile_objs = session.query(models.UserProfile).filter(models.UserProfile.username.in_(
-                        source[key].get('user_profiles')
-                    )).all()
-                    assert userprofile_objs
-                    bindhost_obj.user_profiles = userprofile_objs
+                else:
+                    bindhost_obj = models.BindHost(host_id=host_obj.id, remote_user_id=remoteuser_obj.id)
+                    session.add(bindhost_obj)
+                    if source[key].get('groups'):
+                        group_objs = session.query(models.Groups).filter(models.Groups.name.in_(source[key].get('groups'))).all()
+                        assert group_objs
+                        print('groups:', group_objs)
+                        bindhost_obj.groups = group_objs
+                    if source[key].get('user_profiles'):
+                        userprofile_objs = session.query(models.UserProfile).filter(models.UserProfile.username.in_(
+                            source[key].get('user_profiles')
+                        )).all()
+                        assert userprofile_objs
+                        bindhost_obj.user_profiles = userprofile_objs
         session.commit()
 
 
@@ -219,9 +245,11 @@ def create_remoteusers(argvs):
     """
     if '-f' in argvs:
         remoteusers_file = argvs[argvs.index("-f") + 1]
+        print("remoteusers_file:", remoteusers_file)
     else:
         print_err("invalid usage, should be:\ncreate_remoteusers -f <the new remoteusers file>", quit=True)
-    source = yaml_parse(remoteusers_file)
+    print(settings.YML_DIR + os.sep + remoteusers_file)
+    source = yaml_parse(settings.YML_DIR + os.sep + remoteusers_file)
     if source:
         for key, val in source.items():
             print(key, val)
@@ -234,4 +262,4 @@ def create_remoteusers(argvs):
 
 def syncdb(argvs):
     print("Syncing DB...")
-    models.Base.metadata.create_all(engine)  # 创建所有表结构
+    models.Base.metadata.create_all(engine)  # 创建数据库

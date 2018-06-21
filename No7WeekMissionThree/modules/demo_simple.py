@@ -40,6 +40,7 @@ try:
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.WarningPolicy())
     print('*** Connecting...')
+    print(hostname, port, )
     client.connect(hostname, port, username, password)
 
     chan = client.invoke_shell()
