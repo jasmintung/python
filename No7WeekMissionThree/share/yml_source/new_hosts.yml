@@ -2,11 +2,11 @@
 
 
 ubuntu test:
-   ip_addr: 192.168.211.128
+   ip_addr: 192.168.80.111
    port: 22
 
 local_server1:
-   ip_addr: 192.168.80.111
+   ip_addr: 192.168.211.128
    port: 22
 
 server2:

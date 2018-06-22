@@ -28,8 +28,8 @@ def ssh_login(user_obj, bind_host_obj, mysql_engine, log_recording):
         print(bind_host_obj.remoteuser.username, bind_host_obj.remoteuser.password)
         client.connect(bind_host_obj.host.ip_addr,
                        bind_host_obj.host.port,
-                       "root",
-                       "z8781205",
+                       bind_host_obj.remoteuser.username,
+                       bind_host_obj.remoteuser.password,
                        timeout=30)
         # bind_host_obj.remoteuser.username,
         # bind_host_obj.remoteuser.password,
@@ -40,9 +40,12 @@ def ssh_login(user_obj, bind_host_obj, mysql_engine, log_recording):
         cmd_caches.append(models.AuditLog(user_id=user_obj.id,
                                           bind_host_id=bind_host_obj.id,
                                           action_type='login',
-                                          data=datetime.datetime.now()
+                                          date=datetime.datetime.now()
                                           ))
+        for index in cmd_caches:
+            mysql_engine.add(index)
         log_recording(user_obj, bind_host_obj, cmd_caches)
+        mysql_engine.commit()  # login info record database!
         interactive.interactive_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording)
         chan.close()
         client.close()

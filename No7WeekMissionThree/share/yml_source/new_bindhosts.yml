@@ -6,11 +6,11 @@ bind1:
      - user0:
        username: zhangtong
        auth_type: ssh-passwd
-       password: z8781025
+       password: zhangtong
      - user1:
        username: zhangtong
        auth_type: ssh-passwd
-       password: zhangtong
+       password: z8781205
    groups:
      - sh_group
    user_profiles:

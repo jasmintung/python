@@ -1,0 +1,4 @@
+2018-06-22 02:31:28,842 - zhangtong - INFO - operation host name is:ubuntu test ip is: 192.168.80.111
+Actions are:<modules.models.AuditLog object at 0x7f07ea822828>
+2018-06-22 02:45:54,260 - zhangtong - INFO - operation host name is:ubuntu test ip is: 192.168.80.111
+Actions are:<modules.models.AuditLog object at 0x7f34315aa748>d

@@ -1,3 +1,6 @@
+# -*- coding:utf-8 -*-
+__author__ = 'zhangtong'
+
 import sys
 import os
 from conf import settings
@@ -26,9 +29,10 @@ def auth():
             from modules import logger
             global logger_instance
             if logger_instance is None:
-                pass
-            else:
                 logger_instance = logger.logger_manager(user_obj.username)
+                print("logger_instance:", logger_instance)
+            else:
+                pass
             return user_obj
         else:
             print("wrong username or password, you have %s more chances." % (3 - count - 1))
