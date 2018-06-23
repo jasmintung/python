@@ -24,3 +24,6 @@ print(YML_DIR)
 # 打印等级
 LOG_LEVEL = logging.INFO
 LOG_DIR = BASE_DIR + os.sep + "log"
+
+# 记录频率(文件 数据库)
+LOG_RECORD_RATE = 10

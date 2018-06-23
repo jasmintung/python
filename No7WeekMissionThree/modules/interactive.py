@@ -19,9 +19,11 @@
 
 import socket
 import sys
+import datetime
 from paramiko.py3compat import u
 from modules import models
-import datetime
+from conf import settings
+
 
 # windows does not have termios...
 try:
@@ -73,7 +75,7 @@ def posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
                 if '\r' != x:
                     cmd += x
                 else:
-                    print('cmd->:', cmd)
+                    # print('cmd->:', cmd)
                     log_item = models.AuditLog(user_id=user_obj.id,
                                                bind_host_id=bind_host_obj.id,
                                                action_type='cmd',
@@ -83,7 +85,8 @@ def posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
                     cmd_caches.append(log_item)
                     cmd = ''
 
-                    if len(cmd_caches) >= 10:
+                    if len(cmd_caches) >= settings.LOG_RECORD_RATE:
+                        # 每settings.LOG_RECORD_RATE条指令记录一次
                         log_recording(user_obj, bind_host_obj, cmd_caches)
                         cmd_caches = []
                 if '\t' == x:

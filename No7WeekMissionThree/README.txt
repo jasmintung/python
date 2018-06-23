@@ -14,3 +14,6 @@
     python entry.py syncdb
     开始访问远程主机命令格式
     python entry.py start_session
+日志记录:
+    1、文件记录形式
+    2、数据库记录
