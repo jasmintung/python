@@ -73,7 +73,6 @@ def posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
                 if '\r' != x:
                     cmd += x
                 else:
-
                     print('cmd->:', cmd)
                     log_item = models.AuditLog(user_id=user_obj.id,
                                                bind_host_id=bind_host_obj.id,
