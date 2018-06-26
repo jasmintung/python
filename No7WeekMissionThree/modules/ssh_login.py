@@ -42,10 +42,10 @@ def ssh_login(user_obj, bind_host_obj, mysql_engine, log_recording):
                                           action_type='login',
                                           date=datetime.datetime.now()
                                           ))
-        for index in cmd_caches:
-            mysql_engine.add(index)
+        # for index in cmd_caches:
+        #     mysql_engine.add(index)
         log_recording(user_obj, bind_host_obj, cmd_caches)
-        mysql_engine.commit()  # login info record database!
+        # mysql_engine.commit()  # login info record database!
         interactive.interactive_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording)
         chan.close()
         client.close()

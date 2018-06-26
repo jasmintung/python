@@ -19,11 +19,7 @@
 
 import socket
 import sys
-import datetime
 from paramiko.py3compat import u
-from modules import models
-from conf import settings
-
 
 # windows does not have termios...
 try:
@@ -35,14 +31,14 @@ except ImportError:
     has_termios = False
 
 
-def interactive_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
+def interactive_shell(chan):
     if has_termios:
-        posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording)
+        posix_shell(chan)
     else:
         windows_shell(chan)
 
 
-def posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
+def posix_shell(chan):
     import select
 
     oldtty = termios.tcgetattr(sys.stdin)
@@ -50,21 +46,14 @@ def posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
         tty.setraw(sys.stdin.fileno())
         tty.setcbreak(sys.stdin.fileno())
         chan.settimeout(0.0)
-        cmd = ''
 
-        tab_key = False
         while True:
             r, w, e = select.select([chan, sys.stdin], [], [])
             if chan in r:
                 try:
                     x = u(chan.recv(1024))
-                    if tab_key:
-                        if x not in ('\x07', '\r\n'):
-                            # print('tab:',x)
-                            cmd += x
-                        tab_key = False
                     if len(x) == 0:
-                        sys.stdout.write('\r\n*** EOF\r\n')
+                        sys.stdout.write("\r\n*** EOF\r\n")
                         break
                     sys.stdout.write(x)
                     sys.stdout.flush()
@@ -72,25 +61,6 @@ def posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
                     pass
             if sys.stdin in r:
                 x = sys.stdin.read(1)
-                if '\r' != x:
-                    cmd += x
-                else:
-                    # print('cmd->:', cmd)
-                    log_item = models.AuditLog(user_id=user_obj.id,
-                                               bind_host_id=bind_host_obj.id,
-                                               action_type='cmd',
-                                               cmd=cmd,
-                                               date=datetime.datetime.now()
-                                               )
-                    cmd_caches.append(log_item)
-                    cmd = ''
-
-                    if len(cmd_caches) >= settings.LOG_RECORD_RATE:
-                        # 每settings.LOG_RECORD_RATE条指令记录一次
-                        log_recording(user_obj, bind_host_obj, cmd_caches)
-                        cmd_caches = []
-                if '\t' == x:
-                    tab_key = True
                 if len(x) == 0:
                     break
                 chan.send(x)
@@ -103,13 +73,15 @@ def posix_shell(chan, user_obj, bind_host_obj, cmd_caches, log_recording):
 def windows_shell(chan):
     import threading
 
-    sys.stdout.write("Line-buffered terminal emulation. Press F6 or ^Z to send EOF.\r\n\r\n")
+    sys.stdout.write(
+        "Line-buffered terminal emulation. Press F6 or ^Z to send EOF.\r\n\r\n"
+    )
 
     def writeall(sock):
         while True:
             data = sock.recv(256)
             if not data:
-                sys.stdout.write('\r\n*** EOF ***\r\n\r\n')
+                sys.stdout.write("\r\n*** EOF ***\r\n\r\n")
                 sys.stdout.flush()
                 break
             sys.stdout.write(data.decode())

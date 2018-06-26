@@ -104,17 +104,17 @@ class AuditLog(Base):
     user_id = Column(Integer, ForeignKey('user_profile.id'))
     bind_host_id = Column(Integer, ForeignKey('bind_host.id'))
     action_choices = [
-        (0,'CMD'),
-        (1,'Login'),
-        (2,'Logout'),
-        (3,'GetFile'),
-        (4,'SendFile'),
-        (5,'Exception'),
+        (0, 'CMD'),
+        (1, 'Login'),
+        (2, 'Logout'),
+        (3, 'GetFile'),
+        (4, 'SendFile'),
+        (5, 'Exception'),
     ]
     action_choices2 = [
-        (u'cmd',u'CMD'),
-        (u'login',u'Login'),
-        (u'logout',u'Logout'),
+        ('cmd', 'CMD'),
+        ('login', 'Login'),
+        ('logout', 'Logout'),
         #(3,'GetFile'),
         #(4,'SendFile'),
         #(5,'Exception'),

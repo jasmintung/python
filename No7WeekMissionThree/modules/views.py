@@ -55,12 +55,17 @@ def log_recording(user_obj, bind_host_obj, logs):
     :param logs: 用户输入的指令的存储列表
     :return:
     """
+    # 记录文件日志
     if logger_instance is None:
         print_err("\033[31;1m###log manager not init!\033[0m")
     else:
         logger_instance.info("operation host name is:%s ip is: %s\nActions are:%s" %
                              (bind_host_obj.host.hostname, bind_host_obj.host.ip_addr,
                               ",".join('%s' % cmd for cmd in logs)))
+    # 记录数据库
+    for auditlog in logs:
+        session.add(auditlog)
+    session.commit()
 
 
 def start_session(args):
