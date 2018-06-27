@@ -10,11 +10,16 @@ class MyTPCHandler(socketserver.BaseRequestHandler):
     """
     def handle(self):
         # self.request is the TCP socket connected to the client
-        self.data = self.request.recv(1024).strip()
-        print("{} wrote:".format(self.client_address[0]))
-        print(self.data)
-        # just send back the same data, but upper-cased
-        self.request.sendall(self.data.upper())
+        while True:
+            self.data = self.request.recv(1024).strip()
+            if not self.data:
+                self.request.shutdown()
+            print("{} wrote:".format(self.client_address[0]))
+            print(self.data)
+            # just send back the same data, but upper-cased
+            self.request.sendall(self.data.upper())
+            # self.request.sendall(bytes("你好世界!".encode("gbk")))
+
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 9986

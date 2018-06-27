@@ -2,13 +2,13 @@
 
 user0:
    auth_type: ssh-passwd
-   username: zhangtong
-   password: zhangtong
+   username: root
+   password: android
 
 user1:
    auth_type: ssh-passwd
-   username: zhangtong
-   password: z8781205
+   username: demo
+   password: demo
 
 user2:
    auth_type: ssh-passwd
