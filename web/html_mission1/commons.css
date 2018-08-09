@@ -244,7 +244,7 @@
 }
 .goods-list-div div{
 	width: 206px;
-	height: 206px;
+	height: 210px;
 	float: left;
 	border: 1px solid #EBEBEB;
 }
@@ -256,12 +256,17 @@
 }
 .goods-list-div div div div{
 	width: 190px;
-	height: 204px;
+	height: 150px;
 	text-align: center;
 	line-height: 204px;
 	background-color: #000000;
 	margin-left: 5px;
 	border: 0px;
+}
+.goods-list-div div div span{
+	text-align: center;
+	font-size: 15px;
+	margin-left: 20px;
 }
 /*.menu-header li{
 	float: left;

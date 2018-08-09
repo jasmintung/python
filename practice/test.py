@@ -11,3 +11,10 @@
 test_list = [1, 2, 3, 4, 5]
 ms = ",".join('%s' % cmd for cmd in test_list)
 print(ms)
+
+list_1 = {"name":"", "age": ""}
+tuple_1 = ["zhangtong", 30]
+final = zip(list_1, tuple_1)
+print(type(final))
+for key in final:
+    print(key)
