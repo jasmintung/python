@@ -1,7 +1,6 @@
 from django.urls import path, re_path
 from usdb import views
 
-
 urlpatterns = [
     path('login/', views.login),
     path('registe/', views.registe),
@@ -18,5 +17,8 @@ urlpatterns = [
     re_path(r'^del_user-(?P<uid>\d+)/', views.deluser),
     re_path(r'^user_up_modify_(?P<uid>\d+)/', views.modifyuser_up),
     # re_path(r'^manage_(?P<name>\w+)$', views.manage, name="manage"), # 此写法正则解析不出来,待分析??
-    re_path(r'^manage/$', views.manage, name='manage'),
+    # re_path(r'^manage/$', views.manage, name='manage'),
+    path('manage/', views.manage),
+    re_path(r'^user/$', views.user, name='user'),
+    re_path(r'^visitor/$', views.visitor, name='visitor'),
 ]

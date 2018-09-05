@@ -50,7 +50,7 @@
             z-index: 20;
             position: absolute;
             top: 45px;
-            right: 0;
+            right: -45px;
             background-color: white;
             color: black;
             width: 160px;
@@ -67,7 +67,7 @@
         .pg-header .user .b a:hover{
             background-color: #dddddd;
         }
-        .pg-header .user:hover .b{
+        .pg-header .user .a:hover {
             display: block;
         }
         .pg-content .menu{
@@ -207,6 +207,18 @@
         .height_demo1{
             height: 26px;
         }
+        .pagination .page{
+            border: solid 1px;
+            color: #66512c;
+            display: inline-block;
+            padding: 5px;
+            background-color: papayawhip;
+            margin: 5px;
+        }
+        .pagination .page.active{
+            background-color: brown;
+            color: white;
+        }
     </style>
 </head>
 <body style="margin: 0">
@@ -220,7 +232,7 @@
             </a>
             <div class="b">
                 <a href="#">我的资料</a>
-                <a href="#">注销</a>
+                <a id="logout" href="/usdb/login/">注销</a>
             </div>
         </div>
         <div class="icons right">
@@ -234,32 +246,17 @@
     <div class="pg-content">
         <div class="menu left">
             <div class="item">
-                <div class="item-header">基本信息录入</div>
-                <div class="func hide"><a id="addstaff" href="/usdb/manage/adduser/">添加</a></div>
-                <div class="func hide"><a>添加(没做)</a></div>
-            </div>
-            <div class="item">
                 <div class="item-header">查询</div>
-                <div class="func hide"><a>根据姓名</a></div>
+                {% block search_item %}{% endblock %}
+                <!--div class="func hide"><a>根据姓名</a></div>
                 <div class="func hide"><a>根据职位</a></div>
-                <div class="func hide"><a>根据身份证</a></div>
+                <div class="func hide"><a>根据身份证</a></div-->
             </div>
             <div class="item">
                 <div class="item-header">总览</div>
-                <div class="func hide"><a id="viewall" href="/usdb/getusers_info/">所有员工信息</a></div>
+                {% block allview %}{% endblock %}
             </div>
-            <div class="item">
-                <div class="item-header"><a>人员分析</a></div>
-                <div class="func hide"><a>内容1</a></div>
-                <div class="func hide"><a>内容2</a></div>
-                <div class="func hide"><a>内容3</a></div>
-                <div class="func hide"><a>内容4</a></div>
-            </div>
-            <div class="item">
-                <div class="item-header"><a>分组管理</a></div>
-                <div class="func hide"><a id="addgroup">创建组</a></div>
-                <div class="func hide"><a id="modifygroup" href="/usdb/manage/modifygroup/">修改组信息</a></div>
-            </div>
+            {% block extensfunc %}{% endblock %}
         </div>
         <div class="content left">
             <form method="post">
@@ -291,6 +288,9 @@
                             {% empty %}
                                 <td>没有信息</td>
                             {% endfor %}
+                            <div class="pagination">
+                                {{ page_str }}
+                            </div>
                             <!--tr>
                                 <td>
                                     <button id="u_submit" type="submit">提交</button>
@@ -673,6 +673,7 @@
             $('#optitle').remove();
             $('#tb2').find('a').parent().parent().remove();
         });
+
         $('#b_add_group, #up_modify_group_btn, #up_adduser_btn, #modify_udd_btn, .del_group_btn, .detail_user_btn, .del_user_btn').click(function () {
             var purl = "";
             var pdata = {};

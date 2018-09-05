@@ -1,10 +1,36 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse
 from usdb import models
+import time
 from django.forms.models import model_to_dict
 import json
 import datetime
 # Create your views here.
+
+
+def auth(type):
+    """
+    装饰器做账户验证用
+    :param type:
+    :return:
+    """
+    def deco(func):
+        def inner(request, *args, **kwargs):
+            v = None
+            if type == 0:  # 管理员验证
+                v = request.COOKIES.get('admincookies')
+            elif type == 1:  # 普通用户验证
+                v = request.COOKIES.get('usercookies')
+            if not v:
+                time.sleep(2)
+                # 没有cookie那就直接返回到登陆界面
+                return redirect('/usdb/login')
+            else:
+                v = json.loads(v)
+                print("cookie:", v)
+            return func(request, *args, **kwargs)
+        return inner
+    return deco
 
 
 def login(request):
@@ -13,7 +39,6 @@ def login(request):
     :param request:
     :return:
     """
-    print("fsdfsdaf")
     if request.method == "GET":
         print("GET:")
         return render(request, 'login.html')
@@ -39,15 +64,24 @@ def login(request):
                 obj_all = models.UserInfo.objects.filter(username=name, password=password)
                 obj_name = models.UserInfo.objects.filter(username=name).first()
             elif u_type == '2':
-                # print("+++++++++++++++++++++++++")
-                # print(models.adminInfo.objects.all())
-                # print("+++++++++++++++++++++++++")
                 obj_all = models.adminInfo.objects.filter(username=name, password=password)
                 obj_name = models.adminInfo.objects.filter(username=name).first()
-            # print("obj_all:", obj_all)
-            # print("obj_name:", obj_name)
+            print("obj_all:", obj_all)
+            print("obj_name:", obj_name)
             if obj_all:
-                return redirect(reverse('manage'))
+                res = None
+                name = json.dumps(name)  # 不这样转换的话cookie操作时会报错UnicodeEncodeError
+                # print(name, type(name))
+                if u_type == '1':
+                    # res = redirect(reverse('user'))  # 这写法会导致cookie传值出错，原因未知,不要使用就行
+                    res = redirect('/usdb/user/')
+                    res.set_cookie('usercookies', name, httponly=True)  # cookie的值不能是对象!
+                elif u_type == '2':
+                    # print('2222ogogogogogo')
+                    res = redirect('/usdb/manage/')
+                    res.set_cookie('admincookies', name, httponly=True)
+                print("res:", res)
+                return res
                 # return redirect('/usdb/manage/?' + "loginname" + "=" + name)
             else:
                 if obj_name:
@@ -85,16 +119,17 @@ def registe(request):
             return HttpResponse("注册失败")
 
 
+@auth(0)
 def manage(request):
     """
-    管理员主界面
+    管理员
     :param request:
     :param username:
     :return:
     """
     print("manage")
     if request.method == "GET":
-        return render(request, 'manage.html')  # 进入到管理主界面
+        return render(request, 'admin.html')  # 进入到管理主界面
 
 
 def addgroup(request):
@@ -163,6 +198,7 @@ def addgroup(request):
 #         return render(request, 'manage.html', {'loginInfo': login_info, 'group_list': g_list, 'hide': "cancelhide_adusr"})
 
 
+@auth(0)
 def getgroupinfo(request, type):
     """
     获取组信息
@@ -174,10 +210,10 @@ def getgroupinfo(request, type):
     ig_list = models.InterestGroups.objects.all()
     print(g_list)
     if type == 1:
-        return render(request, 'manage.html', {'title_info': "用户组信息", 'hide': "cancelhide",
+        return render(request, 'admin.html', {'title_info': "用户组信息", 'hide': "cancelhide",
                                                'group_list': g_list, 'igroup_list': ig_list, 'operation': "ok"})
     elif type == 2:
-        return render(request, 'manage.html', {'title_info': "增加用户", 'group_list': g_list, 'igroup_list': ig_list, 'hide': "cancelhide_adusr"})
+        return render(request, 'admin.html', {'title_info': "增加用户", 'group_list': g_list, 'igroup_list': ig_list, 'hide': "cancelhide_adusr"})
 
 
 def modifygroup(request):
@@ -265,14 +301,43 @@ def addusers(request):
     return HttpResponse(json.dumps(ret))
 
 
+U_LIST = []  # 存储人员
+
+
+@auth(0)
 def getuserinfo(request):
     """
     用户信息
     :param request:
     :return:
     """
-    u_list = models.UserInfo.objects.all()
-    return render(request, 'manage.html', {'title_info': "用户信息", 'hide': "canceluserhide", 'user_list': u_list})
+    from utils import pagination
+    print("获取用户信息")
+    print(request.GET)
+    current_page = request.GET.get('p', 1)  # 第几页
+    current_page = int(current_page)
+    print(request.COOKIES)
+
+    u_count = models.UserInfo.objects.count()
+    print("当前页:", current_page)
+    print("总共人员数:", u_count)
+    # per_page_count = 10
+    # pager_num = 7
+    # if u_count <= 7:
+    #     per_page_count = u_count
+    #     pager_num = 1
+    # elif u_count <= 70:
+    #     per_page_count = 1 + int(u_count/7)
+    # print(per_page_count, pager_num)
+    # page_obj = pagination.Page(current_page, u_count, per_page_count, pager_num)  # 默认一页十条,一共7页
+    page_obj = pagination.Page(current_page, u_count)  # 默认一页十条,一共7页
+
+    print(page_obj.start, page_obj.end)
+    u_list = models.UserInfo.objects.all()[page_obj.start: page_obj.end]  # 切片获取对应区间的
+    print(u_list)
+    page_str = page_obj.page_str("/usdb/getusers_info/")
+    return render(request, 'admin.html', {'title_info': "用户信息", 'hide': "canceluserhide",
+                                          'user_list': u_list, 'page_str': page_str})
 
 
 def delgroup(request, gid):
@@ -424,6 +489,7 @@ def modifyuser(request, uid):
     return HttpResponse(json.dumps(ret))
 
 
+@auth(0)
 def modifyuser_up(request, uid):
     """
     提交修改的用户资料
@@ -444,3 +510,24 @@ def modifyuser_up(request, uid):
         print(ex)
         result = 0
     return render(request, 'manage.html', {'operate_type': 7, 'operate_result': result})
+
+
+@auth(1)
+def user(request):
+    """
+    普通用户
+    :param request:
+    :return:
+    """
+    print("user")
+    if request.method == "GET":
+        return render(request, 'user.html')  # 进入到用户主界面
+
+
+def visitor(request):
+    """
+    游客
+    :param request:
+    :return:
+    """
+    pass
