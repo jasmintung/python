@@ -1,5 +1,5 @@
-ʹ�ü�����
-HTML  
+使用技术：
+HTML
 JSP
 Ajax
 JQUERY
@@ -7,7 +7,12 @@ Django
 Django DOM
 MySQL
 bootstrap
-���
+插件
 jquery-ui
 font-awesome
-��
+更新----------------
+加入session机制
+加入Django Form验证
+加入Django信号,用于文本记录一些操作
+加入中间件对URL做一个简单的过滤
+加入CSRF
