@@ -55,6 +55,7 @@
         <div class="img"></div>
         <div class="lgdialog">
             <form class="form-horizontal" method="post">
+                {% csrf_token %}
                 <fieldset>
                     <legend>
                         <span class="lgnotice">请登录</span>
@@ -92,7 +93,7 @@
                         <div class="col-sm-offset-0 col-sm-10">
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox"> 记住我
+                              <input type="checkbox" name="rmb"> 记住我(10天内免登陆)
                             </label>
                               <span style="color: red">&nbsp;&nbsp;{{ error_msg }}</span>
                           </div>
