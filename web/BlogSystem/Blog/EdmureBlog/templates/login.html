@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/css/edmure.css"/>
+    <link rel="stylesheet" href="/static/css/commons.css"/>
+    <link rel="stylesheet" href="/static/css/account.css"/>
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="login">
+    <div style="font-size: 25px; font-weight: bold;text-align: center;">
+        用户登陆
+    </div>
+    <form role="form" id="loginform" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">用户名</label>
+            {{ lg_obj.username }}
+            <p id="u_err" style="color: red"></p>
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            {{ lg_obj.password }}
+            <p id="p_err" style="color: red"></p>
+        </div>
+        <div id="ac" class="form-group hide">
+            <label for="authcode">验证码</label>
+            <div class="row">
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" name="authcode" placeholder="请输入验证码">
+                </div>
+                <div class="col-xs-5">
+                    <img id="authcode" src="/check_code.html/" onclick="changeCheckCode(this);">
+                </div>
+            </div>
+            <p id="ac_err" style="color: red"></p>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> 一个月内自动登陆
+            </label>
+            <div class="right">
+                <a href="#">忘记密码？</a>
+            </div>
+        </div>
+        <button id="lg_btn" type="button" class="btn btn-default">登 陆</button>
+    </form>
+    <script src="/static/js/jquery-1.12.4.js"></script>
+    <script src="/static/js/jquery.cookie.js"></script>
+    <script>
+        var loginSuccess = false;
+        function changeCheckCode(ths){
+            var stringobj = new String(ths.src);    //不想看到太多?号的一个处理
+            if(stringobj.indexOf('?') == -1) {  //用search会提示错误,原因暂时未知!
+                ths.src = ths.src + '?';  //刷新验证码的一个技巧
+            }else{
+                var end = stringobj.lastIndexOf("?");
+                ths.src = stringobj.substring(0, end);
+            }
+            console.log(ths.src);
+        }
+        function cleanHide(){
+            var ac_ipt = $('#ac div div input[type="password"]');
+            //console.log("ac:", ac_ipt);
+            if($.cookie('errlgcnt') > 3){
+                /*登录失败超过3次,就开启验证码,受启发于一些网站的做法*/
+                //console.log("cookie:", $.cookie('errlgcnt'));
+                $('#ac').removeClass('hide');
+                $(ac_ipt).on('input', function () {
+                if(!$(this).val() == ''){
+                    $('#ac_err').text("")
+                }
+                else{
+
+                }
+                });
+                $(ac_ipt).on('blur', function () {
+                    if(!$(this).val() == ''){
+
+                    }
+                    else{
+                        $('#ac_err').text("验证码不能为空")
+                    }
+                });
+            }
+        }
+        $('#lg_btn').click(function(){
+            var u_ipt = $('#u_err').prev('input');
+            var p_ipt = $('#p_err').prev('input');
+            if(((u_ipt).val() == '') || ((p_ipt).val() == '')){
+                if((u_ipt).val() == ''){
+                    $('#u_err').text("用户名不能为空");
+                }
+                if((p_ipt).val() == ''){
+                    $('#p_err').text("密码不能为空");
+                }
+                if(((u_ipt).val() == '') && ((p_ipt).val() == '')){
+                    $('#u_err').text("用户名不能为空");
+                    $('#p_err').text("密码不能为空");
+                }
+                return false;
+            }
+            $.ajax({
+                url: '/login/',
+                type: "POST",
+                data: $('#loginform').serialize(),
+                dataType: 'JSON',
+                traditional: true,
+                success: function(args){
+                    {#console.log(args);#}
+                    {#console.log(args.statues);#}
+                    $.each(args, function (k, v) {
+                        {#console.log(k, v);#}
+                        if(k == "error"){
+                            //console.log(v.username[0].message);
+                            if(v){
+                                if(v.username){
+                                var usr_err = v.username[0].message;
+                                $('#u_err').text(usr_err);
+                                }
+                                if(v.password){
+                                    var pwd_err = v.password[0].message;
+                                    $('#p_err').text(pwd_err);
+                                }
+                            }
+                            //console.log(v.password[0].message);
+                            $('#p_err').prev('input').val("");
+                            cleanHide();
+                        }
+                        if(k == "statues"){
+                            if(!v){
+                                //window.location.reload();
+                                var src = $("#authcode").attr("src");
+                                console.log(src);
+                                var stringobj = new String(src);    //不想看到太多?号的一个处理
+                                if(stringobj.indexOf('?') == -1) {  //用search会提示错误,原因暂时未知!
+                                    $("#authcode").attr("src", src + '?');
+                                }else{
+                                    var end = stringobj.lastIndexOf("?");
+                                    $("#authcode").attr("src", stringobj.substring(0, end));
+                                }
+                            }else{
+                                //console.log("登陆成功个人主页");    //http://127.0.0.1:8000/zhangtong.html
+                                //console.log($('#ac_err').text());
+                                loginSuccess = true;
+                            }
+                        }
+                        if(k== "data"){
+                            if(v){
+                                if(loginSuccess){
+                                    //window.location.replace("/" + v + '.html');
+                                    window.location.replace("/backend/base-info.html?" + v);
+                                }
+                                else{
+                                    $('#ac_err').text(v);
+                                }
+                                console.log(v);
+                            }
+                        }
+                    });
+                },
+                error: function(args){
+                    $.each(args, function (k, v) {
+                        console.log(k, v);
+                    });
+                }
+            });
+        });
+        $(function () {
+            var u_ipt = $('#u_err').prev('input');
+            var p_ipt = $('#p_err').prev('input');
+
+            cleanHide();
+            $(u_ipt).on('input', function () {
+                if(!$(this).val() == ''){
+                    $('#u_err').text("")
+                }
+                else{
+
+                }
+            });
+            $(u_ipt).on('blur', function () {
+                if(!$(this).val() == ''){
+
+                }
+                else{
+                    console.log('为空');
+                    $('#u_err').text("用户名不能为空")
+                }
+            });
+            $(p_ipt).on('input', function () {
+                if(!$(this).val() == ''){
+                    $('#p_err').text("")
+                }
+                else{
+
+                }
+            });
+            $(p_ipt).on('blur', function () {
+                if(!$(this).val() == ''){
+
+                }
+                else{
+                    console.log('为空');
+                    $('#p_err').text("密码不能为空");
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

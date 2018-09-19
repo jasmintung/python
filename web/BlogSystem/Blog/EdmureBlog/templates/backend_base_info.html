@@ -1,0 +1,233 @@
+{% extends 'backend_layout.html' %}
+{% block css %}
+    <style>
+        .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+        .avatar-container{
+            height: 200px;
+            width: 200px;
+            padding: 2px;
+            border: 1px solid #dddddd;
+            position: relative;
+        }
+        .avatar-container img{
+            height: 100%;
+            width: 100%;
+            border: 0;
+            overflow: hidden;
+        }
+        .avatar-container .text{
+            text-align: center;
+        }
+        .avatar-container .img-file{
+            top:0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            position: absolute;
+            z-index: 102;
+        }
+    </style>
+{% endblock %}
+{% block conent %}
+    <ol class="breadcrumb">
+        <li><a href="#">用户管理</a></li>
+        <li class="active">用户信息</li>
+    </ol>
+    <div>
+        <div class="row" style="position: relative;">
+            <form class="form-horizontal">
+                {% csrf_token %}
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">用户名</label>
+                        <div class="col-xs-5">
+                            <p class="form-control-static">{{ usr_obj.username }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">邮箱</label>
+
+                        <div class="col-xs-5">
+                            <p class="form-control-static">{{ usr_obj.email }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nickname" class="col-xs-2 control-label">昵称</label>
+
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control" id="nickname" placeholder="请输入昵称" value={{ usr_obj.nickname }}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogUrl" class="col-xs-2 control-label">博客地址</label>
+
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control" id="blogUrl"
+                                   placeholder="如：zhangtong,则个人博客为http://www.xxx.com/zhangtong.html" value={{ blog_obj.site }}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogTheme" class="col-xs-2 control-label">博客主题</label>
+
+                        <div class="col-xs-5">
+                            <select id="blogTheme" class="form-control">
+                                <option>默认主题</option>
+                                <option>主题1</option>
+                                <option>主题2</option>
+                                <option>主题3</option>
+                                <option>主题4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="blogTitle" class="col-xs-2 control-label">博客标题内容</label>
+
+                        <div class="col-xs-8">
+                            <textarea id="blogTitle" style="min-height: 100px" class="form-control"
+                                      placeholder="说点什么吧...">{{ blog_obj.title }}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <button type="button" class="btn btn-primary" id="save_usr">保 存</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div style="position: absolute;" class="col-xs-offset-7 col-xs-5">
+                <div class="avatar-container">
+                    <!--form id="hdfm" method="POST" action="/upload_file/" enctype="multipart/form-data" target="ifm">
+                        <img id="hdimg" origin="/static/imgs/avatar/default.png" src="/static/imgs/avatar/default.png">
+                        <div class="text">点击图片更换(<a href="#">撤销</a>)</div>
+                        <iframe id="ifm" name="ifm" style="display: none;"></iframe>
+                        <input name="saveimgname" style="display: none" value={{ usr_obj.username }}/>
+                        <input id="avatarImg" name="uploadimgname" type="file" class="img-file" onchange="changeUpload();"/>
+                    </form-->
+                    <form id="form1" action="/upload_file/" method="POST" enctype="multipart/form-data" target="ifml">
+                        {% csrf_token %}
+                        <img id="hdimg" origin="/static/imgs/avatar/default.png" src="/static/imgs/{{ usr_obj.avatar }}">
+                        <div class="text">点击图片更换(<a href="#">撤销</a>)</div>
+                        <iframe id="ifml" name="ifml" style="display: none;"></iframe>
+                        <!--input name="saveimgname" style="display: none" value={{ usr_obj.username }}/-->
+                        <input id="fileupload" type="file" name="fafafa" class="img-file" onchange="changeUpload();" />
+{#                        <input type="submit" onclick="iframeSubmit();" value="Form提交"/>#}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/jquery-1.12.4.js"></script>
+    <script src="/static/js/jquery.cookie.js"></script>
+    <script>
+        function changeUpload(){
+            console.log("选择了图片");
+            var file_obj = document.getElementById('fileupload').files[0];
+            var fd = new FormData();
+            fd.append('username', "{{ usr_obj.username }}")
+            fd.append('fileupload', file_obj);
+            $.ajax({
+                url: "/backend/upload_file/",
+                type: "POST",
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function (arg, a1, a2) {
+                    //console.log("arg:", arg);
+                    var result = JSON.parse(arg);
+                    console.log(result.data);
+                    var imgurl = $('#hdimg').attr("src");
+                    console.log(imgurl);
+                    $('#hdimg').attr("src", "/" + result.data + '?' + "time=" + new Date().getTime());  //为什么这么写?更新src后，如果src与原来的相同，则浏览器回从缓存里获取图片而不会向后台发送新的请求
+                    console.log("a1:", a1);
+                    console.log("a2:", a2);
+                }
+            });
+        }
+        $(function () {
+            $.ajaxSetup({
+                beforeSend: function(xhr,settings){
+                    xhr.setRequestHeader('X-CSRFtoken', $.cookie('csrftoken'));
+                }
+            });
+            var theme = "{{ blog_obj.theme }}";
+            if (theme.length > 0){
+                $('#blogTheme').val(theme);
+                //$('#blogTheme').attr('disabled', 'disabled');
+            }
+        });
+        $('#save_usr').click(function () {
+            var nick_name = $('#nickname').val();
+            var blog_url = $('#blogUrl').val();
+            var title = $('#blogTitle').val();
+            //console.log("blog url:", blog_url);
+            //console.log("nick name:", nick_name);
+            //console.log("title:", title);
+            //var blog_url_rep = /^http:\/\/127.0.0.1:8000/^[A-Za-z0-9]+^.html{1,5}/;
+            var blog_url_rep = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+            var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
+                regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+            var notice = "";
+
+            if(nick_name.length < 1){
+                notice += "昵称不能为空!\n";
+            }
+            else{
+                if(regEn.test(nick_name) || regCn.test(nick_name)) {
+                    //alert("昵称不能包含特殊字符!.");
+                    notice += "昵称不能包含特殊字符!\n";
+                }
+            }
+            {#console.log(blog_url_rep.test(blog_url));#}
+            if(blog_url.length < 1){
+                notice += "博客地址不能为空!\n";
+            }
+            else{
+                if(!blog_url_rep.test(blog_url)){
+                    //alert("博客地址格式错误!");
+                    notice += "博客地址格式错误!\n";
+                }
+            }
+            if(title.length < 1){
+                notice += "博客标题内容不能为空!";
+            }
+            else{
+                if(regEn.test(title) || regCn.test(title)) {
+                    //alert("博客标题内容不能包含特殊字符!.");
+                    notice += "博客标题内容不能包含特殊字符!\n";
+                }
+            }
+            if (notice.length > 0){
+                alert(notice);
+                return false
+            }
+            dic = {};
+            dic['username'] = "{{ usr_obj.username }}";
+            dic['nickname'] = nick_name;
+            dic['blogurl'] = blog_url;
+            dic['blogtheme'] = $('#blogTheme').val();
+            dic['blogtitle'] = title;
+            console.log(dic);
+            $.ajax({
+                url: "/backend/base-info.html",
+                data: JSON.stringify(dic),
+                type: "POST",
+                dataType: "JSON",
+                headers: {'X-CSRFtoken': $.cookie('csrftoken')},
+                success: function(obj){
+                    alert(obj.error);
+                },
+                error: function(){
+
+                }
+            });
+        });
+    </script>
+{% endblock %}

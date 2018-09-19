@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .upload{
+            display: inline-block;padding: 10px;
+            background-color: brown;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 90;
+        }
+        .file{
+            width: 100px;height: 50px;opacity: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div style="position: relative;width: 100px;height: 50px">
+        <input class="file" type="file" id="fafafa" name="afafaf" />
+        <a class="upload">上传</a>
+    </div>
+    <input type="button" value="提交XHR" onclick="xhrSubmit();"/>
+    <input type="button" value="提交jquery" onclick="jqSubmit();"/>
+    <hr/>
+    <form id="form1" action="/upload_file/" method="POST" enctype="multipart/form-data" target="ifml">
+        {% csrf_token %}
+        <iframe id="ifml" name="ifml" style="display: none;"></iframe>
+        <input type="file" name="fafafa" onchange="changeUpload();" />
+        <input type="submit" onclick="iframeSubmit();" value="Form提交"/>
+    </form>
+
+    <div id="preview"></div>
+    <script src="/static/jquery-1.12.4.js"></script>
+    <script src="/static/jquery.cookie.js"></script>
+    <script>
+        function changeUpload() {
+            $('#ifml').load(function () {
+                var text = $('#ifml').contents().find('body').text();
+                var obj = JSON.parse(text);
+
+                $('#preview').empty();
+                var imgTag = document.createElement('img');
+                imgTag.src = "/" + obj.data;
+                $('#preview').append(imgTag);
+            });
+        }
+        function jqSubmit() {
+            var file_obj = document.getElementById('fafafa').files[0];
+            var fd = new FormData();
+            fd.append('username', 'root');
+            fd.append('fafafa', file_obj);
+
+            $.ajax({
+                url: '/upload_file/',
+                type: "POST",
+                data: fd,
+                processData: false,
+                contentType: false,
+                headers: {'X-CSRFtoken': $.cookie('csrftoken')},
+                success: function (arg, a1, a2) {
+                    console.log(arg);
+                    console.log(a1);
+                    console.log(a2);
+                }
+            });
+        }
+        function xhrSubmit() {
+            var file_obj = document.getElementById('fafafa').files[0];
+
+            var fd = new FormData();
+            fd.append('username', 'root');
+            fd.append('fafafa', file_obj);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload_file/', true);
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState == 4){
+                    var obj = JSON.parse(xhr.responseText);
+                    console.log(obj);
+                }
+            };
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken')); //不加的话会CSRF_TOKEN错误
+            xhr.send(fd);
+        }
+        function iframeSubmit() {
+            $('#ifml').load(function () {
+                var text = $('#ifml').contents().find('body').text();
+                var obj = JSON.parse(text);
+
+                $('#preview').empty();
+                var imgTag = document.createElement('img');
+                imgTag.src = "/" + obj.data;
+                $('#preview').append(imgTag);
+            })
+        }
+    </script>
+</body>
+</html>
