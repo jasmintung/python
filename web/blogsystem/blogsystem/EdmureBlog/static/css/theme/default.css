@@ -1,0 +1,60 @@
+.pg-header {
+    height: 45px;
+    width: auto;
+    margin: 0 auto;
+    line-height: 45px;
+    background-color: #1c5a9c;
+}
+.pg-body{
+    margin-top: 5px;
+    width: 100%;
+    height: auto;
+}
+.body-menu{
+    float: left;
+    padding-left: 30px;
+    width: 20%;
+}
+.body-content{
+    float: left;
+    width: 80%;
+}
+.menu-list{
+    height: 45px;
+    margin-left: 30px;
+}
+.menu-item{
+    color: #eeeeee;
+    font-size: 20px;
+    padding: 8px 10px;
+}
+.menu-item:hover {
+    color: #31b0d5;
+    background-color: #eeeeee;
+    text-decoration:none;
+}
+.notice, .tags, .types, .dates{
+    border: 1px solid #a6a6a6;
+    width: 250px;
+    margin-bottom: 10px;
+}
+.notice-header, .tags-header, .types-header, .dates-header{
+    width: 250px;
+    padding-left: 20px;
+    background-color: #31b0d5;
+    color: white;
+    font-size: 15px;
+}
+.notice-body ul, .tags-body ul, .types-body ul, .dates-body ul{
+    margin-top: 10px;
+    margin-left: -20px;
+}
+.notice-body ul li{
+    list-style: none;
+}
+.tags-body ul li, .types-body ul li, .dates-body ul li{
+    height: 30px;
+    line-height: 30px;
+    list-style: none;
+    font-size: 15px;
+}

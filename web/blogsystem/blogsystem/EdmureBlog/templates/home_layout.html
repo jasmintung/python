@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/css/edmure.css"/>
+    <link rel="stylesheet" href="/static/css/commons.css"/>
+    <link rel="stylesheet" href="/static/css/row-avatar.css"/>
+    <link rel="stylesheet" href="/static/css/theme/default.css"/>
+    {% block article_css %}{% endblock %}
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+<header>
+    <div class="pg-header">
+        <div class="nick"></div>
+        <div class="menu-list">
+            <a class="menu-item" href="/">博客系统首页</a>
+            <a class="menu-item" href="#">个人首页</a>
+            <a class="menu-item" href="/backend/base-info.html">管理</a>
+        </div>
+    </div>
+</header>
+
+<div class="pg-body">
+    <div class="body-menu">
+        <div class="notice">
+            <div class="notice-header">公告</div>
+            <div class="notice-body">
+                <ul>
+                    <li>昵称：{{ user_home.user.nickname }}</li>
+                    <li>粉丝：100</li>
+                    <li>关注：88</li>
+                    <li>博龄：{{ user_home.user.create_time|date:"Y年-m月-d日" }}</li>
+                    <li>邮箱：{{ user_home.user.email }}</li>
+                </ul>
+                <div class="memo">
+                    {{ user_home.title }}
+                </div>
+            </div>
+        </div>
+        <div class="tags">
+            <div class="tags-header">我的标签</div>
+            <div class="tags-body">
+                <ul>
+                    {% for item in tag_list %}
+                        <li><a href="http://127.0.0.1:8000/{{ user_home.site }}/tag/{{ item.title }}.html">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="types">
+            <div class="types-header">我的分类</div>
+            <div class="types-body">
+                <ul>
+                    {% for item in cat_list %}
+                        <li><a href="http://127.0.0.1:8000/{{ user_home.site }}/catetory/{{ item.title }}.html">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="dates">
+            <div class="dates-header">时间</div>
+            <div class="dates-body">
+                <ul>
+                <!--li><a href="http://127.0.0.1:8000/{{ user_home.site }}/date/{{ item.create_time|date:"Y-m" }}.html">{{ item.create_time|date:"Y年-m月" }}</a></li-->
+                    {% for item in date_month_list %}
+                        <li><a href="http://127.0.0.1:8000/{{ user_home.site }}/date/{{ item }}.html">{{ item }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="body-content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+    {% block js %}{% endblock %}
+</body>
+</html>
