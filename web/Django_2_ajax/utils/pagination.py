@@ -63,14 +63,17 @@ class Page:
         page_list.append(nex)  # 下一页
 
         jump = """
-        <input type='text'  /><a onclick='jumpTo(this, "%s?p=");'>跳转</a>
+        <input type='text' /><a onclick='jumpTo(this, "%s?p=");'>跳转</a>
         <script>
             function jumpTo(ths,base){
                 var val = ths.previousSibling.value;
+                if(val == ""){
+                    location.href = base + %s
+                }
                 location.href = base + val;
             }
         </script>
-        """ % (base_url,)
+        """ % (base_url, self.current_page)
 
         page_list.append(jump)  # 跳转
         # 使用mark_safe函数标记后，django将不再对该内容进行转义

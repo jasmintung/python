@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title></title>
 </head>
 <body>
-$END$
+    <form method="POST" action="/edit-{{ nid }}/">
+        {% csrf_token %}
+        {{ mf.as_p }}
+        <input type="submit" value="提交">
+    </form>
 </body>
 </html>

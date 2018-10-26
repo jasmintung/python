@@ -50,12 +50,12 @@
         $(function(){
             flag = true;
             $(':submit').click(function () {
-                $('.error').remove()
+                $('.error').remove();
                 var usrname = $('#inputUserName').val();
                 var pwd = $('#inputPassword').val();
                 var tag = document.createElement('span');
                 tag.className = "error";
-                tag.innerHTML = "不能为空!"
+                tag.innerHTML = "不能为空!";
 
                 if(usrname.length <=0){
                     flag = false;

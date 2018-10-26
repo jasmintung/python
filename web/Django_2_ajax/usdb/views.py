@@ -135,7 +135,7 @@ def registe(request):
         if form.is_valid():
             print("校验通过")
             try:
-                test_err = int("测试异常情况下的日志记录功能使用,平时注释掉")
+                # test_err = int("测试异常情况下的日志记录功能使用,平时注释掉")
                 if models.UserInfo.objects.filter(username=form.cleaned_data['username']) is None:
                     warninginfo = "用户已存在!"
                     return render(request, 'register.html', {'rg_obj': form, 'warning_info': warninginfo})  # 通过form返回错误信息

@@ -21,7 +21,7 @@ def login(request):
         user = request.POST.get('user', None)
         pwd = request.POST.get('pwd', None)
         print(user, pwd)
-        login_obj = session.query(UserInfo).filter(user == UserInfo.username,pwd == UserInfo.password).first()
+        login_obj = session.query(UserInfo).filter(user == UserInfo.username, pwd == UserInfo.password).first()
         if login_obj:
             return redirect('/manage')
         else:
@@ -78,6 +78,7 @@ def manage(request):
         if operation == "'addstaff'":
             # print(type(request.POST))  # <class 'django.http.request.QueryDict'>
             print(request.POST)
+            # 后面学习发现这里可以用一个request.POST.getlist方法来获取多个值,lists获取具体值,元组形式返回
             str_querydict = str(request.POST)
             # print("start: %d endL %d" % (str_querydict.find('{'), str_querydict.find('}')))
             query_dict = str_querydict[str_querydict.find('{'): str_querydict.find('}')+1]

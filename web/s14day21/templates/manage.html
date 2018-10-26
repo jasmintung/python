@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="/static/commons.css">
+    <style>
+        .pg-header{
+            height: 50px;
+            background-color: seashell;
+            color: green;
+        }
+    </style>
+    {% block css %} {% endblock %}
 </head>
 <body>
-$END$
+    <div class="pg-header">员工管理</div>
+    {% block content %} {% endblock %}
+    <div class="pg-footer">
+
+    </div>
+    <script src="/static/jquery.js"></script>
+    {% block js %} {% endblock %}
 </body>
 </html>

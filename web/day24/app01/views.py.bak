@@ -1,55 +1,15 @@
 from django.shortcuts import render, HttpResponse
 from app01 import models
 from django import forms
-from django.forms import fields as Ffields
-from django.forms import widgets as Fwidgets
+from django.forms import fields
 
 # Create your views here.
 
 
-# ModelForm也可创建html标签
-class UserInfoModelForm(forms.ModelForm):
-
-    class Meta:
-        model = models.UserInfo  # 对应的models
-        fields = '__all__'  # 可选字段范围
-        # fields = ['username', 'email']
-        # exclude = ['username']  # 排除哪个字段
-        labels = {  # 提示信息
-            'username': '用户名',
-            'email': '邮箱',
-        }
-        help_texts = {  # 帮助提示信息
-            'username': '...'
-        }
-        widgets = {  # 自定义插件
-            'username': Fwidgets.Textarea(attrs={'class': 'c1'})
-        }
-        error_messages = {  # 自定义错误信息
-            '__all__': {
-
-            },
-            'email': {
-                'required': '邮箱不能为空',
-                'invalid': '邮箱格式错误',
-            }
-        }
-        field_classes = {  # 自定义字段类,相当于修改models中本字段的原本属性
-            # 'email': Ffields.URLField
-        }
-        # localized_fields = ('ctime', )  # 本地化,如根据不同时区显示数据
-
-    def clean_username(self):
-        old = self.cleaned_data['username']
-        return old
-
-# Form创建html标签,请看views.bak对应的处理
-
-
 class UserInfoForm(forms.Form):
     username = Ffields.CharField(max_length=32)
-    email = Ffields.EmailField()
-    user_type = Ffields.ChoiceField(
+    email = fields.EmailField()
+    user_type = fields.ChoiceField(
         choices=models.UserType.objects.values_list('id', 'caption')
     )
 
@@ -60,36 +20,14 @@ class UserInfoForm(forms.Form):
 
 def index(request):
     if request.method == "GET":
-        obj = UserInfoModelForm()
+        obj = UserInfoForm()
         print(obj)  # 返回的是html字符串
         return render(request, 'index.html', {'obj': obj})
     elif request.method == "POST":
-        obj = UserInfoModelForm(request.POST)
-        if obj.is_valid():
-            # obj.save()  # 下面三行代码 等效 本行代码
-            instance = obj.save(False)
-            instance.save()
-            obj.save_m2m()
+        obj = UserInfoForm(request.POST)
+        obj.is_valid()
+        obj.errors()
+        # models.UserInfo.objects.create(**obj.cleaned_data)
+        # models.UserInfo.objects.filter(id=1).update(**obj.cleaned_data)
         return render(request, 'index.html', {'obj': obj})
 
-
-def user_list(request):
-    li = models.UserInfo.objects.all().select_related('user_type')  # 优化外键关联搜索
-    return render(request, 'user_list.html', {'li': li})
-
-
-def user_edit(request, nid):
-    # 获取当前ID对象的用户信息
-    # 显示用户已存在数据
-    if request.method == "GET":
-        user_obj = models.UserInfo.objects.filter(id=nid).first()
-        mf = UserInfoModelForm(instance=user_obj)
-        return render(request, 'user_edit.html', {'mf': mf, 'nid': nid})
-    elif request.method == "POST":
-        user_obj = models.UserInfo.objects.filter(id=nid).first()
-        mf = UserInfoModelForm(request.POST, instance=user_obj)  # 更新操作
-        if mf.is_valid():
-            mf.save()
-        else:
-            print(mf.errors.as_json())
-        return render(request, 'user_edit.html', {'mf': mf, 'nid': nid})

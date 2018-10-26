@@ -2,9 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title></title>
 </head>
 <body>
-$END$
+    <input type="text" />
+    <input type="button" value="Ajax1" onclick="Ajax1();"/>
+    <input type="text" id="url"/>
+    <input type="button" value="发送IFRAME请求" onclick="iframeRequest();"/>
+    <form action="/ajax_json/" method="POST" target="ifml">
+        {% csrf_token %}
+        <iframe id="ifml" name="ifml"></iframe>
+        <input type="text" name="username"/>
+        <input type="text" name="email"/>
+        <input type="submit" onclick="submitForm();" value="Form提交"/>
+    </form>
+    <script src="/static/jquery-1.12.4.js"></script>
+    <script src="/static/jquery.cookie.js"></script>
+    <script>
+        /*原生AJAX方式(XMLHttpRequest)*/
+        function getXHR() {
+            var xhr = null;
+            if (XMLHttpRequest){
+                xhr = new XMLHttpRequest();
+            }else{
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            return xhr
+        }
+        function Ajax1() {
+            var xhr = getXHR();
+            xhr.open('POST', '/ajax_json/', true);  //true表示是否异步,表示脚本会在 send() 方法之后继续执行，而不等待来自服务器的响应
+            /*onreadystatechange 事件使代码复杂化了。但是这是在没有得到服务器响应的情况下，防止代码停止的最安全的方法。
+            通过把该参数设置为 "false"，可以省去额外的 onreadystatechange 代码。
+            如果在请求失败时是否执行其余的代码无关紧要，那么可以使用这个参数。*/
+            xhr.onreadystatechange = function(){
+                //readyState的值改变时自动触发执行其对应的函数
+                if(xhr.readyState == 4){
+                    // 接收完毕
+                    var obj = JSON.parse(xhr.responseText);  //服务器返回的数据（字符串类型）
+                    console.log(obj);  //服务端返回后才会打印
+                }
+            };
+            xhr.setRequestHeader('k1', 'v1');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset-UTF-8');
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken')); //不加的话会CSRF_TOKEN错误
+            xhr.send("name=root;pwd=123"); // 字符串类型
+        }
+        /*JQUERY方式*/
+        function submitForm() {
+            $('#ifml').load(function () {
+                /*服务端返回后才会执行*/
+                var text = $('#ifml').contents().find('body').text();
+                console.log(text);
+                var obj = JSON.parse(text);
+            })
+        }
+        /*IFRAME方式*/
+        function iframeRequest() {
+            var url = $('#url').val();
+            console.log("url:", url);   //这里就相当于你要访问的网站的地址,请求后ifml中直接显示出访问的网站内容
+            $('#ifml').attr('src', url);    //输入网网址: http://www.sogou.com
+        }
+    </script>
 </body>
 </html>

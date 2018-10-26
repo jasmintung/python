@@ -2,9 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+    <form action="/login/" method="post">
+        {% csrf_token %}
+        <input type="text" name="user"/>
+        <input type="text" name="pwd"/>
+        <input type="checkbox" name="rmb" value="1"/>10秒免登陆
+        <input type="submit" value="提交"/>
+        <input id="btn1" type="button" value="按钮1"/>
+        <input id="btn2" type="button" value="按钮2"/>
+    </form>
+    <script src="/static/jquery-1.12.4.js"></script>
+    <script src="/static/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            console.log("fsdafsdda");
+            $.ajaxSetup({
+                beforeSend: function(xhr,settings){
+                    console.log("gogogogogoggogogo");
+                    xhr.setRequestHeader('X-CSRFtoken', $.cookie('csrftoken'));
+                }
+            });
+            $('#btn1').click(function () {
+                $.ajax({
+                    url:'/login/',
+                    type:"GET",
+                    data: {'user': 'root', 'pwd': '123'},
+                    success:function (args) {
+
+                    }
+                })
+            })
+        });
+    </script>
 </body>
 </html>

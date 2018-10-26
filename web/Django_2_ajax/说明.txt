@@ -16,3 +16,4 @@ font-awesome
 加入Django信号,用于文本记录一些操作
 加入中间件对URL做一个简单的过滤
 加入CSRF
+遗留问题：select无法动态刷新...已有解决办法,重写init方法

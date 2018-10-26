@@ -46,6 +46,7 @@
     <script>
         function changeUpload() {
             $('#ifml').load(function () {
+                console.log("change upload");
                 var text = $('#ifml').contents().find('body').text();
                 var obj = JSON.parse(text);
 
