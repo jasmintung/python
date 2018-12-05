@@ -1,0 +1,274 @@
+.pg-header{
+	height: 38px;
+	background-color: #dddddd;
+	line-height: 38px; 
+}
+.pg-header div div a{
+	margin-left: 15px;
+	color: #030303;
+	text-decoration: none;
+}
+.img{
+	border: 0;
+}
+.menu-header{
+	height: 40px;
+	background-color: #C53552;
+	line-height: 40px;
+}
+.menu-left{
+	text-align: center;
+	width: 20%;
+	float: left;
+}
+
+.menu-middle{
+	text-align: left;
+	width: 58%;
+	float: left;
+}
+.menu-right{
+	text-align: center;
+	width: 22%;
+	float: right;
+}
+.menu-left h2{
+	float: left;
+	display: inline;
+	margin: 0 auto;
+	height: 40px;
+	width: 214px;
+	background-color: #A22942;
+}
+
+.menu-header a{
+	text-decoration: none;
+	font-size: 20px;
+	color: #FFFFFF;
+}
+.menu-middle ul{
+	display: inline;
+	float: left;
+	list-style: none;
+	margin: 0 auto;
+}
+.menu-right ul{
+	display: inline;
+	float: right;
+	list-style: none;
+	margin: 0 auto;
+}
+.menu-middle ul li{
+	padding-left: 10px;
+	display: inline;
+}
+.menu-right ul li{
+	padding-left: 5px;
+	display: inline;
+}
+.content-area{
+	width: 1056px;
+	margin: 0px auto;
+	clear: both;
+}
+.content-area>.content-left{
+	width: 20%;
+	display: inline-block;
+	float: left;
+	/*border: 1px solid #EBEBEB;*/
+}
+
+.content-left div{
+	list-style: none;
+	height: 60px;
+	border: 1px solid #EBEBEB;
+}
+.content-left div h4{
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 4px;/*跟下一个标签垂直方向的距离*/
+}
+.content-left div ul{
+	/*默认会有40px的间距,需要重新写margin*/
+	margin: 0 auto;
+	padding: 0px;
+	margin-left: 10px;
+	display: inline;
+	list-style: none;
+}
+.content-left div ul li{
+	display: inline;
+}
+.content-left div ul li a{
+	font-size: 10px;
+	color: #cccccc;
+	text-decoration: none;
+	margin-right: 5px;
+}
+.content-area>.content-right{
+	width: 80%;
+	display: inline-block;
+	height: auto;
+	float: left;
+}
+.content-right-top{
+	height: 55px;
+	padding-left: 11px;
+	margin-left: 0px;
+	line-height: 54px;
+	display: inline-block;
+}
+.content-right-top ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+.content-right-top ul li{
+	display: inline;
+}
+.content-right-top ul a{
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+}
+.content-right-middle{
+	width: auto;
+}
+.goods-div{
+	width: auto;
+	margin-left: 10px;
+	margin-top: 12px;
+	border: 1px solid #EBEBEB;
+	height: 35px;
+	line-height: 35px;
+}
+.goods-sort-title{
+	float: left;
+	display: inline-block;
+	margin-left: 10px;
+}
+.goods-sort-type{
+	float: left;
+	display: inline-block;
+	margin-left: 30px;
+}
+.goods-sort-type span{
+	 font-size: 15px;
+	 width: 50px;
+}
+.goods-sort-type ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+.goods-sort-type ul li{
+	list-style: none;
+	display: inline;
+	margin-left: 5px;
+}
+.goods-sort-type ul li a{
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 15px;
+}
+.goods-total{
+	float: right;
+	display: inline-block;
+	margin-right: 15px;
+}
+.goods-total span{
+	color: #ff0000;
+	font-size: 15px;
+}
+.goods-page{
+	float: right;
+	display: inline-block;
+	margin-right: 15px;
+}
+.goods-page span{
+	font-size: 15px;
+}
+.goods-page-next-prev{
+	float: right;
+	display: inline-block;
+}
+.goods-page-next-prev a{
+	text-decoration: none;
+}
+.content-right-middle div{
+	display: block;
+	height: 40px;
+	padding-left: 5px;
+	margin-left: 10px;
+	line-height: 40px;
+	border: 1px solid #EBEBEB;
+}
+.content-right-middle div div{
+	float: left;
+	border: 0px;
+}
+.content-right-middle div div span{
+	float: left;
+	width: 80px;
+	padding-left: 10px;
+	color: #000000;
+	font-weight: bold;
+	font-size: 15px;
+}
+.content-right-middle div div ul{
+	 float: left; 
+	 margin: 0px;
+	 padding: 0px;
+	 list-style: none";
+}
+.content-right-middle div div ul li{
+	float: left;
+	display: inline;
+	margin-right: 5px;
+	width: 40px;
+}
+.content-right-middle div div ul li span{
+	color: #cccccc;
+	font-size: 10px;
+}
+.content-right-middle div div ul li a{
+	text-decoration: none;
+	color: #330000;
+	font-size: 10px;
+}
+.goods-list-div{
+	width: auto;
+	height: auto;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+.goods-list-div div{
+	width: 206px;
+	height: 210px;
+	float: left;
+	border: 1px solid #EBEBEB;
+}
+.goods-list-div div div{
+	width: 200px;
+	height: 204px;
+	float: left;
+	border: 1px solid #f24747;
+}
+.goods-list-div div div div{
+	width: 190px;
+	height: 150px;
+	text-align: center;
+	line-height: 204px;
+	background-color: #000000;
+	margin-left: 5px;
+	border: 0px;
+}
+.goods-list-div div div span{
+	text-align: center;
+	font-size: 15px;
+	margin-left: 20px;
+}
+/*.menu-header li{
+	float: left;
+	display: inline;
+}*/

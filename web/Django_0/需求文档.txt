@@ -1,0 +1,26 @@
+1、写个XXX管理：
+	SQLAlchemy：
+		表1（8列以上）
+		比如主机管理：IP、端口、业务线
+		表2
+		用户表：
+		用户名
+		密码
+	功能：
+	1、登陆
+	2、主机管理页面(3个区域)
+		- 查看所有主机信息（只需要现实4列数据）
+		- 增加主机信息（8列）**模态对话框
+                   	- 
+	3、查看详细(新页面)
+		url:
+		"detail" -> detail
+		def detail(request):
+			nid = request.GET.get("nid")
+			v = select * from tb where id = nid
+	4、删除
+		del-host -> del_host
+		del delete_host(request):
+			nid = request.POST.get('nid')
+			delete from tb where id = nid
+			return redirect('/home')

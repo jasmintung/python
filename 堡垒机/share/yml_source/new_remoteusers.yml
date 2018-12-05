@@ -1,0 +1,16 @@
+
+
+user0:
+   auth_type: ssh-passwd
+   username: root
+   password: android
+
+user1:
+   auth_type: ssh-passwd
+   username: demo
+   password: demo
+
+user2:
+   auth_type: ssh-passwd
+   username: tony
+   password: 123!456

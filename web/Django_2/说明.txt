@@ -1,0 +1,12 @@
+使用技术：
+HTML  
+JSP 
+JQUERY
+Django
+Django DOM
+MySQL
+bootstrap
+插件
+jquery-ui
+font-awesome
+等

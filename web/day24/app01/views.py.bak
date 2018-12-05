@@ -1,0 +1,33 @@
+from django.shortcuts import render, HttpResponse
+from app01 import models
+from django import forms
+from django.forms import fields
+
+# Create your views here.
+
+
+class UserInfoForm(forms.Form):
+    username = Ffields.CharField(max_length=32)
+    email = fields.EmailField()
+    user_type = fields.ChoiceField(
+        choices=models.UserType.objects.values_list('id', 'caption')
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(UserInfoForm, self).__init__(*args, **kwargs)
+        self.fields['user_type'].choices = models.UserType.objects.values_list('id', 'caption')
+
+
+def index(request):
+    if request.method == "GET":
+        obj = UserInfoForm()
+        print(obj)  # 返回的是html字符串
+        return render(request, 'index.html', {'obj': obj})
+    elif request.method == "POST":
+        obj = UserInfoForm(request.POST)
+        obj.is_valid()
+        obj.errors()
+        # models.UserInfo.objects.create(**obj.cleaned_data)
+        # models.UserInfo.objects.filter(id=1).update(**obj.cleaned_data)
+        return render(request, 'index.html', {'obj': obj})
+

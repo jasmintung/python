@@ -1,0 +1,22 @@
+.summary-item{
+    height: 120px;
+    width: 1024px;
+    margin-bottom: 1px;
+    word-break: break-all;
+    word-wrap: break-word;  /*自动换行,这个样式针对摘要最多换行一次..所以字符数量由其它代码控制*/
+    border: 1px solid #a6a6a6;
+}
+.summary-item:hover{
+    border: 1px solid #1c5a9c;
+}
+.summary-title{
+    font-size: 30px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.summary-title a{
+    text-decoration: none;
+}
+.summary-content, .summary-footer{
+    margin-left: 10px;
+}

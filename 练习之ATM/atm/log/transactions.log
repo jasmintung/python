@@ -1,0 +1,13 @@
+2017-09-06 17:58:45,218 - transaction - INFO - account:yunduan   action:consume   amount:100.0   interest:0.0
+2017-09-07 09:40:20,650 - transaction - INFO - account:yunduan   action:consume   amount:65.0   interest:0.0
+2017-09-25 11:26:07,066 - transaction - INFO - account:yunduan   action:consume   amount:20.0   interest:0.0
+2017-09-25 11:28:42,752 - transaction - INFO - account:yunduan   action:consume   amount:20.0   interest:0.0
+2017-09-25 11:31:20,117 - transaction - INFO - account:yunduan   action:consume   amount:20.0   interest:0.0
+2017-09-25 11:47:04,600 - transaction - INFO - account:niuliyan   action:consume   amount:20.0   interest:0.0
+2017-09-25 12:30:50,069 - transaction - INFO - account:niuliyan   action:consume   amount:45.0   interest:0.0
+2017-09-25 12:32:23,745 - transaction - INFO - account:yunduan   action:consume   amount:20.0   interest:0.0
+2017-09-25 13:30:05,136 - transaction - INFO - account:yunduan   action:consume   amount:20.0   interest:0.0
+2017-09-25 13:45:22,171 - transaction - INFO - account:yunduan   action:consume   amount:20.0   interest:0.0
+2017-09-25 13:48:29,358 - transaction - INFO - account:yunduan   action:consume   amount:20.0   interest:0.0
+2017-09-25 13:49:05,955 - transaction - INFO - account:yunduan   action:consume   amount:45.0   interest:0.0
+2017-09-25 13:50:48,583 - transaction - INFO - account:zhangtong   action:consume   amount:80.0   interest:0.0

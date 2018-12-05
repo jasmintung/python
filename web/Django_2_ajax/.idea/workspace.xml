@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="785e7740-45b5-440c-a454-1c03457ff365" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../practice/ThreadPool.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../practice/ThreadPool_As_completed.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../practice/ThreadPool_map.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../practice/ThreadPool_wait.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/.idea/AutoClient.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/bin/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/bin/auto_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/config/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/config/cert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/config/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/files/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/files/board.out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/files/cpuinfo.out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/files/disk.out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/files/memory.out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/files/nic.out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/lib/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/lib/convert.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/lib/log.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/lib/response.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/lib/serialize.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/log/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/basic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/cpu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/disk.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/main_board.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/memory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/plugins/nic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoClient/src/script.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/api/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/api/service/asset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/api/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/utils/agorithm.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/utils/auth.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/utils/pager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/utils/response.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/service/asset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/service/base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/service/chart.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/service/idc_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/service/user.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/css/account.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/css/backend.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/css/commons.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/css/edmure.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/avatar/20130809170025.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/avatar/3bb1516e-3144-487b-8fa1-9ebaf5f6c915" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/avatar/3dc069be-3db7-4912-9846-b0214a7a9d2e" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/avatar/default.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/bg_dot_left3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/loader.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/loading.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/o_Warning.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/sort_asc.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/sort_both.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/imgs/sort_desc.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/js/accordion.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/js/chart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/js/jquery-1.12.4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/js/jquery.cookie.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/js/nb-list.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/css/bootstrap.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/fonts/glyphicons-halflings-regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/fonts/glyphicons-halflings-regular.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/fonts/glyphicons-halflings-regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/fonts/glyphicons-halflings-regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/bootstrap/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/HELP-US-OUT.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/css/font-awesome.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/css/font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/fonts/FontAwesome.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/fonts/fontawesome-webfont.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/animated.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/bordered-pulled.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/core.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/fixed-width.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/font-awesome.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/icons.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/larger.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/list.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/mixins.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/path.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/rotated-flipped.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/screen-reader.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/stacked.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/less/variables.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_animated.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_bordered-pulled.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_core.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_fixed-width.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_icons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_larger.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_list.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_path.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_rotated-flipped.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_screen-reader.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_stacked.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/font-awesome/scss/font-awesome.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/css/api.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/css/font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/css/jquery-ui.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/css/jquery.sidr.bare.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/highcharts.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/Highcharts.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-114x114.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-120x120.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-144x144.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-152x152.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-180x180.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-57x57.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-60x60.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-72x72.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/apple-touch-icon-76x76.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/favicon-160x160.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/favicon-16x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/favicon-192x192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/favicon-32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/favicon-96x96.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/images/sprite.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/js/api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/js/highcharts.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/js/jquery-1.11.3.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/js/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/api/js/jquery.sidr.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/highcharts-3d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/highcharts-3d.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/highcharts-more.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/highcharts-more.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/highcharts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/highcharts.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/highcharts-3d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/highcharts-3d.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/highcharts-more.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/highcharts-more.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/highcharts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/highcharts.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/accessibility.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/accessibility.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/annotations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/annotations.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/boost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/boost.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/broken-axis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/broken-axis.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/data.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/drilldown.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/drilldown.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/funnel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/funnel.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/gantt.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/gantt.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/grid-axis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/grid-axis.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/heatmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/heatmap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/no-data-to-display.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/no-data-to-display.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/offline-exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/offline-exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/overlapping-datalabels.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/overlapping-datalabels.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/series-label.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/series-label.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/solid-gauge.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/solid-gauge.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/stock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/stock.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/treemap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/treemap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/xrange-series.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/modules/xrange-series.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/dark-blue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/dark-green.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/dark-unica.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/gray.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/grid-light.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/grid.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/sand-signika.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/js/themes/skies.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/lib/canvg.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/lib/canvg.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/lib/jspdf.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/lib/jspdf.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/lib/svg2pdf.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/lib/svg2pdf.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/accessibility.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/accessibility.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/annotations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/annotations.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/boost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/boost.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/broken-axis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/broken-axis.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/data.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/drilldown.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/drilldown.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/funnel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/funnel.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/gantt.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/gantt.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/grid-axis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/grid-axis.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/heatmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/heatmap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/no-data-to-display.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/no-data-to-display.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/offline-exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/offline-exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/overlapping-datalabels.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/overlapping-datalabels.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/series-label.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/series-label.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/solid-gauge.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/solid-gauge.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/stock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/stock.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/treemap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/treemap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/xrange-series.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/modules/xrange-series.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/readme.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/dark-blue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/dark-green.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/dark-unica.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/gray.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/grid-light.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/grid.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/sand-signika.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/code/themes/skies.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/3d-column-interactive/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/3d-column-null-values/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/3d-column-stacking-grouping/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/3d-pie-donut/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/3d-pie/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/3d-scatter-draggable/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/area-basic/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/area-inverted/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/area-missing/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/area-negative/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/area-stacked-percent/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/area-stacked/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/arearange-line/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/arearange/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/areaspline/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/bar-basic/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/bar-negative-stack/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/bar-stacked/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/box-plot/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/bubble-3d/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/bubble/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/chart-update/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-basic/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-drilldown/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-negative/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-parsed/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-placement/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-rotated-labels/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-stacked-and-grouped/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-stacked-percent/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/column-stacked/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/columnrange/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/combo-dual-axes/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/combo-histogram/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/combo-meteogram/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/combo-multi-axes/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/combo-regression/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/combo-timeline/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/combo/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/dynamic-click-to-add/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/dynamic-master-detail/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/dynamic-update/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/error-bar/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/funnel/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/gauge-activity/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/gauge-clock/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/gauge-dual/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/gauge-solid/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/gauge-speedometer/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/gauge-vu-meter/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/heatmap-canvas/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/heatmap/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/line-ajax/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/line-basic/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/line-labels/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/line-log-axis/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/line-time-series/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pie-basic/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pie-donut/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pie-drilldown/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pie-gradient/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pie-legend/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pie-monochrome/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pie-semi-circle/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/polar-spider/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/polar-wind-rose/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/polar/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/polygon/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/pyramid/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/renderer/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/responsive/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/scatter/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/sparkline/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/spline-inverted/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/spline-irregular-time/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/spline-plot-bands/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/spline-symbols/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/synchronized-charts/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/treemap-coloraxis/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/treemap-large-dataset/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/treemap-with-levels/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/examples/waterfall/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/gfx/vml-radial-gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/earth.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/highslide/close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/highslide/closeX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/highslide/outlines/rounded-white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/highslide/resize.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/highslide/zoomout.cur" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/meteogram-symbols-30px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/skies.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/snow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/graphics/sun.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/highcharts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highchart/jquery-1.8.3.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/css/api.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/css/font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/css/jquery-ui.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/css/jquery.sidr.bare.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/highstock.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/Highcharts.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-114x114.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-120x120.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-144x144.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-152x152.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-180x180.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-57x57.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-60x60.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-72x72.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/apple-touch-icon-76x76.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/favicon-160x160.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/favicon-16x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/favicon-192x192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/favicon-32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/favicon-96x96.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/images/sprite.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/js/api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/js/highstock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/js/jquery-1.11.3.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/js/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/api/js/jquery.sidr.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/highcharts-3d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/highcharts-3d.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/highcharts-more.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/highcharts-more.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/highstock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/highstock.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/highcharts-3d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/highcharts-3d.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/highcharts-more.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/highcharts-more.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/highstock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/highstock.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/accessibility.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/accessibility.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/annotations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/annotations.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/boost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/boost.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/data.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/drilldown.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/drilldown.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/funnel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/funnel.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/gantt.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/gantt.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/grid-axis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/grid-axis.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/heatmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/heatmap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/no-data-to-display.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/no-data-to-display.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/offline-exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/offline-exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/overlapping-datalabels.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/overlapping-datalabels.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/series-label.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/series-label.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/solid-gauge.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/solid-gauge.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/stock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/stock.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/treemap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/treemap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/xrange-series.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/modules/xrange-series.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/dark-blue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/dark-green.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/dark-unica.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/gray.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/grid-light.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/grid.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/sand-signika.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/js/themes/skies.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/lib/canvg.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/lib/canvg.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/lib/jspdf.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/lib/jspdf.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/lib/svg2pdf.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/lib/svg2pdf.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/accessibility.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/accessibility.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/annotations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/annotations.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/boost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/boost.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/data.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/drilldown.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/drilldown.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/funnel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/funnel.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/gantt.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/gantt.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/grid-axis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/grid-axis.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/heatmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/heatmap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/no-data-to-display.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/no-data-to-display.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/offline-exporting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/offline-exporting.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/overlapping-datalabels.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/overlapping-datalabels.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/series-label.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/series-label.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/solid-gauge.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/solid-gauge.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/stock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/stock.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/treemap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/treemap.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/xrange-series.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/modules/xrange-series.src.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/readme.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/dark-blue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/dark-green.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/dark-unica.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/gray.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/grid-light.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/grid.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/sand-signika.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/code/themes/skies.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/area/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/arearange/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/areaspline/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/areasplinerange/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/basic-line/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/candlestick-and-volume/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/candlestick/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/column/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/columnrange/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/compare/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/data-grouping/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/dynamic-update/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/flags-general/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/flags-placement/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/flags-shapes/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/intraday-area/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/intraday-breaks/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/intraday-candlestick/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/lazy-loading/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/line-markers/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/markers-only/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/navigator-disabled/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/ohlc/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/responsive/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/scrollbar-disabled/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/spline/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/step-line/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/styled-scrollbar/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/yaxis-plotbands/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/yaxis-plotlines/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/examples/yaxis-reversed/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/gfx/vml-radial-gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/earth.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/highslide/close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/highslide/closeX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/highslide/outlines/rounded-white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/highslide/resize.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/highslide/zoomout.cur" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/meteogram-symbols-30px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/skies.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/snow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/graphics/sun.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/static/plugins/highstock/index.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/add_asset.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/asset_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/asset_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/cmdb.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/idc_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/include/asset_basic.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/include/asset_log.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/include/asset_network_hardware.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/include/asset_server_hardware.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/include/header.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/include/header_menu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/layout/_layout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/templates/users_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/views/account.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/views/asset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/views/home.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AutoCmdb/web/views/user.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CMDB_DEMO/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/s14day25.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/app01/templatetags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/app01/templatetags/filter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/static/jquery-1.12.4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/templates/article.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/templates/req.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Djang_2_ajax/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Djang_2_ajax/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/staffmanage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/staffmanage/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/templates/manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/templates/manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usdb/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/usdb/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/pagination.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/pagination.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/说明.txt" beforeDir="false" afterPath="$PROJECT_DIR$/说明.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/app01/views.py.bak" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/app01/views.py.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/templates/ajax.html" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/templates/ajax.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/templates/kind.html" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/templates/kind.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/templates/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/templates/upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/templates/user_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/templates/user_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day24/templates/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../day24/templates/user_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jquery-1.12.4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/app01/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/app01/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/app02/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/app02/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/detaile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/detaile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/user_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/user_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/user_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/user_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/user_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/user_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/app01/templatetags/xxoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/app01/templatetags/xxoo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/static/jquery.cookie.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/li.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/li.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tag.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tag.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl1.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl2.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl3.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl4.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/user_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/utils/pagination.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/utils/pagination.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/Middle/m1.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/Middle/m1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/cache/readme" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/cache/readme" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/cache.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/cache.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/fm.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/fm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../流畅的python/一摞有序的纸牌.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../流畅的python/一摞有序的纸牌.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1764861907">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="5" />
+          <entry key="project.open.time.1" value="2" />
+          <entry key="project.open.time.41" value="1" />
+          <entry key="project.open.time.48" value="1" />
+          <entry key="project.open.time.51" value="1" />
+          <entry key="project.open.time.57" value="1" />
+          <entry key="project.open.time.60" value="1" />
+          <entry key="project.open.time.67" value="1" />
+          <entry key="project.opened" value="8" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="html" value="10124" />
+          <entry key="py" value="11999" />
+          <entry key="txt" value="159" />
+          <entry key="说明" value="37" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="HTML" value="10124" />
+          <entry key="PLAIN_TEXT" value="196" />
+          <entry key="Python" value="11999" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="db_save_log" value="1" />
+          <entry key="err_log" value="1" />
+          <entry key="html" value="22" />
+          <entry key="js" value="2" />
+          <entry key="py" value="55" />
+          <entry key="ts" value="3" />
+          <entry key="txt" value="1" />
+          <entry key="说明" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="HTML" value="22" />
+          <entry key="JavaScript" value="2" />
+          <entry key="PLAIN_TEXT" value="5" />
+          <entry key="Python" value="55" />
+          <entry key="TypeScript" value="3" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/usdb/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="9522">
+              <caret line="425" column="1" selection-start-line="425" selection-start-column="1" selection-end-line="425" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#79#0" expanded="true" />
+                <marker date="1536810743121" expanded="true" signature="531:540" ph="..." />
+                <marker date="1536810743121" expanded="true" signature="1095:1096" ph="..." />
+                <marker date="1536810743121" expanded="true" signature="7915:8189" ph="..." />
+                <marker date="1536810743121" expanded="true" signature="24683:24690" ph="..." />
+                <marker date="1536810743121" expanded="true" signature="25179:25184" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/usdb/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/forms/registe_form.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="9" selection-start-column="9" selection-end-column="9" />
+              <folding>
+                <marker date="1536401098501" expanded="true" signature="486:488" ph="..." />
+                <marker date="1536401098501" expanded="true" signature="510:515" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utils/pagination.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1472">
+              <caret line="64" column="18" selection-start-line="64" selection-start-column="18" selection-end-line="64" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/usdb/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="253">
+              <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/user.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1288">
+              <caret line="56" column="12" selection-start-line="56" selection-start-column="12" selection-end-line="56" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/manage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="688" column="19" lean-forward="true" selection-start-line="688" selection-start-column="19" selection-end-line="688" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/admin.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/register.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="552">
+              <caret line="24" column="44" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>stringify</find>
+      <find>b_add_group</find>
+      <find>t_group</find>
+      <find>t_usr</find>
+      <find>del_group_btn</find>
+      <find>timeCount</find>
+      <find>close_udd_btn</find>
+      <find>udd</find>
+      <find>dt_igroup_title</find>
+      <find>sur_modify</find>
+      <find>getuddinfo</find>
+      <find>修改</find>
+      <find>modifyDialog</find>
+      <find>cancel_modify</find>
+      <find>详细</find>
+      <find>modify_udd_btn</find>
+      <find>auth</find>
+      <find>usercookies</find>
+      <find>admincookies</find>
+      <find>umd</find>
+      <find>b</find>
+      <find>user</find>
+      <find>dropdown_menu_user</find>
+      <find>loginbtn</find>
+      <find>registe_form</find>
+      <find>ajaxAll</find>
+      <find>is_login</find>
+      <find>pagination</find>
+      <find>del_user_btn</find>
+      <find>delete</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Django_2_ajax/urls.py" />
+        <option value="$PROJECT_DIR$/usdb/migrations/__init__.py" />
+        <option value="$PROJECT_DIR$/usdb/models.py" />
+        <option value="$PROJECT_DIR$/templates/admin.html" />
+        <option value="$PROJECT_DIR$/templates/user.html" />
+        <option value="$PROJECT_DIR$/usdb/urls.py" />
+        <option value="$PROJECT_DIR$/templates/manage.html" />
+        <option value="$PROJECT_DIR$/templates/login.html" />
+        <option value="$PROJECT_DIR$/forms/registe_form.py" />
+        <option value="$PROJECT_DIR$/usdb/__init__.py" />
+        <option value="$PROJECT_DIR$/logs/logger.py" />
+        <option value="$PROJECT_DIR$/logs/说明" />
+        <option value="$PROJECT_DIR$/signals.py" />
+        <option value="$PROJECT_DIR$/Django_2_ajax/settings.py" />
+        <option value="$PROJECT_DIR$/Middle/md1.py" />
+        <option value="$PROJECT_DIR$/说明.txt" />
+        <option value="$PROJECT_DIR$/usdb/views.py" />
+        <option value="$PROJECT_DIR$/templates/register.html" />
+        <option value="$PROJECT_DIR$/utils/pagination.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/static/bxslider-4-4.2.12/package.json" />
+      <path value="$PROJECT_DIR$/static/jquery-ui-1.12.1.custom/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1376" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Django_2_ajax" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Django_2_ajax" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Django_2_ajax" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Django_2_ajax" type="462c0819:PsiDirectoryNode" />
+              <item name="Middle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Django_2_ajax" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Django_2_ajax" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Django_2_ajax" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Django_2_ajax" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Django_2_ajax" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Django_2_ajax" type="462c0819:PsiDirectoryNode" />
+              <item name="usdb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Django_2_ajax" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Django_2_ajax" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="D:/python课程源码/Python14期课上代码按模块划分-全部/七/day26/CMDB" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jasmintung\PycharmProjects\python\web\Django_2_ajax\utils" />
+      <recent name="C:\Users\jasmintung\PycharmProjects\python\web\Django_2_ajax\templates" />
+      <recent name="C:\Users\jasmintung\PycharmProjects\python\web\Django_2_ajax\static" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Django_2_ajax" type="Python.DjangoServer" factoryName="Django server">
+      <module name="Django_2_ajax" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="Django_2_ajax.settings" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jasmintung\AppData\Local\Programs\Python\Python36\python.exe" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="9998" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="785e7740-45b5-440c-a454-1c03457ff365" name="Default Changelist" comment="" />
+      <created>1535186151190</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1535186151190</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15273556" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="2" />
+      <window_info anchor="bottom" id="Python Console" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" weight="0.32840723" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32840723" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.4679803" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="12" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32978722" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/static/bootstrap-3.3.7-dist/js/npm.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/apps.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/django/urls/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="1151" column="4" selection-start-line="1151" selection-start-column="4" selection-end-line="1151" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/django/core/cache/backends/db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="101" column="8" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8514" column="4" selection-start-line="8514" selection-start-column="4" selection-end-line="8514" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/jquery-1.12.4.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="6402" column="4" selection-start-line="6402" selection-start-column="4" selection-end-line="6402" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Django_2_ajax/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/migrations/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/django/forms/fields.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="774" column="8" selection-start-line="774" selection-start-column="8" selection-end-line="774" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/django/forms/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/django/shortcuts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="20" column="7" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/log/说明" />
+    <entry file="file://$PROJECT_DIR$/logs/说明">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="33" selection-start-column="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/logger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/signals.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="34" column="74" selection-start-line="34" selection-start-column="67" selection-end-line="34" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/log/err_log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/说明.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/log/db_save_log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Django_2_ajax/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1817">
+          <caret line="79" column="16" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Django_2_ajax/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Middle/md1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9522">
+          <caret line="425" column="1" selection-start-line="425" selection-start-column="1" selection-end-line="425" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#79#0" expanded="true" />
+            <marker date="1536810743121" expanded="true" signature="531:540" ph="..." />
+            <marker date="1536810743121" expanded="true" signature="1095:1096" ph="..." />
+            <marker date="1536810743121" expanded="true" signature="7915:8189" ph="..." />
+            <marker date="1536810743121" expanded="true" signature="24683:24690" ph="..." />
+            <marker date="1536810743121" expanded="true" signature="25179:25184" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forms/registe_form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="9" selection-start-column="9" selection-end-column="9" />
+          <folding>
+            <marker date="1536401098501" expanded="true" signature="486:488" ph="..." />
+            <marker date="1536401098501" expanded="true" signature="510:515" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/pagination.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1472">
+          <caret line="64" column="18" selection-start-line="64" selection-start-column="18" selection-end-line="64" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usdb/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1288">
+          <caret line="56" column="12" selection-start-line="56" selection-start-column="12" selection-end-line="56" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/admin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="24" column="44" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/manage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="688" column="19" lean-forward="true" selection-start-line="688" selection-start-column="19" selection-end-line="688" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

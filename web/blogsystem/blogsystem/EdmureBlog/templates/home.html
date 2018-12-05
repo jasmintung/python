@@ -1,0 +1,27 @@
+{% extends 'home_layout.html' %}
+
+{% block article_css %}
+<link rel="stylesheet" href="/static/css/article.css" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+    <div class="summary-list">
+        {% for at in article_list %}
+        <div class="summary-item">
+            <div class="summary-title">
+                <a href="http://127.0.0.1:8000/{{ user_home.site }}/{{ at.nid }}.html">{{ at.title }}</a>
+            </div>
+            <div class="summary-content">
+                <span>摘要: {{ at.summary }}</span>
+            </div>
+            <div class="summary-footer">
+                <span>posted @ {{ at.create_time|date:"Y-m-d H:i:s" }}</span>
+                <span>{{ user_home.user.username }}</span>
+                <span>阅读({{ at.read_count }})</span>
+                <span>评论({{ at.comment_count }})</span>
+                <a>编辑</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

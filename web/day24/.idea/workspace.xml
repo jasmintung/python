@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="874566ad-9206-4316-aaf1-c2630b284c75" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/s14day25.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/app01/templatetags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/app01/templatetags/filter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/static/jquery-1.12.4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/templates/article.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../s14day25/templates/req.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Djang_2_ajax/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Djang_2_ajax/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/staffmanage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/staffmanage/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_1/templates/manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_1/templates/manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_2_ajax/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_2_ajax/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_2_ajax/usdb/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_2_ajax/usdb/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_2_ajax/utils/pagination.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_2_ajax/utils/pagination.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_2_ajax/说明.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_2_ajax/说明.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app01/views.py.bak" beforeDir="false" afterPath="$PROJECT_DIR$/app01/views.py.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/ajax.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ajax.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kind.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kind.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jquery-1.12.4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/app01/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/app01/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/app02/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/app02/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/detaile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/detaile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/user_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/user_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/user_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/user_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day19/templates/user_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day19/templates/user_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/app01/templatetags/xxoo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/app01/templatetags/xxoo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/static/jquery.cookie.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/li.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/li.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tag.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tag.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl1.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl2.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl3.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/tpl4.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/tpl4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/templates/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/templates/user_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day21/utils/pagination.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day21/utils/pagination.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/Middle/m1.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/Middle/m1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/cache/readme" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/cache/readme" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/cache.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/cache.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/fm.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/fm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../s14day22/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../s14day22/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../流畅的python/一摞有序的纸牌.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../流畅的python/一摞有序的纸牌.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="day24@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="day24@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="day24@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="day24: schema" type="c314c289:MysqlImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="1578676407">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.17" value="1" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.opened" value="5" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="app01_usergroup" value="1" />
+          <entry key="app01_userinfo" value="2" />
+          <entry key="app01_userinfo_u2g" value="2" />
+          <entry key="app01_usertype" value="1" />
+          <entry key="bak" value="1" />
+          <entry key="html" value="9" />
+          <entry key="jpg" value="1" />
+          <entry key="js" value="3" />
+          <entry key="png" value="1" />
+          <entry key="py" value="12" />
+          <entry key="sql" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Database Element" value="6" />
+          <entry key="HTML" value="9" />
+          <entry key="Image" value="2" />
+          <entry key="JavaScript" value="3" />
+          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Python" value="12" />
+          <entry key="Scratch" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="bak" value="155" />
+          <entry key="cell" value="92" />
+          <entry key="html" value="3514" />
+          <entry key="py" value="3447" />
+          <entry key="txt" value="15" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="HTML" value="3514" />
+          <entry key="PLAIN_TEXT" value="170" />
+          <entry key="Python" value="3447" />
+          <entry key="Scratch" value="92" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/kind.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/upload.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="292">
+              <caret line="44" column="52" lean-forward="true" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/day24/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1978">
+              <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/day24/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app01/migrations/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app01/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="69">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/ajax.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="49" column="9" lean-forward="true" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/user_edit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/user_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>img</find>
+      <find>upload_file</find>
+      <find>jqSubmit</find>
+      <find>UserInfoModelForm</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/day24/settings.py" />
+        <option value="$PROJECT_DIR$/app01/models.py" />
+        <option value="$PROJECT_DIR$/app01/__init__.py" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/templates/user_list.html" />
+        <option value="$PROJECT_DIR$/templates/user_edit.html" />
+        <option value="$PROJECT_DIR$/app01/views.py.bak" />
+        <option value="$PROJECT_DIR$/templates/ajax.html" />
+        <option value="$PROJECT_DIR$/templates/kind.html" />
+        <option value="$PROJECT_DIR$/day24/urls.py" />
+        <option value="$PROJECT_DIR$/templates/upload.html" />
+        <option value="$PROJECT_DIR$/app01/views.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-1374" />
+    <option name="y" value="79" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="day24" type="b2602c69:ProjectViewProjectNode" />
+              <item name="day24" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="day24" type="b2602c69:ProjectViewProjectNode" />
+              <item name="day24" type="462c0819:PsiDirectoryNode" />
+              <item name="app01" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="day24" type="b2602c69:ProjectViewProjectNode" />
+              <item name="day24" type="462c0819:PsiDirectoryNode" />
+              <item name="day24" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="day24" type="b2602c69:ProjectViewProjectNode" />
+              <item name="day24" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="day24" type="b2602c69:ProjectViewProjectNode" />
+              <item name="day24" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="imgs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="day24" type="b2602c69:ProjectViewProjectNode" />
+              <item name="day24" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="database.console.LAST_STATE" value="true" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jasmintung\PycharmProjects\python\web\day24\templates" />
+      <recent name="C:\Users\jasmintung\PycharmProjects\python\web\day24\static" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jasmintung\PycharmProjects\python\web\day24\static" />
+      <recent name="C:\Users\jasmintung\PycharmProjects\python\web\day24\app01" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="day24" type="Python.DjangoServer" factoryName="Django server">
+      <module name="day24" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="day24.settings" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jasmintung\AppData\Local\Programs\Python\Python36\python.exe" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8001" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="874566ad-9206-4316-aaf1-c2630b284c75" name="Default Changelist" comment="" />
+      <created>1537256166857</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1537256166857</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-1374" y="79" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20574887" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.27093595" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Console" order="7" weight="0.32840723" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Database Changes" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32840723" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="13" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" weight="0.20668693" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3262f12c-3292-4251-b7f1-51dc02585a4a/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/d541956e-a07a-4438-8d2a-3e76e960eff9/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/django/forms/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="284" selection-start-line="284" selection-end-line="284" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://d541956e-a07a-4438-8d2a-3e76e960eff9/schema/day24/table/app01_usergroup" />
+    <entry file="das://d541956e-a07a-4438-8d2a-3e76e960eff9/schema/day24/table/app01_userinfo" />
+    <entry file="das://d541956e-a07a-4438-8d2a-3e76e960eff9/schema/day24/table/app01_usertype" />
+    <entry file="das://d541956e-a07a-4438-8d2a-3e76e960eff9/schema/day24/table/app01_userinfo_u2g" />
+    <entry file="file://$PROJECT_DIR$/static/jquery-1.12.4.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/jquery.cookie.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/imgs/QQ图片20170801101417.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/kindeditor-4.1.10/lang/ar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/imgs/代管办理条件材料.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app01/views.py.bak">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/day24/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="28" column="42" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+          <folding>
+            <element signature="e#629#661#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app01/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4738">
+          <caret line="213" column="33" selection-start-line="213" selection-start-column="33" selection-end-line="213" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+            <marker date="1537547040587" expanded="true" signature="313:314" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="1297:1302" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="1710:1715" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="2199:2204" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="2366:2407" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="3019:3024" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="3085:3090" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="3286:3291" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="3356:3361" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="3732:3737" ph="..." />
+            <marker date="1537547040587" expanded="true" signature="3825:3830" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app01/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/day24/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/day24/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1978">
+          <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/day24/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app01/migrations/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app01/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/ajax.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="49" column="9" lean-forward="true" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/kind.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="7" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/upload.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="44" column="52" lean-forward="true" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

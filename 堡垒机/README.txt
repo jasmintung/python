@@ -1,0 +1,22 @@
+项目名：简单的主机管理,没有界面
+需要先根据conf/database_config/下的DATABASE_NAME配置数据库
+使用的技术：sqlalchemy, paramiko, yaml, traceback, logging
+本项目需求:
+    所有的用户操作日志要保留在数据库中
+    每个用户登录堡垒机后，只需要选择具体要访问的设置，就连接上了，不需要再输入目标机器的访问密码
+    允许用户对不同的目标设备有不同的访问权限，例:
+    对10.0.2.34 有mysql 用户的权限
+    对192.168.3.22 有root用户的权限
+    对172.33.24.55 没任何权限
+    分组管理，即可以对设置进行分组，允许用户访问某组机器，但对组里的不同机器依然有不同的访问权限
+操作说明:
+    对数据库表插入操作命令输入格式:
+    python entry.py create_xxx -f new_xxx.yml
+    create_xxx表示命令类型, new_xxx.yml对应share/yml_source路径下的配置文件
+    对数据库表创建命令格式:
+    python entry.py syncdb
+    开始访问远程主机命令格式
+    python entry.py start_session
+日志记录:
+    1、文件记录形式
+    2、数据库记录

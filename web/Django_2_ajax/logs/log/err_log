@@ -1,0 +1,1 @@
+2018-09-08 21:14:16,579 - err_log - ERROR - {'signal': <django.dispatch.dispatcher.Signal object at 0x000002953DA49CC0>, 'err_type': 'db_write', 'content': ValueError("invalid literal for int() with base 10: '测试异常情况下的日志记录功能使用,平时注释掉'",)}

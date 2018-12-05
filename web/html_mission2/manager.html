@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ManagePlatform</title>
+	<style>
+		.pg-header{
+			height: 45px;
+			position: fixed;
+			left: 0;
+			right: 0;
+			top: 0;
+			background-color: #d9d9d9;
+			line-height: 45px;	
+		}
+		.pg-menu{
+			width: 200px;
+			margin-top: 47px;
+			margin-left: 10%;
+			display: inline-block;
+		}
+		.item .menu_title{
+			height: 35px;
+			line-height: 35px;
+			background-color: #3c78d8;
+			color: #ffffff;
+		}
+		/*.item .content{
+			height: 30px;
+			line-height: 30px;
+		}*/
+		.pg-body{
+			width: auto;
+			height: auto;
+			margin-top: 47px;
+			margin-left: 5px;
+			display: inline-block;
+		}
+		.hide{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="pg-header">
+		<div id="id_weather" style="font-weight: normal;margin-left: 10%;display: inline-block;color: #3d85c6;">&nbsp;&nbsp;小时天气:&nbsp;&nbsp;多云</div>
+	</div>
+	<div class="pg-menu">
+		<div class="item">
+			<div id="m_1" class="menu_title" onclick="ChangeMenu('m_1');">菜单1</div>
+			<div class="content">
+				<div>内容1</div>
+				<div>内容2</div>
+				<div>内容3</div>
+				<div>内容4</div>
+			</div>
+		</div>
+		<div class="item">
+			<div id="m_2" class="menu_title" onclick="ChangeMenu('m_2');">菜单2</div>
+			<div class="content hide">
+				<div>内容1</div>
+			</div>
+		</div>
+		<div class="item">
+			<div id="m_3" class="menu_title" onclick="ChangeMenu('m_3');">菜单3</div>
+			<div class="content hide">
+				<div>内容1</div>
+				<div>内容2</div>
+			</div>
+		</div>
+		<div class="item">
+			<div id="m_4" class="menu_title" onclick="ChangeMenu('m_4');">菜单4</div>
+			<div class="content hide">
+				<div>内容1</div>
+				<div>内容2</div>
+				<div>内容4</div>
+			</div>
+		</div>
+		<div class="item">
+			<div id="m_5" class="menu_title" onclick="ChangeMenu('m_5');">菜单5</div>
+			<div class="content hide">
+				<div>内容2</div>
+				<div>内容3</div>
+				<div>内容4</div>
+			</div>
+		</div>
+	</div>
+	<div class="pg-body">fasdfasd</div>
+	<script>
+		function weatherShow(){
+			var tag = document.getElementById('id_weather')
+			var content = tag.innerText;
+
+			var f = content.charAt(0);
+			var l = content.substring(1, content.length);
+			var new_content = l + f;
+			tag.innerText = new_content;
+		}
+		setInterval('weatherShow()', 500);
+	</script>
+	<script>
+		function ChangeMenu(nid){
+			var current_menu = document.getElementById(nid);
+			var item_list = current_menu.parentElement.parentElement.children;/*获取所有的item*/
+
+			for(var i = 0;i < item_list.length;i++){
+				var current_item = item_list[i];
+				current_item.children[1].classList.add('hide');
+			}
+
+			current_menu.nextElementSibling.classList.remove('hide');
+		}
+	</script>
+</body>
+</html>

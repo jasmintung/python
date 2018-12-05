@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link href="/static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <style>
+        .error{
+            color: red;
+        }
+        .pg_login{
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 400px;
+            height: 300px;
+            margin-left: -200px;
+            margin-top: -150px;
+        }
+        .header{
+            background-color: #2b669a;
+            width: 400px;
+            height: 80px;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 80px;
+            font-size: 40px;
+            font-style: normal;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <form class="pg_login" method="post">
+        <div class="header">员工管理系统</div>
+        <div class="form-group">
+            <label for="inputUserName">用户名</label>
+            <input type="text" class="form-control" name="user" value="" autocomplete="off" id="inputUserName" placeholder="用户名">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">密码</label>
+            <input type="password" class="form-control" name="pwd" value="" autocomplete="off" id="inputPassword" placeholder="密码">
+        </div>
+        <button type="submit" class="btn-default">登录</button>
+        <span style="color: orangered">{{ error_msg }}</span>
+    </form>
+    <script src="/static/jquery-1.12.4.js"></script>
+    <script src="/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script>
+        $(function(){
+            flag = true;
+            $(':submit').click(function () {
+                $('.error').remove();
+                var usrname = $('#inputUserName').val();
+                var pwd = $('#inputPassword').val();
+                var tag = document.createElement('span');
+                tag.className = "error";
+                tag.innerHTML = "不能为空!";
+
+                if(usrname.length <=0){
+                    flag = false;
+                    $('#inputUserName').after(tag);
+                }
+                if(pwd.length <=0){
+                    flag = false;
+                    $('#inputPassword').after(tag);
+                }
+                return flag
+            });
+        });
+    </script>
+</body>
+</html>

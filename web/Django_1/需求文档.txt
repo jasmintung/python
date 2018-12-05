@@ -1,0 +1,25 @@
+1、员工信息管理：
+	SQLAlchemy：
+		表1:员工信息表
+		姓名 身份证号 籍贯 年龄 性别 职位 住址 电话
+		表2:登陆用户表（只需要添加就行）
+		用户名
+		密码
+	功能：
+	1、登陆
+	2、主机管理页面(3个区域)
+		- 查看所有员工信息（只需要现实4列数据）
+		- 增加员工信息（8列）**模态对话框
+                   	- 
+	3、查看详细(新页面)
+		url:
+		"detail" -> detail
+		def detail(request):
+			nid = request.GET.get("nid")
+			v = select * from tb where id = nid
+	4、删除
+		del-host -> del_host
+		del delete_host(request):
+			nid = request.POST.get('nid')
+			delete from tb where id = nid
+			return redirect('/home')

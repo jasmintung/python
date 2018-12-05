@@ -1,0 +1,17 @@
+
+
+bind1:
+   hostname: ubuntu test
+   remote_users:
+     - user0:
+       username: root
+       auth_type: ssh-passwd
+       password: android
+     - user1:
+       username: demo
+       auth_type: ssh-passwd
+       password: demo
+   groups:
+     - sh_group
+   user_profiles:
+     - zhangtong

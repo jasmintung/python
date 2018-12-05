@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/css/edmure.css"/>
+    <link rel="stylesheet" href="/static/css/commons.css"/>
+    <link rel="stylesheet" href="/static/css/account.css"/>
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="register">
+    <div style="font-size: 25px; font-weight: bold;text-align: center;">
+        用户注册
+    </div>
+    <form id="registeform" role="form" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">用户名</label>
+            {{ rg_obj.username }}
+            <p id="u_err" style="color: red"></p>
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            {{ rg_obj.email }}
+           <p id="em_err" style="color: red"></p>
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            {{ rg_obj.password }}
+            <p id="p_err" style="color: red"></p>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">确认密码</label>
+            {{ rg_obj.re_password }}
+            <p id="p_err2" style="color: red"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="auth">验证码</label>
+
+            <div class="row">
+                <div class="col-xs-7">
+                    <input type="password" class="form-control" id="auth" name="authcode" placeholder="请输入验证码">
+                </div>
+                <div class="col-xs-5">
+                    <img src="/check_code.html/">
+                </div>
+            </div>
+            <p id="ac_err" style="color: red"></p>
+        </div>
+        <input id="rg_btn" type="button" class="btn btn-default" value="下一步"/>
+    </form>
+    <script src="/static/js/jquery-1.12.4.js"></script>
+    <script>
+        var jump = false;
+        $('#rg_btn').click(function () {
+            $('#rg_btn').next().remove();
+            $.ajax({
+                url:'/register/',
+                type: 'POST',
+                data: $('#registeform').serialize(),
+                datatype: 'JSON',
+                traditional: true,
+                success: function (args) {
+                    console.log(args);
+                    $.each(JSON.parse(args), function (k, v) {
+                        {#console.log(k, v);#}
+                        if(k == "error"){
+                            //console.log(v.username[0].message);
+                            if(v){
+                                if(v.username){
+                                var usr_err = v.username[0].message;
+                                $('#u_err').text(usr_err);
+                                }
+                                if(v.password){
+                                    var pwd_err = v.password[0].message;
+                                    $('#p_err').text(pwd_err);
+                                }
+                                if(v.email){
+                                    var em_err = v.email[0].message;
+                                    $('#em_err').text(em_err);
+                                }
+                                if(v.__all__){
+                                    console.log(v.__all__[0].message);
+                                    var sp = document.createElement("span");
+                                    $(sp).css('color', 'red');
+                                    $(sp).text(v.__all__[0].message);
+                                    //$('#rg_btn').append(sp);内部添加
+                                    $('#rg_btn').after(sp); /*外部添加*/
+                                }
+                                if(v === "PASS"){
+                                    console.log("YES PASS");
+                                    jump = true;
+
+                                }
+                            }
+                            //console.log(v.password[0].message);
+                            $('#p_err').prev('input').val("");
+                            $('#p_err2').prev('input').val("");
+                            $('#auth').val("");
+                        }
+                        if(k== "data"){
+                            if(v){
+                                console.log(jump);
+                                if(jump === true){
+                                    window.location.replace("/backend/base-info.html?" + v);   /*GET方式告诉后台请求跳转*/
+                                }
+                                else{
+                                    $('#ac_err').text(v);
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (args) {
+                    console.log(args);
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
